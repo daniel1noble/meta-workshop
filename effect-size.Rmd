@@ -1,0 +1,41 @@
+---
+title: "Effect sizes"
+author: Daniel Noble
+date: '`r Sys.Date()`'
+ bookdown::html_document2:
+    code_folding: hide
+    number_sections: no
+    toc: yes
+    toc_depth: 6
+    toc_float: yes
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE, tidy = TRUE)
+options(digits=2)
+```
+
+```{r klippy, echo=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+#install.packages("devtools")
+remotes::install_github("rlesur/klippy")
+klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done', position = 'right', color = "red")
+```
+
+## Introduction
+
+Here we'll get into some R code.
+
+```{r}
+# Here, we'll create some R code
+
+x <- rnorm(100, 0, 1)
+
+```
+
+Now that we have that, we can plot.
+
+```{r}
+# Here, we'll create some R code
+
+plot(x)
+
+```
