@@ -4,6 +4,7 @@ author: Daniel Noble
 date: '`r Sys.Date()`'
 output:
   bookdown::html_document2:
+    css: style.css
     code_folding: hide
     number_sections: no
     toc: yes
