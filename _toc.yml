@@ -4,5 +4,5 @@
 format: jb-article
 root: README
 sections:
-- file: page2
-- file: page3
+- file: introduction-to-meta
+- file: effect-size
