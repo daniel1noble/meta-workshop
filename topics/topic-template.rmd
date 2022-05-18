@@ -1,0 +1,28 @@
+---
+title: "Add title here"
+author: Add authors
+date: "`r Sys.Date()`"
+bibliography: e.g., path to ./bib/refs.bib
+csl: ./bib/the-journal-of-experimental-biology.csl
+output: 
+  bookdown::html_document2:
+    code_folding: hide
+    number_sections: no
+    toc: yes
+    toc_depth: 6
+    toc_float: yes
+  bookdown::word_document2:
+    toc: no
+    toc_depth: 6
+    number_sections: false
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE, tidy = TRUE)
+options(digits=2)
+```
+
+```{r klippy, echo=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+#install.packages("devtools")
+remotes::install_github("rlesur/klippy")
+klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done', position = 'right', color = "red")
+```
