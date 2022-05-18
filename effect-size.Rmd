@@ -2,7 +2,8 @@
 title: "Effect sizes"
 author: Daniel Noble
 date: '`r Sys.Date()`'
- bookdown::html_document2:
+output:
+  bookdown::html_document2:
     code_folding: hide
     number_sections: no
     toc: yes
