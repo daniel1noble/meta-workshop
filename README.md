@@ -1,6 +1,9 @@
 # meta-workshop
 Meta-analysis workshop for the Society of Experimental Biology (SEB) 2022
 
+# [Page2](https://daniel1noble.github.io/meta-workshop/page2)
+
+
 # **Part 1**
 **Introduction: Why do meta-analysis?**
 - Quantitative synthesis that provides effect magnitude that can be used for: 
