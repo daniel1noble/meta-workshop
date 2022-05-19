@@ -54,6 +54,8 @@ plot(x)
 ```
 ## Common Effect Sizes
 
+There are many effect sizes that are commonplace in ecological and evolutionary research (Table \@ref(tab:tablea) describes many of the more common ones). 
+
 ```{r tablea, echo = FALSE, tab.cap = "**Common effect sizes used throughout meta-analyses in comparative physiology, their associated sampling variances and examples on when they might be used**. M: mean; SD: standard deviation; N: sample size; CTmin: critical thermal minimum; CTmax: critical thermal maximum; LC_50: median lethal concentration; LT_50: median lethal temperature; BPA: bisphenol A."}
 
 FitFlextableToPage <- function(ft, pgwidth = 6){
