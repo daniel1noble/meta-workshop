@@ -22,7 +22,13 @@ options(digits=2)
 #install.packages("devtools")
 remotes::install_github("rlesur/klippy")
 klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done', position = 'right', color = "red")
+
+# Load packages
+pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags)
+
+# To use mathjaxr you need to run equatags::mathjax_install()
 ```
+
 
 ## [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/)
 
@@ -34,29 +40,9 @@ The effect sizes one uses need to be chosen carefully. Each make certain assumpt
 
 Meta-analyses in comparative physiology, and indeed, ecology and evolution more generally, often use highly heterogeneous data [@Noble2022]. We'll discuss some of these issues as we walk through the tutorial and identify some ways in which some of this heterogeneity can be dealt with when deriving the effect size itself. 
 
-## Setting up
-
-To start, well need to load some packages and data. The data is all stored in our GitHub repository. It's downloaded directly from the web. You won't need to have these on hand. We'll first load the packages that we need.
-
-```{r loadpackages, eval=TRUE, message=FALSE, warning=FALSE}
-# Load packages
-# install.packages("pacman"); If you haven't already installed the pacman package do so with this code
-pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags)
-
-# To use mathjaxr you need to run equatags::mathjax_install()
-```
-
-Now that we have that, we can plot (Figure \@ref(fig:fig1)).
-
-```{r fig1, fig.cap= "Figure 1"}
-# Here, we'll create some R code
-x<- rnorm(100, 2, 1)
-plot(x)
-
-```
 ## Common Effect Sizes
 
-There are many effect sizes that are commonplace in ecological and evolutionary research (Table \@ref(tab:tablea) describes many of the more common ones). 
+There are many types of effect sizes that are commonplace in ecological and evolutionary research [Table \@ref(tab:tablea) describes many of the more common ones from @Noble2022]. 
 
 ```{r tablea, echo = FALSE, tab.cap = "**Common effect sizes used throughout meta-analyses in comparative physiology, their associated sampling variances and examples on when they might be used**. M: mean; SD: standard deviation; N: sample size; CTmin: critical thermal minimum; CTmax: critical thermal maximum; LC_50: median lethal concentration; LT_50: median lethal temperature; BPA: bisphenol A."}
 
@@ -128,6 +114,27 @@ tablea <- flextable(table_fin)                                                  
           
 
 FitFlextableToPage(tablea, pgwidth = 8)
+
+```
+
+## Setting up
+
+To start, well need to load some packages and data. The data is all stored in our GitHub repository. It's downloaded directly from the web. You won't need to have these on hand. We'll first load the packages that we need.
+
+```{r loadpackages, eval=TRUE, message=FALSE, warning=FALSE}
+# Load packages
+# install.packages("pacman"); If you haven't already installed the pacman package do so with this code
+pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags)
+
+# To use mathjaxr you need to run equatags::mathjax_install()
+```
+
+Now that we have that, we can plot (Figure \@ref(fig:fig1)).
+
+```{r fig1, fig.cap= "Figure 1"}
+# Here, we'll create some R code
+x<- rnorm(100, 2, 1)
+plot(x)
 
 ```
 
