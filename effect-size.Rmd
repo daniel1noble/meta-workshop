@@ -34,13 +34,15 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ## Introduction
 
-Meta-analysis quantitatively synthesizes effect size data collected from existing research. These could be a set of experiments manipulating, say, bisphenol-A (BPA) and looking at the effect of BPA on aquatic ectotherm behaviour. The types of experimental designs in question might experimentally manipulate BPA levels and compare it to some control treatment that does not contain BPA. Alternatively, the effect of interest might be the correlation between two observed variables, such as metabolism and behaviour. At times, we might even just be interested in analysing the mean or variance itself. 
-
-The effect sizes one uses need to be chosen carefully. Each make certain assumptions about the underlying data. It's important to be weary of these assumptions and identify when something might have gone wrong. In this tutorial, we'll show you a few ways to calculate effect sizes using some real data, identify when the data in question might not be suitable, and what you might do about it. 
+Meta-analysis quantitatively synthesises effect size data collected from existing research. The effect sizes one uses for a study question needs to be chosen carefully. Each make certain assumptions about the underlying data. It's important to be weary of these assumptions and identify when something might have gone wrong. 
 
 Meta-analyses in comparative physiology, and indeed, ecology and evolution more generally, often use highly heterogeneous data [@Noble2022]. We'll discuss some of these issues as we walk through the tutorial and identify some ways in which some of this heterogeneity can be dealt with when deriving the effect size itself. 
 
+In this tutorial, we'll show you a few ways to calculate effect sizes using some real data, identify when the data in question might not be suitable, and what you might do about it. 
+
 ## Common Effect Sizes
+
+What is an effect size? The answer to this question depends on what kind of study one wishes to synthesise. For example, an effect size could be a contrast between experimental treatments. We might extract mean differences from experiments manipulating, say, bisphenol-A (BPA) and looking at the effect of BPA on aquatic ectotherm behaviour relative to some control. Alternatively, the effect of interest might be the magnitude and direction of a correlation between two observed variables, such as metabolism and behaviour. At times, we might even just be interested in analysing the mean or variance itself. 
 
 There are many types of effect sizes that are commonplace in ecological and evolutionary research [Table \@ref(tab:tablea) describes many of the more common ones from @Noble2022]. 
 
