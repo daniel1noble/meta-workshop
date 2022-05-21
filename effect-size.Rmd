@@ -24,7 +24,7 @@ remotes::install_github("rlesur/klippy")
 klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done', position = 'right', color = "red")
 
 # Load packages
-pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags)
+pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags, vembedr)
 
 # To use mathjaxr you need to run equatags::mathjax_install()
 ```
@@ -138,6 +138,12 @@ Now that we have that, we can plot (Figure \@ref(fig:fig1)).
 x<- rnorm(100, 2, 1)
 plot(x)
 
+```
+
+## Great Resources!
+
+```{r, echo=FALSE}
+embed_url("https://www.youtube.com/watch?v=IkduL5iRdqo")
 ```
 
 ## Session Information
