@@ -57,7 +57,7 @@ set.seed(86) # Set see so that we all get the same simulated results
     dataRE <-  data.frame(stdy = stdy, esRE, Ves)
 ```
 
-We can get a look at what these two datasets we simulated above look like (Figure \@ref(fig:fvsr)). The red circles are effect sizes and their standard errors (square root of the sampling error variance) from our fixed effect meta-analysis (FE) data set. In contrast, the black circles are our effect size and standard errors from the data generated in the random effect meta-analysis (RE) dataset. The red line is the average, true effect size (2).
+We can get a look at what these two datasets we simulated above look like (Figure \@ref(fig:fvsr)). The red circles are effect sizes and their standard errors (square root of the sampling error variance) from our fixed effect meta-analysis (FE) data set. In contrast, the black circles are our effect size and standard errors from the data generated in the random effect meta-analysis (RE) dataset. The black line is the average, true effect size (which we have set to the value 2).
 
 ```{r, fvsr, eval=TRUE, echo=FALSE, fig.cap="Mean (arrows are sampling standard deviation) effect size for each study. Data simulated under a fixed effect model in black and data simulated under a random effect model in red."}
     
@@ -75,5 +75,37 @@ We can get a look at what these two datasets we simulated above look like (Figur
   arrows(x0 = dataRE$es, y0 = dataRE$stdy+ 0.25, y1 = dataRE$stdy+ 0.25, x1 = dataRE$es - sqrt(dataRE$Ves), 
          angle = 90, length = 0.05, col = "red")
   
-  
 ```
+
+We notice a few important differences here. In the RE dataset the variance across the studies is a lot larger compared to the FE dataset. This is what we would expect because we have added in a between study variance. Now, let’s use a common meta-analysis package, *metafor*, to analyse these datasets.
+
+```{r, fixedma,  eval=TRUE, echo=TRUE}
+# Run a fixed effect meta-analysis using the FE dataset. 
+    metafor::rma(yi = es, vi = Ves, method = "FE", data = dataFE)
+```
+
+So this suggests that the average estimate is 2.07 and it has a standard error of 0.1. It also provides us with a Q statistic, which measures the amount of heterogeneity among effect sizes. If Q is large and the p-value is small then it suggests substantial heterogeneity among effect sizes beyond what we would expect if these effects were generated from a common underlying distribution. This is a major assumption of fixed effect meta-analyses and in this case is supported. This is a good thing because we specifically generated these data under the assumption that they are from the same distribution. We can see this if we look at how we generated the data: `rnorm(length(Ves), 2, sqrt(Ves))`. This draws random effect sizes from a normal distribution with a variance (`sqrt(Ves)`) for each effect size that is only defined by its sampling variability.
+
+What is this model doing though and what is the logic behind the calculations? The best way to understand this is to hand calculate these values. Basically the effect sizes are being weighted by their sampling error variance when deriving the pooled estimate and it’s variance. Let’s calculate this by hand and see what’s happening:
+
+```{r, fixedmahand,  eval=TRUE, echo=TRUE}
+# Calculate pooled effect size
+       EsP.FE <- sum(W*dataFE$es) / sum(W)
+       EsP.FE
+# Calculate the pooled variance around estimate
+    VarEsP.FE <- 1 / sum(W)
+    VarEsP.FE
+# Calculate the standard error around estimate
+    SE.EsP.FE <- sqrt(VarEsP.FE)
+    SE.EsP.FE
+```
+
+Wow! This is so cool. We just did a fixed effect meta-analysis by hand…and, look, it matches the model output perfectly. The math is not so scary after all! But what about this extra statistic, Q? How do we derive this?
+
+```{r, q_fe,  eval=TRUE, echo=TRUE}
+#Now lets calculate our Q. Q is the total amount of heterogeneity in our data.
+    Q.fe <- sum(W*(dataFE$es^2) ) - (sum(W*dataFE$es)^2 / sum(W))
+    Q.fe
+```
+
+Cool. So this value also matches up nicely. Now lets move on to a more complicated situation, a random effect meta-analysis using the RE dataset. Remember, we know from this data set that each effect size comes from a different overall distribution. How might Q change? (Hint: We expect it to get larger!)
