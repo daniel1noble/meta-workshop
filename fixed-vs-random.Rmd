@@ -14,7 +14,21 @@ output:
     toc_float: yes
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE, tidy = TRUE)
+options(digits=2)
+```
 
+```{r klippy, echo=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+#install.packages("devtools")
+remotes::install_github("rlesur/klippy")
+klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done', position = 'right', color = "red")
+
+# Load packages
+pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags, vembedr)
+
+# To use mathjaxr 
+```
 
 ## What's the difference between fixed and random effects meta-analysis?
 
@@ -45,6 +59,21 @@ set.seed(86) # Set see so that we all get the same simulated results
 
 We can get a look at what these two datasets we simulated above look like (Figure \@ref(fig:fvsr)). The red circles are effect sizes and their standard errors (square root of the sampling error variance) from our fixed effect meta-analysis (FE) data set. In contrast, the black circles are our effect size and standard errors from the data generated in the random effect meta-analysis (RE) dataset. The red line is the average, true effect size (2).
 
-```{r, fvsr, eval=TRUE, echo=FALSE}
-
+```{r, fvsr, eval=TRUE, echo=FALSE, fig.cap="Mean (arrows are sampling standard deviation) effect size for each study. Data simulated under a fixed effect model in black and data simulated under a random effect model in red."}
+    
+  plot(stdy - 0.25 ~ es, col = "black", pch = 16, ylim = c(0, 6), xlim = c(1, 3.2), 
+       data = dataFE, ylab = "Study", xlab = "Effect size")
+  abline(v = 2, lty =3)
+  arrows(x0 = dataFE$es, y0 = dataFE$stdy- 0.25, y1 = dataFE$stdy- 0.25, x1 = dataFE$es + sqrt(dataFE$Ves), 
+         angle = 90, length = 0.05, col = "black")
+  arrows(x0 = dataFE$es, y0 = dataFE$stdy- 0.25, y1 = dataFE$stdy- 0.25, x1 = dataFE$es - sqrt(dataFE$Ves), 
+         angle = 90, length = 0.05, col = "black")
+  
+  points(stdy + 0.25 ~ esRE, col = "red", pch = 16, data = dataRE)
+  arrows(x0 = dataRE$es, y0 = dataRE$stdy+ 0.25, y1 = dataRE$stdy+ 0.25, x1 = dataRE$es + sqrt(dataRE$Ves), 
+         angle = 90, length = 0.05, col = "red")
+  arrows(x0 = dataRE$es, y0 = dataRE$stdy+ 0.25, y1 = dataRE$stdy+ 0.25, x1 = dataRE$es - sqrt(dataRE$Ves), 
+         angle = 90, length = 0.05, col = "red")
+  
+  
 ```
