@@ -1,0 +1,50 @@
+---
+title: "Fixed versus Random Effects Meta-analysis"
+author: Daniel Noble
+date: '`r Sys.Date()`'
+bibliography: ./bib/refs.bib
+csl: ./bib/the-journal-of-experimental-biology.csl
+output:
+  bookdown::html_document2:
+    css: style.css
+    code_folding: show
+    number_sections: no
+    toc: yes
+    toc_depth: 6
+    toc_float: yes
+---
+
+
+
+## What's the difference between fixed and random effects meta-analysis?
+
+To demonstrate, we can simulate some data. This is also quite useful for getting a handle on what the difference between fixed and random effects meta-analytic models looks like. Either way, we'll explore the data in depth as we move through the tutorial. 
+
+```{r, simdat, eval=TRUE, echo=TRUE}
+# Generate some simulated effect size data with known sampling variance
+# assumed to come from a common underlying distribution
+set.seed(86) # Set see so that we all get the same simulated results
+ # We will have 5 studies
+    stdy  <- 1:5                                      
+# We know the variance for each effect
+    Ves     <- c(0.05, 0.10, 0.02, 0.10, 0.09)    
+# We'll need this later but these are weights
+    W     <- 1 / Ves                                          
+# We assume they are sampled from a normal distribution  with a mean effect size of 2
+    es     <- rnorm(length(Ves), 2, sqrt(Ves))          
+# Data for our fixed effect meta-analysis
+    dataFE <- data.frame(stdy = stdy, es, Ves)
+
+# Generate a second set of effect sizes, but now assume that each study effect does not come from the same distribution, but from a population of effect sizes. 
+
+# Here adding 0.8 says we want to add 0.8 as the between study variability. In other words, each effect size is sampled from a larger distribution of effect sizes that itself comes from a distribution with a variance of 0.8. 
+    esRE        <- rnorm(length(Ves), 2, sqrt(Ves + 0.8)) 
+# Data for our random effect meta-analysis 
+    dataRE <-  data.frame(stdy = stdy, esRE, Ves)
+```
+
+We can get a look at what these two datasets we simulated above look like (Figure \@ref(fig:fvsr)). The red circles are effect sizes and their standard errors (square root of the sampling error variance) from our fixed effect meta-analysis (FE) data set. In contrast, the black circles are our effect size and standard errors from the data generated in the random effect meta-analysis (RE) dataset. The red line is the average, true effect size (2).
+
+```{r, fvsr, eval=TRUE, echo=FALSE}
+
+```
