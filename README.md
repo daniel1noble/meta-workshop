@@ -10,4 +10,5 @@ Meta-analysis is a huge, complex topic. We can only hope to touch the surface of
 #### [Introduction: Why do meta-analysis?](https://daniel1noble.github.io/meta-workshop/introduction-to-meta)
 #### [Effect sizes, what to use, when to use them, and what they mean](https://daniel1noble.github.io/meta-workshop/effect-size)
 #### [Meta-analytic models](https://daniel1noble.github.io/meta-workshop/effect-size)
+###### [Fixed vs Random Effect Meta-analytic Models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
 #### [Interpreting Meta-analytic Model Results](https://daniel1noble.github.io/meta-workshop/effect-size)
