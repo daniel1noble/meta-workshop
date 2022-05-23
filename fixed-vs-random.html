@@ -2039,6 +2039,8 @@ Figure 1: Mean (arrows are sampling standard deviation) effect size for each stu
 </p>
 </div>
 <p>We notice a few important differences here. In the RE dataset the variance across the studies is a lot larger compared to the FE dataset. This is what we would expect because we have added in a between study variance. Now, let’s use a common meta-analysis package, <em>metafor</em>, to analyse these datasets.</p>
+<div id="fixed-effect-meta-analysis-with-metafor" class="section level3">
+<h3>Fixed effect meta-analysis with <code>metafor</code></h3>
 <pre class="r"><code># Run a fixed effect meta-analysis using the FE dataset.
 metafor::rma(yi = es, vi = Ves, method = &quot;FE&quot;, data = dataFE)</code></pre>
 <pre><code>## 
@@ -2058,7 +2060,10 @@ metafor::rma(yi = es, vi = Ves, method = &quot;FE&quot;, data = dataFE)</code></
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>So this suggests that the average estimate is 2.07 and it has a standard error of 0.1. It also provides us with a Q statistic, which measures the amount of heterogeneity among effect sizes. If Q is large and the p-value is small then it suggests substantial heterogeneity among effect sizes beyond what we would expect if these effects were generated from a common underlying distribution. This is a major assumption of fixed effect meta-analyses and in this case is supported. This is a good thing because we specifically generated these data under the assumption that they are from the same distribution. We can see this if we look at how we generated the data: <code>rnorm(length(Ves), 2, sqrt(Ves))</code>. This draws random effect sizes from a normal distribution with a variance (<code>sqrt(Ves)</code>) for each effect size that is only defined by its sampling variability.</p>
-<p>What is this model doing though and what is the logic behind the calculations? The best way to understand this is to hand calculate these values. Basically the effect sizes are being weighted by their sampling error variance when deriving the pooled estimate and it’s variance. Let’s calculate this by hand and see what’s happening:</p>
+</div>
+<div id="fixed-effect-meta-analysis-by-hand" class="section level3">
+<h3>Fixed effect meta-analysis by hand!</h3>
+<p>What is the model above doing though? and what is the logic behind the calculations? The best way to understand this is to hand calculate these values. Basically the effect sizes are being weighted by their sampling error variance when deriving the pooled estimate and it’s variance. Let’s calculate this by hand and see what’s happening:</p>
 <pre class="r"><code># Calculate pooled effect size
 EsP.FE &lt;- sum(W * dataFE$es)/sum(W)
 EsP.FE</code></pre>
@@ -2076,7 +2081,88 @@ SE.EsP.FE</code></pre>
 Q.fe &lt;- sum(W * (dataFE$es^2)) - (sum(W * dataFE$es)^2/sum(W))
 Q.fe</code></pre>
 <pre><code>## [1] 2.2</code></pre>
-<p>Cool. So this value also matches up nicely. Now lets move on to a more complicated situation, a random effect meta-analysis using the RE dataset. Remember, we know from this data set that each effect size comes from a different overall distribution. How might Q change? (Hint: We expect it to get larger!)</p>
+<p>Cool. So this value also matches up nicely.</p>
+</div>
+<div id="random-effect-meta-analysis-using-metafor" class="section level3">
+<h3>Random effect meta-analysis using <code>metafor</code></h3>
+<p>Now lets move on to a more complicated situation, a random effect meta-analysis using the RE dataset. Remember, we know from this data set that each effect size comes from a different overall distribution. How might Q change? (Hint: We expect it to get larger!)</p>
+<pre class="r"><code>metafor::rma(yi = esRE, vi = Ves, method = &quot;REML&quot;, data = dataRE)</code></pre>
+<pre><code>## 
+## Random-Effects Model (k = 5; tau^2 estimator: REML)
+## 
+## tau^2 (estimated amount of total heterogeneity): 0.3331 (SE = 0.2843)
+## tau (square root of estimated tau^2 value):      0.5771
+## I^2 (total heterogeneity / total variability):   85.22%
+## H^2 (total variability / sampling variability):  6.76
+## 
+## Test for Heterogeneity:
+## Q(df = 4) = 24.4015, p-val &lt; .0001
+## 
+## Model Results:
+## 
+## estimate      se    zval    pval   ci.lb   ci.ub     ​ 
+##   2.0199  0.2837  7.1199  &lt;.0001  1.4639  2.5759  *** 
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>What happened here? What does all this mumbo jumbo actually mean?! As we predicted, our Q has jumped up a lot! Why is this so? That’s because we added in extra variability to the mix because each effect size is to come from a distribution of true effect sizes. Because they can all have their own mean they can differ substantially from the other effect sizes and this results in more variance (i.e. heterogeneity) being added to our data over all.</p>
+</div>
+<div id="random-effect-meta-analysis-by-hand" class="section level3">
+<h3>Random effect meta-analysis by hand!</h3>
+<p>Now lets see if we can reproduce these results. We need to remember that we need to add in the between study variance to our weighting of effect sizes for this model. To do this, we need to estimate how much heterogeneity we have between studies above what we would expect from sampling variability. This can be estimated by calculating the <span class="math inline">\(\tau^2\)</span> statistic, which is the variance in the ‘true’ effect sizes. To calculate this we need to calculate Q using our weights, which are the same because we know these to be true.</p>
+<pre class="r"><code># Calculate our Q statistic again
+Q &lt;- sum(W * (dataRE$es^2)) - (sum(W * dataRE$es)^2/sum(W))
+Q</code></pre>
+<pre><code>## [1] 24</code></pre>
+<pre class="r"><code># Calculate tau2
+C &lt;- sum(W) - ((sum(W^2))/sum(W))
+C</code></pre>
+<pre><code>## [1] 69</code></pre>
+<pre class="r"><code># Calculate df
+df &lt;- nrow(dataRE) - 1
+T2 &lt;- (Q - df)/C
+T2</code></pre>
+<pre><code>## [1] 0.29</code></pre>
+<p>Now we can re-calculate our weights by adding in the between study heterogenetity.</p>
+<pre class="r"><code># RE weights
+W.re &lt;- 1/(T2 + dataRE$Ves)
+
+# Pooled effect size for random effect meta-analysis
+esPoolRE &lt;- sum(W.re * dataRE$es)/sum(W.re)
+esPoolRE</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code># Calculate the pooled variance around estimate
+VarES &lt;- 1/sum(W.re)
+
+# Calculate the standard error around estimate
+SE.ES.RE &lt;- sqrt(VarES)
+SE.ES.RE</code></pre>
+<pre><code>## [1] 0.27</code></pre>
+</div>
+<div id="different-estimators-of-parameters-will-give-different-answers" class="section level3">
+<h3>Different estimators of parameters will give different answers</h3>
+<p>OK. What happened above? Our Q statistic is correct but <span class="math inline">\(\tau^2\)</span>, our mean estimate and it’s standard error are different. Why? This is because the <code>metafor</code> model we ran is using a different estimation method (REML) to estimate these statistics compared to our hand calculations. But, we are awfully close on all our estimates in any case! However, we can re-run this all using the method we used for our hand calculations above and get a nice match between our calculations and the models.</p>
+<pre class="r"><code>metafor::rma(yi = esRE, vi = Ves, method = &quot;DL&quot;, data = dataRE)</code></pre>
+<pre><code>## 
+## Random-Effects Model (k = 5; tau^2 estimator: DL)
+## 
+## tau^2 (estimated amount of total heterogeneity): 0.2947 (SE = 0.2731)
+## tau (square root of estimated tau^2 value):      0.5429
+## I^2 (total heterogeneity / total variability):   83.61%
+## H^2 (total variability / sampling variability):  6.10
+## 
+## Test for Heterogeneity:
+## Q(df = 4) = 24.4015, p-val &lt; .0001
+## 
+## Model Results:
+## 
+## estimate      se    zval    pval   ci.lb   ci.ub     ​ 
+##   2.0163  0.2697  7.4753  &lt;.0001  1.4876  2.5449  *** 
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Now we have a better understanding of the difference between fixed and random-effect meta-analysis, and, we have even been able to do our own analysis by hand! How cool is that?!</p>
+</div>
 </div>
 
 
