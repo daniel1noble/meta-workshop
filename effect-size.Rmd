@@ -1,6 +1,6 @@
 ---
-title: "Effect sizes, what they, what to use, and when to use them"
-author: Daniel Noble
+title: "Effect sizes: what to use, when to use them, and what they mean?"
+author: Daniel W.A. Noble
 date: '`r Sys.Date()`'
 bibliography: ./bib/refs.bib
 csl: ./bib/the-journal-of-experimental-biology.csl
@@ -28,9 +28,6 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 # To use mathjaxr you need to run equatags::mathjax_install()
 ```
-
-
-## [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/)
 
 ## Introduction
 
@@ -146,6 +143,11 @@ plot(x)
 embed_url("https://www.youtube.com/watch?v=IkduL5iRdqo") %>% use_align("center")
 ```
 
+## References
+
+<div id="refs"></div>
+
+
 ## Session Information
 
 ```{r sessioninfo, echo = FALSE}
@@ -153,4 +155,6 @@ embed_url("https://www.youtube.com/watch?v=IkduL5iRdqo") %>% use_align("center")
 pander(sessionInfo(), locale = FALSE)
 ```
 
-## References
+## [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/) {.hide}
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>

@@ -1,6 +1,6 @@
 ---
 title: "Introduction to Meta-analysis"
-author: Daniel Noble
+author: Daniel W.A. Noble
 date: '`r Sys.Date()`'
 bibliography: ./bib/refs.bib
 csl: ./bib/the-journal-of-experimental-biology.csl
@@ -30,8 +30,6 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 # To use mathjaxr you need to run equatags::mathjax_install()
 ```
 
-## [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/)
-
 ## Why do we do meta-analysis?
 
 Meta-analysis is the gold-standard for research synthesis across all disciplines. We synthesise studies to gain broader insights into the efficacy of treatment effects and / or relationships between variables. In physiology, ecology and evolution, where we are also dealing with many different populations and species we're also not just interested in understanding 'what the overall effect' actually is, we are also really focused on attempting to understand what factors (e.g., biological, methodological) explain variation in effects [@Noble2022; @Lag2010]. Answers to both these types of questions are fundamental to allowing 
@@ -46,10 +44,17 @@ Meta-analysis is a way to synthesise [effect sizes](https://daniel1noble.github.
 embed_url("https://www.youtube.com/watch?app=desktop&v=3XkC_jetn-U") %>% use_align("center")
 ```
 
+## References
+
+<div id="refs"></div>
+
+
 ## Session Information
 
 ```{r sessioninfo, echo = FALSE}
 pander(sessionInfo(), locale = FALSE)
 ```
 
-## References
+## [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/) {.hide}
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>

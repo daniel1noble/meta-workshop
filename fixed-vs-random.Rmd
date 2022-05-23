@@ -1,6 +1,6 @@
 ---
 title: "Fixed versus Random Effects Meta-analysis"
-author: Daniel W.A Noble
+author: Daniel W.A. Noble
 date: '`r Sys.Date()`'
 bibliography: ./bib/refs.bib
 csl: ./bib/the-journal-of-experimental-biology.csl
@@ -149,7 +149,7 @@ se_mean_meta <- m$se
 
 
 
-## Random Effect Mete-Analysis
+## Random Effect Meta-Analysis
 ### Random effect meta-analysis using `metafor`
 Now lets move on to a more complicated situation, a random effect meta-analysis using the RE dataset. Remember, we know from this data set that each effect size comes from a different overall distribution. How might Q change? (Hint: We expect it to get larger!)
 
@@ -217,7 +217,11 @@ se_mean_meta <- m$se
 
 ## Different optimizers give different answers
 
-For those of you who were paying close attention you would have noticed that the numbers from our `metafor` models don't actually match up (Table \@ref(tab:table1)). Well spotted! But, what happened above then?  Why are our numbers not matching the `metafor` output? Our Q statistic is correct but $\tau^2$, our mean estimate and it’s standard error are different. Why? This is because the `metafor` model we ran is using a different estimation method (REML) to estimate these statistics compared to our hand calculations. But, we are awfully close on all our estimates in any case!(See Table \@ref(tab:table1)) However, we can re-run this all using the method we used for our hand calculations above and get a nice match between our calculations and the models.
+For those of you who were paying close attention you would have noticed that the numbers from our `metafor` models don't actually match up (Table \@ref(tab:table1)). Well spotted! 
+
+What happened above then?  Why are our numbers not matching the `metafor` output? I thought we knew what we were doing? Our Q statistic is correct but $\tau^2$, our mean estimate and its standard error are different. Why? 
+
+This is because the `metafor` model we ran is using a different estimation method (REML -- Restricted Maximum Likelihood) to estimate these statistics compared to our hand calculations. But, we are awfully close on all our estimates in any case (see Table \@ref(tab:table1))! However, we can re-run this all using the method we used for our hand calculations above and get a nice match between our calculations and the models.
 
 ```{r, dl, eval=TRUE, echo=TRUE}
  metafor::rma(yi = esRE, vi = Ves, method="DL", data = dataRE)
@@ -245,5 +249,19 @@ se_mean_meta <- m$se
     table2
 ```
 
-
+## Conclusions
 Hopefully now you have a better understanding of the differences between fixed and random-effect meta-analysis. It should also be clear that meta-analytic models can be easily understood in detail but that results can vary depending on what assumptions and optimizers we are using to obtained pooled results. It's also comforting to know that we can do our own analysis by hand! 
+
+## References
+
+<div id="refs"></div>
+
+## Session Information
+
+```{r sessioninfo, echo = FALSE}
+pander(sessionInfo(), locale = FALSE)
+```
+
+## [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/) {.hide}
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
