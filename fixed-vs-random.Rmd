@@ -1,6 +1,6 @@
 ---
 title: "Fixed versus Random Effects Meta-analysis"
-author: Daniel Noble
+author: Daniel W.A Noble
 date: '`r Sys.Date()`'
 bibliography: ./bib/refs.bib
 csl: ./bib/the-journal-of-experimental-biology.csl
@@ -16,7 +16,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, cache = FALSE, tidy = TRUE)
-options(digits=2)
+options(digits=4)
 ```
 
 ```{r klippy, echo=FALSE, include=TRUE, message=FALSE, warning=FALSE}
@@ -31,6 +31,19 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 ```
 
 ## What's the difference between fixed and random effects meta-analysis?
+
+If you're familiar with the meta-analysis literature you will have heard of 'fixed' and 'random' effect meta-analysis. Understanding the differences between these two models is fundamentally important to understanding meta-analysis more generally. Also, once you understand the difference you'll realise why fixed-effect meta-analyses are not something we should normally apply in ecology and evolution. The assumptions are not too sensible when we are talking about highly variable meta-analytic data taken from many, many species. In fact, even a random effects meta-analysis is not going to cut it in most cases (more on that later). 
+
+Despite the limitations, these models have an important place in the meta-analytic literature. They are also excellent stepping stones to understanding the assumptions inherent to meta-analytic models and how we can build these models more appropriately for our kind of data. 
+
+This tutorial will walk you through the differences between fixed and random effect models with a focus on understanding how we are synthesising different effect sizes across studies. At the end of this tutorial I hope you understand:
+
+1. The distinct difference between fixed and random effect meta-analytic models
+2. How to fit these models using `metafor` (the most popular package for meta-analysis in R)
+3. How to interpret the output from each model
+4. How you can reproduce the results of the `metafor` models yourself
+
+### Simulating some meta-analytic data
 
 To demonstrate, we can simulate some data. This is also quite useful for getting a handle on what the difference between fixed and random effects meta-analytic models looks like. Either way, we'll explore the data in depth as we move through the tutorial. 
 
@@ -79,6 +92,8 @@ We can get a look at what these two datasets we simulated above look like (Figur
 
 We notice a few important differences here. In the RE dataset the variance across the studies is a lot larger compared to the FE dataset. This is what we would expect because we have added in a between study variance. Now, let’s use a common meta-analysis package, *metafor*, to analyse these datasets.
 
+## Fixed Effect Meta-Analysis
+
 ### Fixed effect meta-analysis with `metafor`
 
 ```{r, fixedma,  eval=TRUE, echo=TRUE}
@@ -111,9 +126,30 @@ Wow! This is so cool. We just did a fixed effect meta-analysis by hand…and, lo
     Q.fe
 ```
 
-Cool. So this value also matches up nicely. 
+Cool. So this value also matches up nicely. If you didn't catch all that, we can summarise it in a nice table below.
+
+```{r, table1, echo = FALSE, tab.cap="Comparison of hand calculations with our random effect meta-analytic model"}
+ m <- metafor::rma(yi = es, vi = Ves, method = "FE", data = dataFE)
+   mean_meta <- coef(m)
+se_mean_meta <- m$se
+      q_meta <- m$QE
+    tau_meta <- m$tau2
+    
+# Build Table
+    tab <- data.frame(type = c("Mean", "SE", "Q"), 
+                      metafor = c(mean_meta, se_mean_meta, q_meta),
+                      Ours = c(EsP.FE, SE.EsP.FE, Q.fe))
+
+    table1 <- flextable(tab)    %>% 
+          flextable::compose(j = 1:3, part = "header", 
+                             value = as_paragraph(as_b(c("", "metafor", "ours")))) %>% 
+          flextable::compose(j = 1, value = as_paragraph(as_equation(type)))
+    table1
+```
 
 
+
+## Random Effect Mete-Analysis
 ### Random effect meta-analysis using `metafor`
 Now lets move on to a more complicated situation, a random effect meta-analysis using the RE dataset. Remember, we know from this data set that each effect size comes from a different overall distribution. How might Q change? (Hint: We expect it to get larger!)
 
@@ -158,12 +194,56 @@ Now we can re-calculate our weights by adding in the between study heterogenetit
        SE.ES.RE <- sqrt(VarES)
        SE.ES.RE
 ```
-             
-### Different estimators of parameters will give different answers
-OK. What happened above? Our Q statistic is correct but $\tau^2$, our mean estimate and it’s standard error are different. Why? This is because the `metafor` model we ran is using a different estimation method (REML) to estimate these statistics compared to our hand calculations. But, we are awfully close on all our estimates in any case! However, we can re-run this all using the method we used for our hand calculations above and get a nice match between our calculations and the models.
+
+Now we can compare the `metafor` model output with our hand calculations
+```{r, table1, echo = FALSE, tab.cap="Comparison of hand calculations with our random effect meta-analytic model"}
+ m <- metafor::rma(yi = esRE, vi = Ves, method="REML", data = dataRE)
+   mean_meta <- coef(m)
+se_mean_meta <- m$se
+      q_meta <- m$QE
+    tau_meta <- m$tau2
+    
+# Build Table
+    tab <- data.frame(type = c("Mean", "SE", "Q", "\\tau^2"), 
+                      metafor = c(mean_meta, se_mean_meta, q_meta, tau_meta),
+                      Ours = c(esPoolRE, SE.ES.RE, Q, T2))
+
+    table1 <- flextable(tab)    %>% 
+          flextable::compose(j = 1:3, part = "header", 
+                             value = as_paragraph(as_b(c("", "metafor", "ours")))) %>% 
+          flextable::compose(j = 1, value = as_paragraph(as_equation(type)))
+    table1
+```
+
+## Different optimizers give different answers
+
+For those of you who were paying close attention you would have noticed that the numbers from our `metafor` models don't actually match up (Table \@ref(tab:table1)). Well spotted! But, what happened above then?  Why are our numbers not matching the `metafor` output? Our Q statistic is correct but $\tau^2$, our mean estimate and it’s standard error are different. Why? This is because the `metafor` model we ran is using a different estimation method (REML) to estimate these statistics compared to our hand calculations. But, we are awfully close on all our estimates in any case!(See Table \@ref(tab:table1)) However, we can re-run this all using the method we used for our hand calculations above and get a nice match between our calculations and the models.
 
 ```{r, dl, eval=TRUE, echo=TRUE}
  metafor::rma(yi = esRE, vi = Ves, method="DL", data = dataRE)
 ```
 
-Now we have a better understanding of the difference between fixed and random-effect meta-analysis, and, we have even been able to do our own analysis by hand! How cool is that?!
+
+Now if we compare the `metafor` model with our hand calculations we see they match exactly! (Table \@ref(tab:table2)).
+
+```{r, table2, eval=TRUE, echo=FALSE, tab.cap = "Comparison of our hand calculations with a `metafor` model with with a Dersimion-Laird estimator"}
+ m <- metafor::rma(yi = esRE, vi = Ves, method="DL", data = dataRE)
+   mean_meta <- coef(m)
+se_mean_meta <- m$se
+      q_meta <- m$QE
+    tau_meta <- m$tau2
+    
+# Build Table
+    tab <- data.frame(type = c("Mean", "SE", "Q", "\\tau^2"), 
+                      metafor = c(mean_meta, se_mean_meta, q_meta, tau_meta),
+                      Ours = c(esPoolRE, SE.ES.RE, Q, T2))
+
+    table2 <- flextable(tab)    %>% 
+          flextable::compose(j = 1:3, part = "header", 
+                             value = as_paragraph(as_b(c("", "metafor", "ours")))) %>% 
+          flextable::compose(j = 1, value = as_paragraph(as_equation(type)))
+    table2
+```
+
+
+Hopefully now you have a better understanding of the differences between fixed and random-effect meta-analysis. It should also be clear that meta-analytic models can be easily understood in detail but that results can vary depending on what assumptions and optimizers we are using to obtained pooled results. It's also comforting to know that we can do our own analysis by hand! 
