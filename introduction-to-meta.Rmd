@@ -32,7 +32,7 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ## Why do we do meta-analysis?
 
-Meta-analysis is the gold-standard for research synthesis across all disciplines. We synthesise studies to gain broader insights into the efficacy of treatment effects and / or relationships between variables. In physiology, ecology and evolution, where we are also dealing with many different populations and species we're also not just interested in understanding 'what the overall effect' actually is, we are also really focused on attempting to understand what factors (e.g., biological, methodological) explain variation in effects [@Noble2022; @Lag2010]. Answers to both these types of questions are fundamental to allowing 
+Meta-analysis is the gold-standard for research synthesis across all disciplines. We synthesise studies to gain broader insights into the efficacy of treatment effects and / or relationships between variables. In physiology, ecology and evolution, where we are also dealing with many different populations and species we're also not just interested in understanding 'what the overall effect' actually is, we are also really focused on attempting to understand what factors (e.g., biological, methodological) explain variation in effects [@Noble2022; @Lag2010]. Answers to both these types of questions are fundamental to establishing the the generality of findings, testing hypotheses about what might drive variation among effects and identifying publication biases that may result in a skewed picture of existing work. 
 
 ## How does meta-analysis work?
 
