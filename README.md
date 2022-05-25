@@ -14,7 +14,7 @@ In preperation for the workshop, we highly recommend the following background kn
 
 * Understand the basis of a meta-analysis (see [Introduction: why do meta-analysis?](https://daniel1noble.github.io/meta-workshop/introduction-to-meta))
 * Familiarise yourself with the `metafor` package and its functions (see [`metafor` website](https://wviechtb.github.io/metafor/))
-* As our workshop focuses on real-world data (and the complexities that it comes with) we highly recommend working through the ["Meta-Analysis in *R* with {metafor}](https://www.youtube.com/watch?v=IkduL5iRdqo&t=1602s&ab_channel=UseROslo) tutorial from "UseR Olso" for the basis of constructing meta-analytic models. Having a basic understanding of meta-analysis and `metafor` will greatly help with this workshop. Having said that, this is not essential. 
+* As our workshop focuses on real-world data (and the complexities that it comes with) we highly recommend working through the ["Meta-Analysis in *R* with {metafor}](https://www.youtube.com/watch?v=IkduL5iRdqo&t=1602s&ab_channel=UseROslo) tutorial from "UseR Olso" for the basis of constructing meta-analytic models. Having a basic understanding of meta-analysis and `metafor` will greatly help with this workshop. Having said that, this is not essential if you are already familiar with meta-analysis. 
 
 ## **Recommended readings**
 
