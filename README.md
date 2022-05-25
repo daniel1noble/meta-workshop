@@ -16,6 +16,14 @@ In preperation for the workshop, we highly recommend the following background kn
 * Familiarise yourself with the `metafor` package and its functions (see [`metafor` website](https://wviechtb.github.io/metafor/))
 * As our workshop focuses on real-world data (and the complexities that it comes with) we highly recommend working through the ["Meta-Analysis in *R* with {metafor}](https://www.youtube.com/watch?v=IkduL5iRdqo&t=1602s&ab_channel=UseROslo) tutorial from "UseR Olso" for the basis of constructing meta-analytic models. Having a basic understanding of meta-analysis and `metafor` will greatly help with this workshop. Having said that, this is not essential. 
 
+## **Recommended readings**
+
+* Ten appraisal questions for biologist conducting meta-analysis studies ([Nakagawa *et al.* 2017](https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-017-0357-7))
+* Meta-analytic approaches and effect sizes to account for ‘nuisance heterogeneity’ in comparative physiology ([Noble *et al.* 2022](https://journals.biologists.com/jeb/article/225/Suppl_1/jeb243225/274278/Meta-analytic-approaches-and-effect-sizes-to))
+* Non‐independence and sensitivity analyses in ecological and evolutionary meta‐analyses ([Noble *et al.* 2017](https://onlinelibrary.wiley.com/doi/abs/10.1111/mec.14031))
+* Importance of phylogeny in ecological and evolutionary meta-analyses ([Cinar *et al.* 2021](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13760) )
+* Testing for publication bias in ecological and evolutionary meta-analyses ([Nakagawa *et al.* 2021](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13724))
+
 # **Table of Contents**
 
 * [Introduction: why do meta-analysis?](https://daniel1noble.github.io/meta-workshop/introduction-to-meta)
@@ -25,8 +33,4 @@ In preperation for the workshop, we highly recommend the following background kn
 * [Interpreting meta-analytic model results](https://daniel1noble.github.io/meta-workshop/effect-size)
 
 
-# Recommended readings
 
-* Ten appraisal questions for biologist conducting meta-analysis studies ([Nakagawa *et al.* 2017](https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-017-0357-7))
-* Importance of phylogeny in ecological and evolutionary meta-analyses ([Cinar *et al.* 2021](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13760) )
-* Testing for publication bias in ecological and evolutionary meta-analyses ([Nakagawa *et al.* 2021](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13724))
