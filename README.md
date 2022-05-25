@@ -2,7 +2,7 @@
 
 This webpage hosts material for our meta-analysis workshop that will be run at Society of Experimental Biology (SEB) 2022 conference in Montpellier, France. 
 
-The workshop is a team effort, run by [Daniel Noble](https://www.nobledan.com), [Nicky Wu](https://wunicholas.wixsite.com/home) and [Essie Rodgers](http://www.rodgerslab.com/the-team.html). It is geared towards researchers interested in conducting a meta-analysis in comparative physiology. Having said that, all the principles learnt here apply to meta-analyses conducted in any research field.
+The workshop is a team effort, run by [Daniel Noble](https://www.nobledan.com), [Nicholas Wu](https://wunicholas.wixsite.com/home) and [Essie Rodgers](http://www.rodgerslab.com/the-team.html). It is geared towards researchers interested in conducting a meta-analysis in comparative physiology. Having said that, all the principles learnt here apply to meta-analyses conducted in any research field.
 
 Meta-analysis is a huge, complex topic. We can only hope to touch the surface of how it's done in a single morning workshop. As such, we will not have time to cover a critical aspect of meta-analysis; the process of systematic searching. 
 
