@@ -20,6 +20,7 @@ In preperation for the workshop, we highly recommend the following background kn
 
 * Ten appraisal questions for biologist conducting meta-analysis studies ([Nakagawa *et al.* 2017](https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-017-0357-7))
 * Meta-analytic approaches and effect sizes to account for ‘nuisance heterogeneity’ in comparative physiology ([Noble *et al.* 2022](https://journals.biologists.com/jeb/article/225/Suppl_1/jeb243225/274278/Meta-analytic-approaches-and-effect-sizes-to))
+* Methodological issues and advances in biological meta-analysis [Nakagawa & Santos 2012](https://link.springer.com/article/10.1007/s10682-012-9555-5)
 * Non‐independence and sensitivity analyses in ecological and evolutionary meta‐analyses ([Noble *et al.* 2017](https://onlinelibrary.wiley.com/doi/abs/10.1111/mec.14031))
 * Importance of phylogeny in ecological and evolutionary meta-analyses ([Cinar *et al.* 2021](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13760) )
 * Testing for publication bias in ecological and evolutionary meta-analyses ([Nakagawa *et al.* 2021](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13724))
