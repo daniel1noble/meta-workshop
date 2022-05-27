@@ -39,7 +39,7 @@ In this tutorial, we'll show you a few ways to calculate effect sizes using some
 
 ## Common Effect Sizes
 
-What is an effect size? The answer to this question depends on what kind of study one wishes to synthesise. For example, an effect size could be a contrast between experimental treatments. We might extract mean differences from experiments manipulating, say, bisphenol-A (BPA) and looking at the effect of BPA on aquatic ectotherm behaviour relative to some control. Alternatively, the effect of interest might be the magnitude and direction of a correlation between two observed variables, such as metabolism and behaviour. At times, we might even just be interested in analysing the mean or variance itself. 
+What is an effect size? The answer to this question depends on what kind of study one wishes to synthesise. For example, an effect size could be a contrast between experimental treatments. We might extract mean differences from experiments manipulating, say, bisphenol-A (BPA) and looking at the effect of BPA on aquatic ectotherm phenotype relative to some control [@WuSeebacher2020]. Alternatively, the effect of interest might be the magnitude and direction of a correlation between two observed variables, such as metabolism and behaviour [@Holtman2016]. At times, we might even just be interested in analysing the mean or variance itself. 
 
 There are many types of effect sizes that are commonplace in ecological and evolutionary research [Table \@ref(tab:tablea) describes many of the more common ones from @Noble2022]. 
 
@@ -150,7 +150,7 @@ embed_url("https://www.youtube.com/watch?v=IkduL5iRdqo") %>% use_align("center")
 
 ## Session Information
 
-```{r sessioninfo, echo = FALSE}
+```{r sessioninfo, echo = FALSE, tidy=TRUE}
 # Here, we'll create some R code
 pander(sessionInfo(), locale = FALSE)
 ```
