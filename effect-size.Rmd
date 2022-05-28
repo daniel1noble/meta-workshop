@@ -35,7 +35,17 @@ Meta-analysis quantitatively synthesises effect size data collected from existin
 
 Meta-analyses in comparative physiology, and indeed, ecology and evolution more generally, often use highly heterogeneous data [@Noble2022]. We'll discuss some of these issues as we walk through the tutorial and identify some ways in which some of this heterogeneity can be dealt with when deriving the effect size itself. 
 
-In this tutorial, we'll show you a few ways to calculate effect sizes using some real data, identify when the data in question might not be suitable, and what you might do about it. 
+By the end of this tutorial, we hope that you will feel comfortable:
+
+1. Calculating effect sizes from your data.
+2. Interpreting the meaning of different effect sizes
+3. Understanding what sampling variance is, and why it is important.
+4. Identifying when the data in question might not be suitable for an effect size, and what you might do about it. 
+5. How to control for nuisance heterogeneity in your effect size.
+6. Converting between effect sizes and different scales
+7. 
+
+[Visualising Cohen's d](https://rpsychologist.com/cohend/)
 
 ## Common Effect Sizes
 
