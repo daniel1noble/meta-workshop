@@ -29,8 +29,14 @@ In preperation for the workshop, we highly recommend the following background kn
 
 * [Introduction: why do meta-analysis?](https://daniel1noble.github.io/meta-workshop/introduction-to-meta)
 * [Effect sizes: what to use, when to use them, and what they mean?](https://daniel1noble.github.io/meta-workshop/effect-size)
+    + [Calculating and interpreting effect sizes]()
+    + [Controlling for nuisance heterogeneity]()
+    + [Checking suitability of effect size]()
 * [Meta-analytic models](https://daniel1noble.github.io/meta-workshop/effect-size)
     + [Fixed vs random effect meta-analytic models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
+    + [Multi-level meta-analytic models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
+    + [Phylogenetic meta-analytic models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
+    + [Complex non-independence -- shared controls and traits](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
 * [Interpreting meta-analytic model results](https://daniel1noble.github.io/meta-workshop/effect-size)
 
 
