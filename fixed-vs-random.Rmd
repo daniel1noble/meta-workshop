@@ -94,7 +94,17 @@ We notice a few important differences here. In the RE dataset the variance acros
 
 ## Fixed Effect Meta-Analysis
 
+What is a fixed effect meta-analysis anyway? If it wasn't clear from the above simulated data lets be more formal. We simulated data according to the following model, a fixed effects meta-analytic model:
+
+$$
+y_{i} = \mu + m_{i} \\
+m_{i} \sim N(0, v_{i})
+$$
+where $y_{i}$ is the *i*th effect size estimate and $m_{i}$ is the sampling error (deviation from $\mu$) for effect size *i*. Sampling deviations are assumed to be drawn from a normal distribution (N) with a mean of 0 and a sampling variance, $v_{i}$. You may notice from this model, and the simulated data, that we are assuming that there is a single overall mean from the pooled effect sizes we have, that effects are assumed to be independently, and identically distributed, and that the only deviation from $\mu$ is the result of sampling error, which is related to the sample size or power of the study. There are no additional sources of variance added to effect size estimates. 
+
 ### Fixed effect meta-analysis with `metafor`
+
+Now that we understand the fixed effect model, both from formal statistical notation and by looking at how the data were generated, lets fit a fixed effect model in `metafor`. 
 
 ```{r, fixedma,  eval=TRUE, echo=TRUE}
 # Run a fixed effect meta-analysis using the FE dataset. 
