@@ -25,6 +25,8 @@ In preperation for the workshop, we highly recommend the following background kn
 * Importance of phylogeny in ecological and evolutionary meta-analyses ([Cinar *et al.* 2021](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13760) )
 * Testing for publication bias in ecological and evolutionary meta-analyses ([Nakagawa *et al.* 2021](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13724))
 
+For a comprehesive guide on meta-analysis starting from scoping studys to writing a meta-analysis paper, see the YouTube [Hard-Boiled Synthesis](https://youtube.com/playlist?list=PLMDcoG6cxhI0JRfmuv3AwT9Sy0FQNMqCL) course by Marc Lajeunesse. It covers materials in detail beyond our workshop.
+
 # **Table of Contents**
 
 * [Introduction: why do meta-analysis?](https://daniel1noble.github.io/meta-workshop/introduction-to-meta)
