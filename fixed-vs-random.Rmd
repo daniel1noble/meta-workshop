@@ -25,7 +25,7 @@ remotes::install_github("rlesur/klippy")
 klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done', position = 'right', color = "red")
 
 # Load packages
-pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags, vembedr)
+pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags, vembedr, magick)
 
 # To use mathjaxr 
 ```
@@ -100,7 +100,7 @@ $$
 y_{i} = \mu + m_{i} \\
 m_{i} \sim N(0, v_{i})
 $$
-where $y_{i}$ is the *i*th effect size estimate and $m_{i}$ is the sampling error (deviation from $\mu$) for effect size *i*. Sampling deviations are assumed to be drawn from a normal distribution (N) with a mean of 0 and a sampling variance, $v_{i}$. You may notice from this model, and the simulated data, that we are assuming that there is a single overall mean from the pooled effect sizes we have, that effects are assumed to be independently, and identically distributed, and that the only deviation from $\mu$ is the result of sampling error, which is related to the sample size or power of the study. There are no additional sources of variance added to effect size estimates. 
+where $y_{i}$ is the *i*th effect size estimate and $m_{i}$ is the sampling error (deviation from $\mu$) for effect size *i*. Sampling deviations are assumed to be drawn from a normal distribution (N) with a mean of 0 and a sampling variance, $v_{i}$. You may notice from this model, and the simulated data, that we are assuming that there is a single overall mean from the pooled effect sizes we have, that effects are assumed to be independently, and identically distributed, and that the only deviation from $\mu$ is the result of sampling error, which is related to the sample size or power of the study. There are no additional sources of variance added to effect size estimates (Figure \@ref(fig:fixedrandomeffectmeta)a). 
 
 ### Fixed effect meta-analysis with `metafor`
 
@@ -160,6 +160,22 @@ se_mean_meta <- m$se
 
 
 ## Random Effect Meta-Analysis
+Now lets turn to the formal definition of a random effects meta-analysis. It looks at the outset as being very similar to our fixed effect model, but with a critically important addition:
+$$
+y_{i} = \mu + s_{i} + m_{i} \\
+m_{i} \sim N(0, v_{i}) \\
+s_{i} \sim N(0, \tau^2)
+$$
+Again, $y_{i}$ is the *i*th effect size estimate and $m_{i}$ is the sampling error (deviation from $\mu$) for effect size *i*. Sampling deviations are assumed to be drawn from a normal distribution (N) with a mean of 0 and a sampling variance, $v_{i}$. However, you will notice now that we have an additional source of variation, $s_{i}$, which is the study specific deviation. Here, we are assuming now that every study has it's own mean effect size which is again sampled from a normal distribution with a between study variance, $\tau^2$ (read, tau-squared).  
+
+You'll notice from this model, and the simulated data, that we are again assuming that there is a single overall mean and that effects are independently, and identically, distributed. However, now any deviation from the true mean is the result of not only $\mu$ (sampling error) but also because studies vary in their true mean effect sizes as well. Again, beyond these two sources, there are no additional sources of variance added to effect size estimates. 
+
+```{r, fixedrandomeffectmeta, eval=TRUE, echo=FALSE, fig.align='center', fig.cap="Visualisation of a fixed (a) and random effects (b) meta-analysis. From Nakagawa et al. 2017."}
+  comp <- image_read("./fix_random.png")
+  comp
+```
+
+
 ### Random effect meta-analysis using `metafor`
 Now lets move on to a more complicated situation, a random effect meta-analysis using the RE dataset. Remember, we know from this data set that each effect size comes from a different overall distribution. How might Q change? (Hint: We expect it to get larger!)
 
