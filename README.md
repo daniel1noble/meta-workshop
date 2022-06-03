@@ -45,6 +45,3 @@ For a comprehesive guide on meta-analysis starting from scoping studys to writin
     + [Interpreting mean estimates on different scales]()
     + [Reporting heterogeneity -- a critical aspect of meta-analysis]()
     
-
-
-
