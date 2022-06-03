@@ -1,5 +1,5 @@
 ---
-title: "Effect sizes: what to use, when to use them, and what they mean?"
+title: "Calculating and interpreting effect sizes"
 author: Daniel W.A. Noble
 date: '`r Sys.Date()`'
 bibliography: ./bib/refs.bib
@@ -31,19 +31,16 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ## Introduction
 
-Meta-analysis quantitatively synthesises effect size data collected from existing research. The effect sizes one uses for a study question needs to be chosen carefully. Each make certain assumptions about the underlying data. It's important to be weary of these assumptions and identify when something might have gone wrong. 
+Meta-analysis quantitatively synthesises effect size data collected from existing research. The effect size one uses for a study question needs to be chosen carefully. Each make certain assumptions about the underlying data. It's important to be weary of these assumptions and identify when something might have gone wrong. 
 
 Meta-analyses in comparative physiology, and indeed, ecology and evolution more generally, often use highly heterogeneous data [@Noble2022]. We'll discuss some of these issues as we walk through the tutorial and identify some ways in which some of this heterogeneity can be dealt with when deriving the effect size itself. 
 
 By the end of this tutorial, we hope that you will feel comfortable:
 
-1. Calculating effect sizes from your data.
-2. Interpreting the meaning of different effect sizes
-3. Understanding what sampling variance is, and why it is important.
-4. Identifying when the data in question might not be suitable for an effect size, and what you might do about it. 
-5. How to control for nuisance heterogeneity in your effect size.
-6. Converting between effect sizes and different scales
-7. 
+1. Calculating different effect sizes from your data.
+2. Understanding what sampling variance is, and why it is important.
+3. Interpreting the meaning of different effect sizes
+4. Transforming effect size estimates back to interpretable scales
 
 [Visualising Cohen's d](https://rpsychologist.com/cohend/)
 
