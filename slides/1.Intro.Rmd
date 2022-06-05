@@ -2,6 +2,7 @@
 title: "Meta-analysis in Comparative Physiology: A brief introduction to effect sizes and meta-analytic modelling"
 author: Daniel W.A Noble, Nicholis Wu, Essie Rodgers, Patrice Pottier
 output: 
+ powerpoint_presentation:
  ioslides_presentation:
     css: slide.css
 date: '`r Sys.Date()`'
@@ -33,6 +34,10 @@ knitr::include_graphics("http://meta-evidence.co.uk/wp-content/uploads/2018/02/P
 - Bullet 1
 - Bullet 2
 - Bullet 3
+
+$$
+y_{i} = x^2
+$$
 
 ## Slide with R Output {.thirdslide}
 
