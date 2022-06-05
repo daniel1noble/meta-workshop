@@ -1,0 +1,48 @@
+
+/* Title slide title */
+.title-slide hgroup h1 {
+  font-size: 60px;
+  font-weight: 200;
+  line-height: 1.1;
+  position: fixed;
+  top: 25%;
+  left: 52%;
+}
+
+/* Title slide subtitle */
+.title-slide hgroup h2 {
+  font-size: 60px;
+  color: #585858;
+  font-weight: inherit;
+  text-align: center;
+}
+
+
+ #whatis > p {
+    line-height: 0;
+  }
+
+
+/* Background colour for code blocks */
+.prettyprint {
+  background-color: #FFFFFF;
+}
+
+
+/*Adjust syntax highlighting */
+
+.prettyprint .str {
+  color: darkgreen;
+}
+
+.prettyprint .pln {
+  color: steelblue;
+}
+
+.prettyprint .pun {
+  color: DarkSlateBlue;
+}
+
+.prettyprint .lit {
+  color: #7f0000;
+}
