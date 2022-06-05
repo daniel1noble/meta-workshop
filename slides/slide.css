@@ -1,18 +1,18 @@
 
 /* Title slide title */
 .title-slide hgroup h1 {
-  font-size: 60px;
+  font-size: 40px;
   font-weight: 200;
   line-height: 1.1;
   position: fixed;
   top: 25%;
   left: 52%;
-  transform: translate(-50%, -50%)
+  transform: translate(-60%, -60%)
 }
 
 
 .firstslide {
-    line-height: 1;
+    line-height: 0.8;
   }
 
 
