@@ -7,19 +7,12 @@
   position: fixed;
   top: 25%;
   left: 52%;
-}
-
-/* Title slide subtitle */
-.title-slide hgroup h2 {
-  font-size: 60px;
-  color: #585858;
-  font-weight: inherit;
-  text-align: center;
+  transform: translate(-50%, -50%)
 }
 
 
- #whatis > p {
-    line-height: 0;
+.firstslide {
+    line-height: 1;
   }
 
 
