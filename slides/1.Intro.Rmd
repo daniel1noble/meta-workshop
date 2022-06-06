@@ -3,6 +3,7 @@ title: "Meta-analysis in Comparative Physiology: A brief introduction to effect 
 author: Daniel W.A Noble, Nicholis Wu, Essie Rodgers, Patrice Pottier
 output: 
  powerpoint_presentation:
+   reference_doc: style.pptx
  ioslides_presentation:
     css: slide.css
 date: '`r Sys.Date()`'
@@ -39,12 +40,13 @@ $$
 y_{i} = x^2
 $$
 
+> - Eat eggs
+> - Drink coffee
+
 ## Slide with R Output {.thirdslide}
 
-```{r cars, echo = TRUE}
-###<b>
+```{r cars, echo = TRUE, tidy=TRUE}
 x <- rnorm(100,0,1)
-###<b>
 
 summary(cars)
 ```
