@@ -40,7 +40,7 @@ By the end of this tutorial, we hope that you will feel comfortable:
 1. Calculating different effect sizes from your data.
 2. Understanding what sampling variance is, and why it is important.
 3. Interpreting the meaning of different effect sizes
-4. Transforming effect size estimates back to interpretable scales
+4. Transforming effect size estimates back to original scales
 
 [Visualising Cohen's d](https://rpsychologist.com/cohend/)
 
@@ -48,6 +48,9 @@ By the end of this tutorial, we hope that you will feel comfortable:
 
 What is an effect size? The answer to this question depends on what kind of study one wishes to synthesise. For example, an effect size could be a contrast between experimental treatments. We might extract mean differences from experiments manipulating, say, bisphenol-A (BPA) and looking at the effect of BPA on aquatic ectotherm phenotype relative to some control [@WuSeebacher2020]. Alternatively, the effect of interest might be the magnitude and direction of a correlation between two observed variables, such as metabolism and behaviour [@Holtman2016]. At times, we might even just be interested in analysing the mean or variance itself. 
 
+> "The terms treatment effects and effect sizes are used in different ways by different people. Meta-analyses in medicine often refer to the effect size as a treatment effect, and this term is sometimes assumed to refer to odds ratios, risk ratios, or risk differences, which are common in meta-analyses that deal with medical interven- tions. Similarly, meta-analyses in the social sciences often refer to the effect size simply as an effect size and this term is sometimes assumed to refer to standardized mean differences or to correlations, which are common in social science meta- analyses" [@Borenstein2009]
+
+<br>
 There are many types of effect sizes that are commonplace in ecological and evolutionary research [Table \@ref(tab:tablea) describes many of the more common ones from @Noble2022]. 
 
 ```{r tablea, echo = FALSE, tab.cap = "**Common effect sizes used throughout meta-analyses in comparative physiology, their associated sampling variances and examples on when they might be used**. M: mean; SD: standard deviation; N: sample size; CTmin: critical thermal minimum; CTmax: critical thermal maximum; LC_50: median lethal concentration; LT_50: median lethal temperature; BPA: bisphenol A."}
@@ -154,6 +157,7 @@ embed_url("https://www.youtube.com/watch?v=IkduL5iRdqo") %>% use_align("center")
 
 <div id="refs"></div>
 
+<br>
 
 ## Session Information
 
