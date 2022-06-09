@@ -126,6 +126,8 @@ FitFlextableToPage(tablea, pgwidth = 8)
 
 ```
 
+We'll use `metafor` to demonstrate how to calculate three major effect size esatimtes commonly used in comparative physiology, including Z-transformed correlation coefficients (Zr), log response ratios and Hedges'*d/g*. We'll focus on 
+
 ## Setting up
 
 To start, well need to load some packages and data. The data is all stored in our GitHub repository. It's downloaded directly from the web. You won't need to have these on hand. We'll first load the packages that we need.
