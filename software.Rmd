@@ -1,0 +1,50 @@
+---
+title: "Software"
+author: Daniel W.A. Noble
+date: '`r Sys.Date()`'
+bibliography: ./bib/refs.bib
+csl: ./bib/the-journal-of-experimental-biology.csl
+output:
+  bookdown::html_document2:
+    css: style.css
+    code_folding: show
+    number_sections: no
+    toc: yes
+    toc_depth: 6
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE, tidy = TRUE)
+options(digits=2)
+```
+
+```{r klippy, echo=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+#install.packages("devtools")
+remotes::install_github("rlesur/klippy")
+klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done', position = 'right', color = "red")
+
+# Load packages
+pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags, vembedr)
+
+# To use mathjaxr you need to run equatags::mathjax_install()
+```
+
+# **Useful Software**
+
+This page compiles some of the useful software tools that are out there for various steps of the meta-analysis workflow. We primarily collate software that we use and that fills important gaps. This is by no means comprehensive. 
+
+### **Literature Searching, Screening Snowballing**
+
+
+
+### **Extracting Data** 
+
+#### [metaDigitise](https://github.com/daniel1noble/metaDigitise) and [ShinyDigitise](https://github.com/EIvimeyCook/ShinyDigitise)
+```{r, echo=FALSE}
+embed_url("https://www.youtube.com/watch?v=2Q8TzgRSACM") %>% use_align("center")
+```
+#### [juicR](https://cran.r-project.org/web/packages/juicr/index.html)
+```{r, echo=FALSE}
+embed_url("https://www.youtube.com/watch?v=tiL-gZgN9Qk") %>% use_align("center")
+```
