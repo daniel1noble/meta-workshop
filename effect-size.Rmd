@@ -132,13 +132,13 @@ To start, well need to load some packages and data. The data is all stored on Gi
 ```{r loadpackages, eval=TRUE, message=FALSE, warning=FALSE}
 # Load packages
 #install.packages("pacman") # If you haven't already installed the pacman package do so with this code
-pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags)
+pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags, tidyverse)
 # To use mathjaxr you need to run equatags::mathjax_install()
 ```
 
 ## Correlation between physiology and movement patterns: Z-transformed Correlation Coefficient (Zr)
 
-**Background**: Physiology is expected to drive movement, including short-term activity, exploration of unfamiliar environments, and larger scale dispersal which can influence species distributions in an environmentally sensitive manner. To test whether there is a relationship between physiology and movement pattern (seperated as activity, exploration, and dispersal), we extracted data from the literature on common physiological traits measured (e.g., metabolic rate, hormone levels, body condition) with either activity, exploration, and dispersal at the individual level. As we are interested in relationships at the individual level, we extracted correlation data in the form of [correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) and sample size.
+**Background**: Physiology is expected to drive movement, including short-term activity, exploration of unfamiliar environments, and larger scale dispersal which can influence species distributions in an environmentally sensitive manner. To test whether there is a relationship between physiology and movement pattern (separated as activity, exploration, and dispersal), we extracted data from the literature on common physiological traits measured (e.g., metabolic rate, hormone levels, body condition) with either activity, exploration, and dispersal at the individual level. As we are interested in relationships at the individual level, we extracted correlation data in the form of [correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) and sample size.
 
 We also included moderator variables that are likely to explain variation in the dataset:
 - taxonomic groups (amphibians, reptiles, invertebrates, mammals, birds),
@@ -158,7 +158,7 @@ For complete detail on the study aim and design, please see [Wu & Seebacher (202
 Download the data. The following code illustrates how to calculate the Fisher z-transformed effect size (yi) and sampling variance (vi) from correlation coefficients (ri) and sample size (ni) using 10 row of data from the main dataset.
 
 ```{r Zr}
-zr_data <- read.csv("https://github.com/daniel1noble/meta-workshop/blob/gh-pages/data/ind_disp_raw_data.csv") %>%
+zr_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/ind_disp_raw_data.csv") %>%
   dplyr::select(study_ID, taxa, species, trait, response, response_unit, disp_trait, disp_unit, corr_coeff, sample_size) %>% # remove irrelevant columns for this tutorial
   dplyr::top_n(10) # select first 10 effect sizes to illustrate escalc function
 
@@ -170,7 +170,7 @@ zr_data
 
 ## Difference in physiology between populations from range core and edge: Log response ratio (lnRR)
 
-**Background**: If movement relied on physiological capacities, it may be expected that the variation in physiological characteristics introduces differences in the tendency to move among individuals of the same populations. Such individual differences can have consequences for gene flow and genetic diversification within a species. Individuals with a greater tendency to move may have particular physiological characteristics, leading to core-edge differences. Populations at the range edge is therefore hypothesed to have different phhsiological phenotype than populations from the core range. 
+**Background**: If movement relied on physiological capacities, it may be expected that the variation in physiological characteristics introduces differences in the tendency to move among individuals of the same populations. Such individual differences can have consequences for gene flow and genetic diversification within a species. Individuals with a greater tendency to move may have particular physiological characteristics, leading to core-edge differences. Populations at the range edge is therefore hypothesised to have different physiological phenotype than populations from the core range. 
 
 To compare differences in the physiological characteristics between individuals from an established range core to their expanding range edge we collected data from studies that reported physiological response from the range core (core) and range edge (front) in the form of mean, sample size, and variance (SD, SE, or 95% CI). This information is used to calculate the log response ratio (lnRR).
 
@@ -190,7 +190,7 @@ For complete detail on the study aim and design, please see [Wu & Seebacher (202
 Download the data. The following code illustrates how to calculate the log response ratio (yi) and sampling variance (vi) from the mean (mi), sample size (ni) and standard deviation (sdi) from the edge population (1), and core population (2) using 10 row of data from the main dataset.
 
 ```{r lnRR}
-ratio_data <- read.csv("https://github.com/daniel1noble/meta-workshop/blob/gh-pages/data/pop_disp_raw_data.csv") %>%
+ratio_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/pop_disp_raw_data.csv") %>%
   dplyr::select(study_ID, taxa, species, trait, response, response_unit, mean_core, sd_core, n_core, mean_front, sd_front, n_front) %>% # remove irrelevant columns for this tutorial
   dplyr::top_n(10) # select first 10 effect sizes to illustrate escalc function
 
