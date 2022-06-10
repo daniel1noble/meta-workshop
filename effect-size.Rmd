@@ -126,11 +126,11 @@ FitFlextableToPage(tablea, pgwidth = 8)
 
 ```
 
-We'll use `metafor` to demonstrate how to calculate three major effect size esatimtes commonly used in comparative physiology, including Z-transformed correlation coefficients (Zr), log response ratios and Hedges'*d/g*. We'll focus on 
+We'll use `metafor` to demonstrate how to calculate two commonly used effect size estimates in the field of comparative physiology, including Z-transformed correlation coefficients (Zr) and log response ratios. In a third example, we'll overview how to calculate effect sizes that control for 'nuisance heterogeneity', which makes the interpretation of the estimate different. Throughout, we'll focus on what the effect size means, its sampling variance and how to transform these to understand what the calculation means on the original scale. 
 
 ## Setting up
 
-To start, well need to load some packages and data. The data is all stored in our GitHub repository. It's downloaded directly from the web. You won't need to have these on hand. We'll first load the packages that we need.
+To start, well need to load some packages and data. The data is all stored on GitHub. It's downloaded directly from the web. You won't need to have these on hand. We'll first load the packages that we need.
 
 ```{r loadpackages, eval=TRUE, message=FALSE, warning=FALSE}
 # Load packages
@@ -140,13 +140,14 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 # To use mathjaxr you need to run equatags::mathjax_install()
 ```
 
-Now that we have that, we can plot (Figure \@ref(fig:fig1)).
+## Correlation between physiology and movement patterns: Z-transformed Correlation Coefficient (Zr)
 
-```{r fig1, fig.cap= "Figure 1"}
-# Here, we'll create some R code
-x<- rnorm(100, 2, 1)
-plot(x)
+Physiology is expected to drive ....
 
+Download the data
+
+```{r}
+zr_data <- read.csv("https://github.com/nicholaswunz/dispersal-meta-analysis/blob/main/data/ind_disp_raw_data.csv")
 ```
 
 ## Great Resources!
