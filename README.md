@@ -1,31 +1,3 @@
----
-title: ""
-author: Daniel W.A. Noble
-date: '`r Sys.Date()`'
-bibliography: ./bib/refs.bib
-csl: ./bib/the-journal-of-experimental-biology.csl
-output:
-  bookdown::html_document2:
-    css: style.css
-    number_sections: no
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache = FALSE, tidy = TRUE)
-options(digits=2)
-```
-
-```{r klippy, echo=FALSE, include=TRUE, message=FALSE, warning=FALSE}
-#install.packages("devtools")
-remotes::install_github("rlesur/klippy")
-klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done', position = 'right', color = "red")
-
-# Load packages
-pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags, vembedr)
-
-# To use mathjaxr you need to run equatags::mathjax_install()
-```
-
 # Introduction to Meta-Analysis in Comparative Physiology
 
 This webpage hosts material for our meta-analysis workshop that will run complimentary to the A21 session "*Illuminating hot topics in experimental biology: A meta-analytic approach to understanding biological phenomenon*" at the Society for Experimental Biology ([SEB](https://www.sebiology.org/events/seb-annual-conference-2022.html)) 2022 conference in Montpellier, France. 
@@ -36,7 +8,7 @@ Meta-analysis is a huge, complex topic. We can only hope to touch the surface of
 
 Systematic searches are important to comprehensive, transparent and reproducible meta-analyses. The question needs to be clearly defined, and systematic searches need to be well documented, carefully refined, have detailed inclusion/exclusion criteria so that they may be repeated in the future. [Foo *et al.* 2021](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/2041-210X.13654) is an excellent resource for this stage of a meta-analysis. We also recommend following the PRISMA Eco-Evo protocol proposed by [O'Dea *et al.* 2020](https://onlinelibrary.wiley.com/doi/abs/10.1111/brv.12721). For data curation in preperation for a meta-analysis, we recommend following advice by [Schwanz *et al.* 2022](https://journals.biologists.com/jeb/article/225/Suppl_1/jeb243295/274297/Best-practices-for-building-and-curating-databases).
 
-Below, we also provide a list of useful readings and software for earlier elements of conducting a meta-analysis (e.g., extracting data from figures literature searching, snowballing etc). Please cite these software in your meta-analysis. Many of the authors spend a huge amount of time developing and maintaining these free resources. They are as important to cite as the statistical software used to analyse the data. 
+We also provide a list of useful readings and [software](https://daniel1noble.github.io/meta-workshop/software) for earlier elements of conducting a meta-analysis (e.g., extracting data from figures literature searching, snowballing etc). Please cite these software in your meta-analysis. Many of the authors spend a huge amount of time developing and maintaining these free resources. They are as important to cite as the statistical software used to analyse the data. 
 
 ## **Preparation for the workshop**
 
@@ -73,22 +45,4 @@ For a comprehensive guide on meta-analysis starting from a scoping study to writ
 * [Interpreting and reporting meta-analytic model results](https://daniel1noble.github.io/meta-workshop/effect-size)
     + [Interpreting mean estimates on different scales]()
     + [Reporting heterogeneity -- a critical aspect of meta-analysis]()
-    
-# Useful Software
-
-### Literature Searching, Screening Snowballing
-
-
-
-### Extracting Data 
-
-- [metaDigitise](https://github.com/daniel1noble/metaDigitise)
-```{r, echo=FALSE}
-embed_url("https://www.youtube.com/watch?v=2Q8TzgRSACM") %>% use_align("center")
-```
-- [juicR](https://cran.r-project.org/web/packages/juicr/index.html)
-```{r, echo=FALSE}
-embed_url("https://www.youtube.com/watch?v=tiL-gZgN9Qk") %>% use_align("center")
-```
-
-
+  
