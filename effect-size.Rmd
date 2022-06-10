@@ -54,12 +54,11 @@ What is an effect size? The answer to this question depends on what kind of stud
 There are many types of effect sizes that are commonplace in ecological and evolutionary research [Table \@ref(tab:tablea) describes many of the more common ones from @Noble2022]. 
 
 ```{r tablea, echo = FALSE, tab.cap = "**Common effect sizes used throughout meta-analyses in comparative physiology, their associated sampling variances and examples on when they might be used**. M: mean; SD: standard deviation; N: sample size; CTmin: critical thermal minimum; CTmax: critical thermal maximum; LC_50: median lethal concentration; LT_50: median lethal temperature; BPA: bisphenol A."}
-
 FitFlextableToPage <- function(ft, pgwidth = 6){
 
-  ft_out <- ft %>% autofit()
+  ft_out <- ft %>% flextable::autofit()
 
-  ft_out <- width(ft_out, width = dim(ft_out)$widths*pgwidth /(flextable_dim(ft_out)$widths))
+  ft_out <- flextable::width(ft_out, width = dim(ft_out)$widths*pgwidth /(flextable::flextable_dim(ft_out)$widths))
   return(ft_out)
 } 
 
@@ -121,9 +120,7 @@ tablea <- flextable(table_fin)                                                  
                part = "body", inline = TRUE) %>% 
           flextable::font(part = "all", fontname = "Times New Roman")
           
-
 FitFlextableToPage(tablea, pgwidth = 8)
-
 ```
 
 We'll use `metafor` to demonstrate how to calculate two commonly used effect size estimates in the field of comparative physiology, including Z-transformed correlation coefficients (Zr) and log response ratios. In a third example, we'll overview how to calculate effect sizes that control for 'nuisance heterogeneity', which makes the interpretation of the estimate different. Throughout, we'll focus on what the effect size means, its sampling variance and how to transform these to understand what the calculation means on the original scale. 
@@ -134,26 +131,81 @@ To start, well need to load some packages and data. The data is all stored on Gi
 
 ```{r loadpackages, eval=TRUE, message=FALSE, warning=FALSE}
 # Load packages
-# install.packages("pacman"); If you haven't already installed the pacman package do so with this code
+#install.packages("pacman") # If you haven't already installed the pacman package do so with this code
 pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags)
-
 # To use mathjaxr you need to run equatags::mathjax_install()
 ```
 
 ## Correlation between physiology and movement patterns: Z-transformed Correlation Coefficient (Zr)
 
-Physiology is expected to drive ....
+**Background**: Physiology is expected to drive movement, including short-term activity, exploration of unfamiliar environments, and larger scale dispersal which can influence species distributions in an environmentally sensitive manner. To test whether there is a relationship between physiology and movement pattern (seperated as activity, exploration, and dispersal), we extracted data from the literature on common physiological traits measured (e.g., metabolic rate, hormone levels, body condition) with either activity, exploration, and dispersal at the individual level. As we are interested in relationships at the individual level, we extracted correlation data in the form of [correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) and sample size.
 
-Download the data
+We also included moderator variables that are likely to explain variation in the dataset:
+- taxonomic groups (amphibians, reptiles, invertebrates, mammals, birds),
+- thermoregulation strategy (ectotherm or endotherm), 
+- sex (male, female, mixed), 
+- age (juvenile, adult), 
+- origin (wild-caught, captive-raised; the “origin” moderator is relevant for the ‘individual movement’ analysis only, and refers to common laboratory animals such as zebrafish).
 
-```{r}
-zr_data <- read.csv("https://github.com/nicholaswunz/dispersal-meta-analysis/blob/main/data/ind_disp_raw_data.csv")
+To account for non-independence and test for publication bias we also extracted data on:
+- publication year
+- species name
+- effect size ID
+- study ID
+
+For complete detail on the study aim and design, please see [Wu & Seebacher (2022)](https://doi.org/10.1038/s42003-022-03055-y)
+
+Download the data. The following code illustrates how to calculate the Fisher z-transformed effect size (yi) and sampling variance (vi) from correlation coefficients (ri) and sample size (ni) using 10 row of data from the main dataset.
+
+```{r Zr}
+zr_data <- read.csv("https://github.com/daniel1noble/meta-workshop/blob/gh-pages/data/ind_disp_raw_data.csv") %>%
+  dplyr::select(study_ID, taxa, species, trait, response, response_unit, disp_trait, disp_unit, corr_coeff, sample_size) %>% # remove irrelevant columns for this tutorial
+  dplyr::top_n(10) # select first 10 effect sizes to illustrate escalc function
+
+# Calculate Fisher's r-to-z transformed correlation coefficient (ZCOR) as yi = effect size and vi = sampling variances, where ri = raw correlation coefficients, and ni = sample size.
+zr_data <- metafor::escalc(measure = "ZCOR", ri = corr_coeff, ni = sample_size, data = zr_data)
+
+zr_data
+```
+
+## Difference in physiology between populations from range core and edge: Log response ratio (lnRR)
+
+**Background**: If movement relied on physiological capacities, it may be expected that the variation in physiological characteristics introduces differences in the tendency to move among individuals of the same populations. Such individual differences can have consequences for gene flow and genetic diversification within a species. Individuals with a greater tendency to move may have particular physiological characteristics, leading to core-edge differences. Populations at the range edge is therefore hypothesed to have different phhsiological phenotype than populations from the core range. 
+
+To compare differences in the physiological characteristics between individuals from an established range core to their expanding range edge we collected data from studies that reported physiological response from the range core (core) and range edge (front) in the form of mean, sample size, and variance (SD, SE, or 95% CI). This information is used to calculate the log response ratio (lnRR).
+
+We also included moderator variables that are likely to explain variation in the dataset:
+- taxonomic groups (amphibians, reptiles, invertebrates, mammals, birds),
+- thermoregulation strategy (ectotherm or endotherm), 
+- distance between core population and edge population. 
+
+To account for non-independence and test for publication bias we also extracted data on:
+- publication year
+- species name
+- effect size ID
+- study ID
+
+For complete detail on the study aim and design, please see [Wu & Seebacher (2022)](https://doi.org/10.1038/s42003-022-03055-y)
+
+Download the data. The following code illustrates how to calculate the log response ratio (yi) and sampling variance (vi) from the mean (mi), sample size (ni) and standard deviation (sdi) from the edge population (1), and core population (2) using 10 row of data from the main dataset.
+
+```{r lnRR}
+ratio_data <- read.csv("https://github.com/daniel1noble/meta-workshop/blob/gh-pages/data/pop_disp_raw_data.csv") %>%
+  dplyr::select(study_ID, taxa, species, trait, response, response_unit, mean_core, sd_core, n_core, mean_front, sd_front, n_front) %>% # remove irrelevant columns for this tutorial
+  dplyr::top_n(10) # select first 10 effect sizes to illustrate escalc function
+
+# Calculate log response ratio (lnRR) as yi = effect size and vi = sampling variances, where m1i = mean of edge population, n1i = sample size of edge population, sd1i = standard deviation of edge population, m2i = mean of core population, n2i = sample size of core population, sd2i = standard divation of core population.
+ratio_data <- metafor::escalc(measure = "ROM", 
+                              m1i = mean_front, n1i = n_front, sd1i = sd_front,
+                              m2i = mean_core, n2i = n_core, sd2i = sd_core, 
+                              data = ratio_data)
+ratio_data
 ```
 
 ## Great Resources!
 
 ```{r, echo=FALSE}
-embed_url("https://www.youtube.com/watch?v=IkduL5iRdqo") %>% use_align("center")
+vembedr::embed_url("https://www.youtube.com/watch?v=IkduL5iRdqo") %>% vembedr::use_align("center")
 ```
 
 ## References
