@@ -1,0 +1,253 @@
+study_ID,author_first,year,thermal_strategy,taxa,species,species_OTL,disp_mode,dist_km,exp_temp,bio_hier,trait,response,response_unit,mean_core,sd_core,se_core,n_core,mean_front,sd_front,se_front,n_front
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1486,30,Organism,Metabolism,Standard MR,ml O2 h,4.98,1.91,0.854177967,5,6.68,2.4,0.848528137,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2226,30,Organism,Metabolism,Standard MR,ml O2 h,4.98,1.91,0.854177967,5,8.09,4.03,1.424820164,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1486,30,Organism,Metabolism,Max MR,ml O2 h,35.9,4.94,2.209235162,5,29.3,8.83,3.121876439,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2226,30,Organism,Metabolism,Max MR,ml O2 h,35.9,4.94,2.209235162,5,48.2,6.61,2.336987912,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1486,15,Organism,Locomotor capacity,Sprint speed,cm s,10,1.3,0.581377674,5,9.4,1.2,0.424264069,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2226,15,Organism,Locomotor capacity,Sprint speed,cm s,10,1.3,0.581377674,5,9.9,0.9,0.318198052,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1486,20,Organism,Locomotor capacity,Sprint speed,cm s,23,3.1,1.386362146,5,21.7,5.5,1.944543648,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2226,20,Organism,Locomotor capacity,Sprint speed,cm s,23,3.1,1.386362146,5,22,3.4,1.202081528,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1486,25,Organism,Locomotor capacity,Sprint speed,cm s,30.8,6.6,2.95160973,5,31,9.3,3.288046533,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2226,25,Organism,Locomotor capacity,Sprint speed,cm s,30.8,6.6,2.95160973,5,27.5,7.5,2.651650429,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1486,30,Organism,Locomotor capacity,Sprint speed,cm s,44.1,10.8,4.829906831,5,40.3,6.5,2.298097039,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2226,30,Organism,Locomotor capacity,Sprint speed,cm s,44.1,10.8,4.829906831,5,33.7,13.2,4.666904756,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1486,35,Organism,Locomotor capacity,Sprint speed,cm s,33.8,7.3,3.264659247,5,29.6,6.4,2.2627417,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2226,35,Organism,Locomotor capacity,Sprint speed,cm s,33.8,7.3,3.264659247,5,25.7,3.6,1.272792206,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1486,,Organism,Thermal tolerance,CTmin,degree celsius,11.3,0.7,0.313049517,5,10.9,0.7,0.247487373,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2226,,Organism,Thermal tolerance,CTmin,degree celsius,11.3,0.7,0.313049517,5,10.4,0.8,0.282842712,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1486,,Organism,Thermal tolerance,CTmax,degree celsius,39.1,1,0.447213595,5,40,0.9,0.318198052,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2226,,Organism,Thermal tolerance,CTmax,degree celsius,39.1,1,0.447213595,5,39.5,0.5,0.176776695,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1486,24,Organism,Locomotor capacity,Endurance,min,114.9206349,16.29672576,6.65311043,6,39.28571429,14.80217242,5.233358248,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2226,24,Organism,Locomotor capacity,Endurance,min,114.9206349,16.29672576,6.65311043,6,53.17460317,14.41650883,5.097005578,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1486,,Cellular,Cardiovascular,Haematocrit,%,0.27,0.06,,5,0.19,0.04,,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2226,,Cellular,Cardiovascular,Haematocrit,%,0.27,0.06,,5,0.25,0.04,,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1486,,Cellular,Cardiovascular,Haemoglobin,g l,70.41,10.65,,5,40.96,9.6,,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2226,,Cellular,Cardiovascular,Haemoglobin,g l,70.41,10.65,,5,60.86,8.3,,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1486,25,Macromolecule,Metabolic enzyme,Muscle citrate synthase,umol min g,5.45,1.03,,5,3.37,0.92,,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2226,25,Macromolecule,Metabolic enzyme,Muscle citrate synthase,umol min g,5.45,1.03,,5,3.85,1.22,,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1486,25,Macromolecule,Metabolic enzyme,Muscle lactate dehydrogenase,umol min g,273.7,24.1,,5,186.5,68,,8
+1,Tracy,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2226,25,Macromolecule,Metabolic enzyme,Muscle lactate dehydrogenase,umol min g,273.7,24.1,,5,240.4,89.9,,8
+2,Kosmala,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2527,35,Organism,Activity,Activity,cm SVL,9668.545455,1330.57748,,11,9343.5,2861.443007,,12
+2,Kosmala,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2839,35,Organism,Activity,Activity,cm SVL,9668.545455,1330.57748,,11,10961.33333,2059.818331,,15
+2,Kosmala,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2530,35,Organism,Activity,Activity,cm SVL,9668.545455,1330.57748,,11,9901.25,1372.947901,,8
+2,Kosmala,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2189,35,Organism,Activity,Activity,cm SVL,9668.545455,1330.57748,,11,12103.33333,2269.505575,,12
+2,Kosmala,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,137,35,Organism,Activity,Activity,cm SVL,9668.545455,1330.57748,,11,10319.83333,1896.589827,,12
+2,Kosmala,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1712,35,Organism,Activity,Activity,cm SVL,9668.545455,1330.57748,,11,11476.33333,1157.233147,,6
+2,Kosmala,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1570,35,Organism,Activity,Activity,cm SVL,9668.545455,1330.57748,,11,11270.5,1003.918199,,8
+2,Kosmala,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2527,35,Organism,Activity,Activity,cm SVL,10135.66667,2443.921553,,6,10572.28571,2054.52071,,7
+2,Kosmala,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2530,35,Organism,Activity,Activity,cm SVL,10135.66667,2443.921553,,6,11425,1568.17888,,10
+2,Kosmala,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2189,35,Organism,Activity,Activity,cm SVL,10135.66667,2443.921553,,6,12830,743.0054797,,7
+2,Kosmala,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,137,35,Organism,Activity,Activity,cm SVL,10135.66667,2443.921553,,6,11127.14286,1890.47382,,6
+2,Kosmala,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1712,35,Organism,Activity,Activity,cm SVL,10135.66667,2443.921553,,6,11661.5,1507.989639,,4
+2,Kosmala,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1570,35,Organism,Activity,Activity,cm SVL,10135.66667,2443.921553,,6,12776.5,1503.394409,,4
+3,Vimercati,2018,Ectotherm,Amphibia,Sclerophrys_gutturalis,Sclerophrys gutturalis,Terrestrial,1635,,Organism,Thermal tolerance,CTmin,degree celsius,7.82,1.586064311,,10,6.926666667,1.174998818,,15
+3,Vimercati,2018,Ectotherm,Amphibia,Sclerophrys_gutturalis,Sclerophrys gutturalis,Terrestrial,1635,,Organism,Thermal tolerance,CTmin,degree celsius,8.57,2.061577066,,10,7.18,1.36,,15
+3,Vimercati,2018,Ectotherm,Amphibia,Sclerophrys_gutturalis,Sclerophrys gutturalis,Terrestrial,1635,23,Organism,Locomotor capacity,Endurance,m,418.3166667,358.3402988,,12,527.8,296.030611,,15
+3,Vimercati,2018,Ectotherm,Amphibia,Sclerophrys_gutturalis,Sclerophrys gutturalis,Terrestrial,1635,23,Organism,Locomotor capacity,Endurance,m,403.6,369.908331,,12,510.3333333,379.5706463,,15
+4,Madelaire,2020,Ectotherm,Amphibia,Sclerophrys_gutturalis,Sclerophrys gutturalis,Terrestrial,1635,22,Organism,Activity,Activity,%,6.992592593,8.24875266,,10,25.24867725,25.19966682,,14
+5,Assis,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,182,,Macromolecule,Hormone,Corticosterone,ng ml,2.49,2.12,,52,3.84,3.75,,55
+5,Assis,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,423,,Macromolecule,Hormone,Corticosterone,ng ml,2.49,2.12,,52,3.42,4.03,,21
+5,Assis,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,182,,Macromolecule,Immunity,BKA,%,77.02,15.28,,54,75.79,10.54,,54
+5,Assis,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,423,,Macromolecule,Immunity,BKA,%,77.02,15.28,,54,47.43,31.71,,53
+5,Assis,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,182,,Macromolecule,Immunity,NLR,ratio,0.21,0.12,,48,0.47,0.31,,60
+5,Assis,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,423,,Macromolecule,Immunity,NLR,ratio,0.21,0.12,,48,0.34,0.19,,48
+6,Barsotti,2021,Ectotherm,Amphibia,Sclerophrys_gutturalis,Sclerophrys gutturalis,Terrestrial,1635,24,Macromolecule,Immunity,BKA,%,40.3,31.2,,19,80.85,19.8,,23
+6,Barsotti,2021,Ectotherm,Amphibia,Sclerophrys_gutturalis,Sclerophrys gutturalis,Terrestrial,1635,24,Macromolecule,Immunity,NLR,ratio,0.34,0.2,,20,0.48,0.2,,25
+6,Barsotti,2021,Ectotherm,Amphibia,Sclerophrys_gutturalis,Sclerophrys gutturalis,Terrestrial,1635,24,Macromolecule,Hormone,Corticosterone,ng ml,0.16,0.1,,13,0.15,0.09,,12
+6,Barsotti,2021,Ectotherm,Amphibia,Sclerophrys_gutturalis,Sclerophrys gutturalis,Terrestrial,1635,24,Cellular,Cardiovascular,Haematocrit,%,25.74,3.9,,3,19.02,9.4,,6
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2622,,Organism,Activity,Activity,cm,60.5221006,20.32892755,,15,80.81274071,21.25608532,,22
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2839,,Organism,Activity,Activity,cm,60.5221006,20.32892755,,15,65.60029519,27.49637651,,13
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2946,,Organism,Activity,Activity,cm,60.5221006,20.32892755,,15,63.30806462,16.38937952,,15
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2707,,Organism,Activity,Activity,cm,60.5221006,20.32892755,,15,56.202937,13.40576007,,26
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,261,,Organism,Activity,Activity,cm,60.5221006,20.32892755,,15,59.97843781,15.77650012,,13
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,210,,Organism,Activity,Activity,cm,60.5221006,20.32892755,,15,62.98662894,14.0895178,,24
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2622,,Organism,Activity,Activity,cm,54.20079491,12.18412414,,23,72.88289445,18.51191561,,20
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2839,,Organism,Activity,Activity,cm,54.20079491,12.18412414,,23,53.61650535,16.15260562,,18
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2946,,Organism,Activity,Activity,cm,54.20079491,12.18412414,,23,51.87084656,14.58337736,,14
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2707,,Organism,Activity,Activity,cm,54.20079491,12.18412414,,23,63.21007516,20.41326061,,23
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,261,,Organism,Activity,Activity,cm,54.20079491,12.18412414,,23,55.59067425,19.9299532,,22
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,210,,Organism,Activity,Activity,cm,54.20079491,12.18412414,,23,56.25679663,14.10613633,,18
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2622,,Organism,Activity,Activity,cm,51.373548,10.98854806,,11,48.16335654,17.51251389,,2
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2839,,Organism,Activity,Activity,cm,51.373548,10.98854806,,11,45.57924672,7.982530923,,4
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2946,,Organism,Activity,Activity,cm,51.373548,10.98854806,,11,39.19601508,13.57390028,,3
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2707,,Organism,Activity,Activity,cm,51.373548,10.98854806,,11,66.7991478,28.43294978,,3
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,261,,Organism,Activity,Activity,cm,51.373548,10.98854806,,11,52.45717878,15.57846648,,11
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,210,,Organism,Activity,Activity,cm,51.373548,10.98854806,,11,47.42524537,20.10814864,,11
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2622,,Organism,Locomotor capacity,Sprint speed,cm s,388.1469454,111.8700597,,15,470.7697141,129.3853761,,21
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2839,,Organism,Locomotor capacity,Sprint speed,cm s,388.1469454,111.8700597,,15,374.6111191,118.6505595,,12
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2946,,Organism,Locomotor capacity,Sprint speed,cm s,388.1469454,111.8700597,,15,366.1694098,92.07216547,,12
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2707,,Organism,Locomotor capacity,Sprint speed,cm s,388.1469454,111.8700597,,15,346.3354667,85.56104349,,26
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,261,,Organism,Locomotor capacity,Sprint speed,cm s,388.1469454,111.8700597,,15,394.8077583,97.4664166,,13
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,210,,Organism,Locomotor capacity,Sprint speed,cm s,388.1469454,111.8700597,,15,412.6401267,90.16404238,,24
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2622,,Organism,Locomotor capacity,Sprint speed,cm s,351.8544309,71.76040782,,23,427.1082285,126.5004859,,20
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2839,,Organism,Locomotor capacity,Sprint speed,cm s,351.8544309,71.76040782,,23,368.6955391,86.37318978,,18
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2946,,Organism,Locomotor capacity,Sprint speed,cm s,351.8544309,71.76040782,,23,334.8449988,87.69121579,,14
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2707,,Organism,Locomotor capacity,Sprint speed,cm s,351.8544309,71.76040782,,23,385.2664857,116.7699098,,23
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,261,,Organism,Locomotor capacity,Sprint speed,cm s,351.8544309,71.76040782,,23,363.8198167,107.0848311,,22
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,210,,Organism,Locomotor capacity,Sprint speed,cm s,351.8544309,71.76040782,,23,358.183321,78.13244746,,18
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2622,,Organism,Locomotor capacity,Sprint speed,cm s,372.593195,79.45369331,,11,457.3017385,142.8652183,,2
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2839,,Organism,Locomotor capacity,Sprint speed,cm s,372.593195,79.45369331,,11,343.241853,74.00998929,,4
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2946,,Organism,Locomotor capacity,Sprint speed,cm s,372.593195,79.45369331,,11,283.5285156,73.29318462,,3
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2707,,Organism,Locomotor capacity,Sprint speed,cm s,372.593195,79.45369331,,11,357.7524138,116.2731419,,3
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,261,,Organism,Locomotor capacity,Sprint speed,cm s,372.593195,79.45369331,,11,361.4262895,117.6970281,,11
+7,Hudson,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,210,,Organism,Locomotor capacity,Sprint speed,cm s,372.593195,79.45369331,,11,336.5547531,134.1592068,,11
+8,Reim,2018,Ectotherm,Invertebrate,Lycaena_tityrus,Lycaena tityrus,Aerial,1543,18,Organism,Locomotor capacity,Endurance,s,51.92916667,11.96816991,,263,49.075,14.89744693,,8
+8,Reim,2018,Ectotherm,Invertebrate,Lycaena_tityrus,Lycaena tityrus,Aerial,1549,18,Organism,Locomotor capacity,Endurance,s,51.92916667,11.96816991,,263,36.945,20.84253403,,4
+8,Reim,2018,Ectotherm,Invertebrate,Lycaena_tityrus,Lycaena tityrus,Aerial,1547,18,Organism,Locomotor capacity,Endurance,s,51.92916667,11.96816991,,263,50.4025,13.27508765,,12
+8,Reim,2018,Ectotherm,Invertebrate,Lycaena_tityrus,Lycaena tityrus,Aerial,1543,26,Organism,Locomotor capacity,Endurance,s,46.07442379,16.80970967,,301,36.1127451,21.6046698,,52
+8,Reim,2018,Ectotherm,Invertebrate,Lycaena_tityrus,Lycaena tityrus,Aerial,1549,26,Organism,Locomotor capacity,Endurance,s,46.07442379,16.80970967,,301,45.4502381,19.18245087,,42
+8,Reim,2018,Ectotherm,Invertebrate,Lycaena_tityrus,Lycaena tityrus,Aerial,1547,26,Organism,Locomotor capacity,Endurance,s,46.07442379,16.80970967,,301,38.94126582,20.29073932,,73
+8,Reim,2018,Ectotherm,Invertebrate,Lycaena_tityrus,Lycaena tityrus,Aerial,1543,18,Organism,Locomotor capacity,Endurance,s,38.09653846,16.92834058,,243,32.41833333,14.42574021,,6
+8,Reim,2018,Ectotherm,Invertebrate,Lycaena_tityrus,Lycaena tityrus,Aerial,1549,18,Organism,Locomotor capacity,Endurance,s,38.09653846,16.92834058,,243,39.77333333,15.37466603,,3
+8,Reim,2018,Ectotherm,Invertebrate,Lycaena_tityrus,Lycaena tityrus,Aerial,1547,18,Organism,Locomotor capacity,Endurance,s,38.09653846,16.92834058,,243,44.19125,14.18437471,,8
+8,Reim,2018,Ectotherm,Invertebrate,Lycaena_tityrus,Lycaena tityrus,Aerial,1543,26,Organism,Locomotor capacity,Endurance,s,42.22424658,15.17447375,,229,38.98267857,18.53952481,,55
+8,Reim,2018,Ectotherm,Invertebrate,Lycaena_tityrus,Lycaena tityrus,Aerial,1549,26,Organism,Locomotor capacity,Endurance,s,42.22424658,15.17447375,,229,46.31068182,12.31933687,,44
+8,Reim,2018,Ectotherm,Invertebrate,Lycaena_tityrus,Lycaena tityrus,Aerial,1547,26,Organism,Locomotor capacity,Endurance,s,42.22424658,15.17447375,,229,46.70246753,13.000312,,76
+9,Hirsch,2016,Ectotherm,Osteichthyes,Neogobius_melanostomus,Neogobius melanostomus,Aquatic,1365,,Organism,Activity,Activity,,0.826459144,0.413229572,,98,0.952529183,0.581322957,,161
+10,Burstal,2020,Endotherm,Aves,Acridotheres_tristis,Acridotheres tristis,Aerial,122,,Organism,Locomotor capacity,Endurance,m d,901.5424165,228.5347044,,11,1052.699229,259.125964,,11
+11,Llewelyn,2010,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2413,,Organism,Activity,Activity,s,233.9522546,146.2806403,25.46419098,33,72.4137931,153.4365259,21.48541114,51
+11,Llewelyn,2010,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2413,,Organism,Locomotor capacity,Endurance,m,99.78609626,22.11810217,3.85026738,33,92.72727273,34.37051115,4.812834225,51
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,116,,Organism,Activity,Activity,m s,0.503157895,0.122355058,0.028070175,19,0.455438596,0.110119552,0.025263158,19
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,361,,Organism,Activity,Activity,m s,0.503157895,0.122355058,0.028070175,19,0.510175439,0.119296182,0.027368421,19
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,469,,Organism,Activity,Activity,m s,0.503157895,0.122355058,0.028070175,19,0.506666667,0.110119552,0.025263158,19
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,696,,Organism,Activity,Activity,m s,0.503157895,0.122355058,0.028070175,19,0.453333333,0.109473684,0.036491228,9
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,251,,Organism,Activity,Activity,m s,0.503157895,0.122355058,0.028070175,19,0.48,0.087873549,0.019649123,20
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,430,,Organism,Activity,Activity,m s,0.503157895,0.122355058,0.028070175,19,0.487017544,0.110012171,0.02245614,24
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,560,,Organism,Activity,Activity,m s,0.503157895,0.122355058,0.028070175,19,0.503157895,0.102037115,0.021754386,22
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,697,,Organism,Activity,Activity,m s,0.503157895,0.122355058,0.028070175,19,0.526315789,0.135894152,0.035087719,15
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,882,,Organism,Activity,Activity,m s,0.503157895,0.122355058,0.028070175,19,0.463157895,0.115736298,0.028070175,17
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,964,,Organism,Activity,Activity,m s,0.503157895,0.122355058,0.028070175,19,0.44,0.080966765,0.02245614,13
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,116,,Organism,Locomotor capacity,Endurance,h,0.634831461,0.293858356,0.06741573,19,0.603370787,0.26447252,0.060674157,19
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,361,,Organism,Locomotor capacity,Endurance,h,0.634831461,0.293858356,0.06741573,19,0.870786517,0.225291406,0.051685393,19
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,469,,Organism,Locomotor capacity,Endurance,h,0.634831461,0.293858356,0.06741573,19,0.884269663,0.107748064,0.024719101,19
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,696,,Organism,Locomotor capacity,Endurance,h,0.634831461,0.293858356,0.06741573,19,0.614606742,0.269662921,0.08988764,9
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,251,,Organism,Locomotor capacity,Endurance,h,0.634831461,0.293858356,0.06741573,19,0.574157303,0.221094362,0.049438202,20
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,430,,Organism,Locomotor capacity,Endurance,h,0.634831461,0.293858356,0.06741573,19,0.796629213,0.264214624,0.053932584,24
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,560,,Organism,Locomotor capacity,Endurance,h,0.634831461,0.293858356,0.06741573,19,0.756179775,0.326748064,0.069662921,22
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,697,,Organism,Locomotor capacity,Endurance,h,0.634831461,0.293858356,0.06741573,19,0.702247191,0.261100001,0.06741573,15
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,882,,Organism,Locomotor capacity,Endurance,h,0.634831461,0.293858356,0.06741573,19,0.556179775,0.222369742,0.053932584,17
+12,Merwin,2019,Ectotherm,Invertebrate,Megacopta_cribraria,Megacopta cribraria,Aerial,964,,Organism,Locomotor capacity,Endurance,h,0.634831461,0.293858356,0.06741573,19,0.686516854,0.259275597,0.071910112,13
+13,Mitton,2019,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,321.22,10,Organism,Thermal tolerance,CTmin,,10.66367713,2.062780269,,12,9.273542601,1.367713004,,16
+13,Mitton,2019,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,321.22,25,Organism,Thermal tolerance,CTmin,,11,0.560538117,,15,9.69955157,1.00896861,,12
+13,Mitton,2019,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,321.22,10,Organism,Locomotor capacity,Endurance,s,22.54098361,11.61202186,,12,31.42076503,16.39344262,,16
+13,Mitton,2019,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,321.22,25,Organism,Locomotor capacity,Endurance,s,131.147541,21.8579235,,15,105.1912568,32.10382514,,12
+14,Louppe,2018,Ectotherm,Amphibia,Xenopus_laevis,Xenopus laevis,Aquatic,16.8,22,Organism,Metabolism,Standard MR,ml O2 s,0.06375,0.01125,,14,0.05,0.02125,,13
+14,Louppe,2018,Ectotherm,Amphibia,Xenopus_laevis,Xenopus laevis,Aquatic,16.8,22,Organism,Metabolism,Standard MR,ml O2 s,0.08375,0.055,,13,0.03875,0.025,,13
+15,Padilla,2019,Ectotherm,Amphibia,Xenopus_laevis,Xenopus laevis,Aquatic,16.8,,Organ,Cardiovascular,Heart mass,g,0.494444444,0.140545674,0.044444444,10,0.672222222,0.158113883,0.05,10
+15,Padilla,2019,Ectotherm,Amphibia,Xenopus_laevis,Xenopus laevis,Aquatic,16.8,,Organ,Cardiovascular,Heart mass,g,0.694444444,0.193250301,0.061111111,10,0.661111111,0.193250301,0.061111111,10
+16,Louppe,2017,Ectotherm,Amphibia,Xenopus_laevis,Xenopus laevis,Aquatic,16.8,22,Organism,Locomotor capacity,Endurance,s,75.9697733,1.007556675,,20,91.4861461,1.61209068,,20
+16,Louppe,2017,Ectotherm,Amphibia,Xenopus_laevis,Xenopus laevis,Aquatic,16.8,22,Organism,Locomotor capacity,Endurance,,110.0251889,1.20906801,,14,148.3123426,1.20906801,,33
+17,Myles-Gonzalez,2015,Ectotherm,Osteichthyes,Neogobius_melanostomus,Neogobius melanostomus,Aquatic,60,20,Organism,Metabolism,Resting MR,mg O2 h,0.768,0.15919799,0.048,11,1.0272,0.31839598,0.096,11
+18,Selechnik,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2668,,Cellular,Cardiovascular,RBC,n,94.6,65.12480326,,10,74.4,49.41902468,,10
+18,Selechnik,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2668,,Cellular,Immunity,WBC,n,2.7,1.734935157,,10,3.6,3.072458299,,10
+19,Gruber,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2360,,Organism,Activity,Activity,s,25.0249584,5.324459235,1.331114809,16,108.8851913,6.389351082,1.59733777,16
+19,Gruber,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2823,,Organism,Activity,Activity,s,25.0249584,5.324459235,1.331114809,16,135.7737105,6.389351082,1.59733777,16
+20,Liebl,2012,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,120,,Macromolecule,Hormone,Corticosterone,,0.256186317,0.094170423,,12,0.484716157,0.048034934,,12
+20,Liebl,2012,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,160,,Macromolecule,Hormone,Corticosterone,,0.256186317,0.094170423,,12,0.247452693,0.077147016,,13
+20,Liebl,2012,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,500,,Macromolecule,Hormone,Corticosterone,,0.256186317,0.094170423,,12,0.585152838,0.062590975,,13
+20,Liebl,2012,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,630,,Macromolecule,Hormone,Corticosterone,,0.256186317,0.094170423,,12,0.513828239,0.093158661,,12
+20,Liebl,2012,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,650,,Macromolecule,Hormone,Corticosterone,,0.256186317,0.094170423,,12,0.423580786,0.061135371,,13
+20,Liebl,2012,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,755,,Macromolecule,Hormone,Corticosterone,,0.256186317,0.094170423,,12,0.768558952,0.064046579,,11
+20,Liebl,2012,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,885,,Macromolecule,Hormone,Corticosterone,,0.256186317,0.094170423,,12,0.866084425,0.075691412,,11
+21,Martin,2017,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,179,,Macromolecule,Hormone,Corticosterone,ng ml,16.66666667,9.074407317,1.98019802,21,10.0660066,5.354779122,1.485148515,13
+21,Martin,2017,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,271,,Macromolecule,Hormone,Corticosterone,ng ml,16.66666667,9.074407317,1.98019802,21,7.590759076,5.940594059,1.485148515,16
+21,Martin,2017,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,179,,Macromolecule,Hormone,Corticosterone,ng ml,22.27722772,14.36781158,3.135313531,21,31.84818482,10.11458279,2.805280528,13
+21,Martin,2017,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,271,,Macromolecule,Hormone,Corticosterone,ng ml,22.27722772,14.36781158,3.135313531,21,44.38943894,23.10231023,5.775577558,16
+22,Martin,2017,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,500,30,Organism,Metabolism,Resting MR,ml O2 g min,2.016431925,0.260214206,0.075117371,12,2.241784038,0.281063466,0.075117371,14
+22,Martin,2017,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,650,30,Organism,Metabolism,Resting MR,ml O2 g min,2.016431925,0.260214206,0.075117371,12,2.373239437,0.316196399,0.084507042,14
+22,Martin,2017,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,500,,Macromolecule,Oxidative status,Reactive oxygen metabolite,,0.685517241,0.133785993,0.03862069,12,0.656551724,0.098057228,0.026206897,14
+22,Martin,2017,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,650,,Macromolecule,Oxidative status,Reactive oxygen metabolite,,0.685517241,0.133785993,0.03862069,12,0.685517241,0.144505389,0.03862069,14
+22,Martin,2017,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,500,,Macromolecule,Oxidative status,Total antioxidant capacity,,1934.969325,306.0310629,88.34355828,12,1890.797546,413.1891593,110.4294479,14
+22,Martin,2017,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,650,,Macromolecule,Oxidative status,Total antioxidant capacity,,1934.969325,306.0310629,88.34355828,12,1806.134969,247.9134956,66.25766871,14
+23,McCann,2018,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2377,24,Organism,Thermal tolerance,CTmin,,10.54674221,2.476896107,0.280453258,78,10.45325779,2.14027678,0.229461756,87
+23,McCann,2018,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1951,24,Organism,Thermal tolerance,CTmin,,10.54674221,2.476896107,0.280453258,78,9.280453258,3.573692286,0.526912181,46
+23,McCann,2018,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2377,12,Organism,Thermal tolerance,CTmin,,10.58073654,2.927240854,0.331444759,78,10.54674221,1.902468249,0.203966006,87
+23,McCann,2018,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1951,12,Organism,Thermal tolerance,CTmin,,10.58073654,2.927240854,0.331444759,78,6.985835694,1.671565747,0.246458924,46
+24,Courant,2019,Ectotherm,Amphibia,Xenopus_laevis,Xenopus laevis,Aquatic,29.9,,Organism,Activity,Activity,,0.433333333,0.028042328,,116,0.511640212,0.026984127,,117
+24,Courant,2019,Ectotherm,Amphibia,Xenopus_laevis,Xenopus laevis,Aquatic,29.9,,Organism,Activity,Activity,,0.439153439,0.028042328,,131,0.579365079,0.032275132,,87
+25,Pizzatto,2017,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,517.8,,Organism,Activity,Activity,,73.53760446,26.05313192,7.520891365,12,243.5933148,182.1765352,37.18662953,24
+26,Stuart,2018,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2497,27.5,Organism,Locomotor capacity,Sprint speed,m,5.52,0.58,0.29,4,5.73,0.98,0.49,4
+26,Stuart,2018,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2622,27.5,Organism,Locomotor capacity,Sprint speed,m,5.52,0.58,0.29,4,4.73,0.68,0.34,4
+27,Philips,2010,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,505,,Organism,Activity,Activity,,2.57,1.186,,9,3.31,1.247,,8
+27,Philips,2010,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1013,,Organism,Activity,Activity,,2.57,1.186,,9,3.16,1.259,,10
+27,Philips,2010,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1636,,Organism,Activity,Activity,,2.57,1.186,,9,3.52,1.699,,4
+28,Lopez,2012,Ectotherm,Osteichthyes,Hemichromis_letourneuxi,Hemichromis letourneuxi,Aquatic,10,,Organism,Condition,Body condition,,2.482758621,0.279667243,0.045977011,37,2.747126437,0.508872267,0.08045977,40
+28,Lopez,2012,Ectotherm,Osteichthyes,Hemichromis_letourneuxi,Hemichromis letourneuxi,Aquatic,15,,Organism,Condition,Body condition,,2.482758621,0.279667243,0.045977011,37,2.83908046,0.373519007,0.045977011,66
+28,Lopez,2012,Ectotherm,Osteichthyes,Hemichromis_letourneuxi,Hemichromis letourneuxi,Aquatic,18,,Organism,Condition,Body condition,,2.482758621,0.279667243,0.045977011,37,2.954022989,0.467746895,0.068965517,46
+28,Lopez,2012,Ectotherm,Osteichthyes,Hemichromis_letourneuxi,Hemichromis letourneuxi,Aquatic,25,,Organism,Condition,Body condition,,2.482758621,0.279667243,0.045977011,37,2.965517241,0.469157049,0.08045977,34
+28,Lopez,2012,Ectotherm,Osteichthyes,Hemichromis_letourneuxi,Hemichromis letourneuxi,Aquatic,26,,Organism,Condition,Body condition,,2.482758621,0.279667243,0.045977011,37,3.137931034,0.528235646,0.091954023,33
+29,Rebrina,2015,Ectotherm,Invertebrate,Pacifastacus leniusculus,Pacifastacus leniusculus,Aquatic,2.56,,Organism,Condition,Body condition,,0.032283737,0.00733564,,20,0.039204152,0.009550173,,20
+29,Rebrina,2015,Ectotherm,Invertebrate,Pacifastacus leniusculus,Pacifastacus leniusculus,Aquatic,4.2,,Organism,Condition,Body condition,,0.034359862,0.010380623,,20,0.036297578,0.003598616,,4
+29,Rebrina,2015,Ectotherm,Invertebrate,Pacifastacus leniusculus,Pacifastacus leniusculus,Aquatic,2.56,,Organism,Condition,Body condition,,0.029846154,0.003230769,,20,0.032984615,0.002123077,,20
+29,Rebrina,2015,Ectotherm,Invertebrate,Pacifastacus leniusculus,Pacifastacus leniusculus,Aquatic,4.2,,Organism,Condition,Body condition,,0.031692308,0.002307692,,20,0.031976923,0.001569231,,10
+30,Llywellyn,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,505,32,Organism,Metabolism,Resting MR,ml O2 g h,0.215254237,0.051997931,0.015677966,11,0.205932203,0.060181426,0.017372881,12
+30,Llywellyn,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1013,32,Organism,Metabolism,Resting MR,ml O2 g h,0.215254237,0.051997931,0.015677966,11,0.244491525,0.06642684,0.027118644,6
+30,Llywellyn,2012,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1636,32,Organism,Metabolism,Resting MR,ml O2 g h,0.215254237,0.051997931,0.015677966,11,0.224152542,0.087489483,0.061864407,2
+31,Kosmala,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1712,25,Macromolecule,Heat shock protein,HSP70,ng ml,0.154867257,0.04300112,0.007374631,34,0.157079646,0.025289717,0.005162242,24
+31,Kosmala,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2189,25,Macromolecule,Heat shock protein,HSP70,ng ml,0.154867257,0.04300112,0.007374631,34,0.151179941,0.054552336,0.008849558,38
+31,Kosmala,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2839,25,Macromolecule,Heat shock protein,HSP70,ng ml,0.154867257,0.04300112,0.007374631,34,0.117256637,0.044247788,0.007374631,36
+31,Kosmala,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1712,25,Macromolecule,Hormone,Corticosterone,ng ml,27.83018868,28.42130641,4.874213836,34,15.72327044,30.81119173,6.289308176,24
+31,Kosmala,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2189,25,Macromolecule,Hormone,Corticosterone,ng ml,27.83018868,28.42130641,4.874213836,34,34.27672956,54.27785915,8.805031447,38
+31,Kosmala,2020,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2839,25,Macromolecule,Hormone,Corticosterone,ng ml,27.83018868,28.42130641,4.874213836,34,19.96855346,32.0754717,5.34591195,36
+32,Krause,2016,Endotherm,Aves,Zonotrichia_leucophrys,Zonotrichia leucophrys,Aerial,112,,Organism,Condition,Fat score,,2.271052632,1.112149599,0.497368421,5,2.013157895,1.235721777,0.552631579,5
+32,Krause,2016,Endotherm,Aves,Zonotrichia_leucophrys,Zonotrichia leucophrys,Aerial,112,,Organ,Musculoskeletal,Muscle profile,,3.004405286,0.467899687,0.209251101,5,3.037444934,0.418647088,0.18722467,5
+32,Krause,2016,Endotherm,Aves,Zonotrichia_leucophrys,Zonotrichia leucophrys,Aerial,112,,Macromolecule,Hormone,Corticosterone,ng ml,4.090909091,4.065578141,1.818181818,5,16.36363636,9.147550817,4.090909091,5
+33,Martin,2014,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,500,,Macromolecule,Hormone,Corticosterone,ng ml,16.49122807,14.88645855,5.263157895,8,48.77192982,38.07300499,10.1754386,14
+33,Martin,2014,Endotherm,Aves,Passer_domesticus,Passer domesticus,Aerial,650,,Macromolecule,Hormone,Corticosterone,ng ml,16.49122807,14.88645855,5.263157895,8,43.50877193,18.56667587,7.01754386,7
+34,Lombaert,2014,Ectotherm,Invertebrate,Harmonia_axyridis,Harmonia axyridis,Aerial,233,23,Organism,Locomotor capacity,Endurance,m,2491.324,619.7947,63.92694,94,2528.995,603.9838,61.64384,96
+34,Lombaert,2014,Ectotherm,Invertebrate,Harmonia_axyridis,Harmonia axyridis,Aerial,469,23,Organism,Locomotor capacity,Endurance,m,2491.324,619.7947,63.92694,94,2539.269,730.4723,75.34247,94
+34,Lombaert,2014,Ectotherm,Invertebrate,Harmonia_axyridis,Harmonia axyridis,Aerial,629,23,Organism,Locomotor capacity,Endurance,m,2491.324,619.7947,63.92694,94,2850.913,749.3873,76.48402,96
+34,Lombaert,2014,Ectotherm,Invertebrate,Harmonia_axyridis,Harmonia axyridis,Aerial,270,23,Organism,Locomotor capacity,Endurance,m,2541.553,517.4105,53.65297,93,2728.767,704.559,73.05936,93
+34,Lombaert,2014,Ectotherm,Invertebrate,Harmonia_axyridis,Harmonia axyridis,Aerial,522,23,Organism,Locomotor capacity,Endurance,m,2541.553,517.4105,53.65297,93,2789.269,553.3881,57.07763,94
+34,Lombaert,2014,Ectotherm,Invertebrate,Harmonia_axyridis,Harmonia axyridis,Aerial,770,23,Organism,Locomotor capacity,Endurance,m,2541.553,517.4105,53.65297,93,2655.708,671.5328,69.6347,93
+35,Brusch,2019,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,1104,,Organism,Immunity,BKA,%,39.92995,10.192644,3.223197,10,36.98774,10.402802,3.289655,10
+35,Brusch,2019,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2350,,Organism,Immunity,BKA,%,39.92995,10.192644,3.223197,10,17.96848,9.877408,3.123511,10
+35,Brusch,2019,Ectotherm,Amphibia,Rhinella_marina,Rhinella marina,Terrestrial,2327,,Organism,Immunity,BKA,%,39.92995,10.192644,3.223197,10,14.81611,10.402802,3.289655,10
+36,Therry,2014,Ectotherm,Invertebrate,Coenagrion scitulum,Coenagrion scitulum,Aerial,191,,Organism,Condition,Body condition,,14.32432432,1.87248736,0.540540541,12,11.75675676,1.418918919,0.472972973,9
+36,Therry,2014,Ectotherm,Invertebrate,Coenagrion scitulum,Coenagrion scitulum,Aerial,433.51,,Organism,Condition,Body condition,,14.32432432,1.87248736,0.540540541,12,12.22972973,1.495671866,0.472972973,10
+36,Therry,2014,Ectotherm,Invertebrate,Coenagrion scitulum,Coenagrion scitulum,Aerial,378.1,,Organism,Condition,Body condition,,14.32432432,1.87248736,0.540540541,12,11.89189189,1.769702818,0.472972973,14
+36,Therry,2014,Ectotherm,Invertebrate,Coenagrion scitulum,Coenagrion scitulum,Aerial,191,,Organ,Musculoskeletal,Muscle ratio,ratio,0.243510972,0.026062207,0.007523511,12,0.3030721,0.022570533,0.007523511,9
+36,Therry,2014,Ectotherm,Invertebrate,Coenagrion scitulum,Coenagrion scitulum,Aerial,433.51,,Organ,Musculoskeletal,Muscle ratio,ratio,0.243510972,0.026062207,0.007523511,12,0.285203762,0.022800121,0.007210031,10
+36,Therry,2014,Ectotherm,Invertebrate,Coenagrion scitulum,Coenagrion scitulum,Aerial,378.1,,Organ,Musculoskeletal,Muscle ratio,ratio,0.243510972,0.026062207,0.007523511,12,0.268589342,0.025804534,0.006896552,14
+37,Brandner,2013,Ectotherm,Osteichthyes,Neogobius_melanostomus,Neogobius melanostomus,Aquatic,14.31,,Organism,Condition,Body condition,,1.38,0.18,,2757,1.44,0.18,,306
+37,Brandner,2013,Ectotherm,Osteichthyes,Neogobius_melanostomus,Neogobius melanostomus,Aquatic,28.63,,Organism,Condition,Body condition,,1.38,0.18,,2757,1.56,0.14,,60
+37,Brandner,2013,Ectotherm,Osteichthyes,Neogobius_melanostomus,Neogobius melanostomus,Aquatic,14.31,,Organism,Condition,Body condition,,1.36,0.17,,2478,1.41,0.16,,215
+37,Brandner,2013,Ectotherm,Osteichthyes,Neogobius_melanostomus,Neogobius melanostomus,Aquatic,28.63,,Organism,Condition,Body condition,,1.36,0.17,,2478,1.5,0.12,,46
+37,Brandner,2013,Ectotherm,Osteichthyes,Neogobius_melanostomus,Neogobius melanostomus,Aquatic,14.31,,Organism,Condition,Body condition,,2.13,0.27,,633,1.22,0.24,,95
+37,Brandner,2013,Ectotherm,Osteichthyes,Neogobius_melanostomus,Neogobius melanostomus,Aquatic,28.63,,Organism,Condition,Body condition,,2.13,0.27,,633,1.4,0.16,,2
+38,Brandner,2018,Ectotherm,Osteichthyes,Neogobius_melanostomus,Neogobius melanostomus,Aquatic,28.63,,Organism,Condition,Body condition,,1.39,0.13,,228,1.46,0.2,,238
+38,Brandner,2018,Ectotherm,Osteichthyes,Neogobius_melanostomus,Neogobius melanostomus,Aquatic,69.35,,Organism,Condition,Body condition,,1.39,0.13,,228,1.41,0.34,,10
+38,Brandner,2018,Ectotherm,Osteichthyes,Neogobius_melanostomus,Neogobius melanostomus,Aquatic,28.63,,Organism,Condition,Body condition,,1.37,0.16,,200,1.43,0.19,,137
+38,Brandner,2018,Ectotherm,Osteichthyes,Neogobius_melanostomus,Neogobius melanostomus,Aquatic,69.35,,Organism,Condition,Body condition,,1.37,0.16,,200,1.38,0.15,,12
+38,Brandner,2018,Ectotherm,Osteichthyes,Neogobius_melanostomus,Neogobius melanostomus,Aquatic,28.63,,Organism,Condition,Body condition,,1.22,0.59,,86,1.19,0.42,,130
+38,Brandner,2018,Ectotherm,Osteichthyes,Neogobius_melanostomus,Neogobius melanostomus,Aquatic,69.35,,Organism,Condition,Body condition,,1.22,0.59,,86,1.09,0.31,,9
+39,Hudina,2015,Ectotherm,Invertebrate,Pacifastacus leniusculus,Pacifastacus leniusculus,Aquatic,72.6,,Organism,Condition,Body condition,,0.042,0.007,,55,0.046,0.006,,55
+39,Hudina,2015,Ectotherm,Invertebrate,Pacifastacus leniusculus,Pacifastacus leniusculus,Aquatic,72.6,,Organism,Condition,Body condition,,0.032,0.002,,43,0.034,0.002,,43
+39,Hudina,2015,Ectotherm,Invertebrate,Pacifastacus leniusculus,Pacifastacus leniusculus,Aquatic,10.8,,Organism,Condition,Body condition,,0.032,0.003,,188,0.035,0.003,,188
+39,Hudina,2015,Ectotherm,Invertebrate,Pacifastacus leniusculus,Pacifastacus leniusculus,Aquatic,10.8,,Organism,Condition,Body condition,,0.029,0.002,,251,0.032,0.002,,251
+40,Raffard,2020,Ectotherm,Invertebrate,Crocothemis erythraea,Crocothemis erythraea,Aerial,563.16,19,Organism,Activity,Activity,,0.234200743,0.460966543,0.115241636,16,0.457249071,0.320565965,0.096654275,11
+40,Raffard,2020,Ectotherm,Invertebrate,Crocothemis erythraea,Crocothemis erythraea,Aerial,882.68,19,Organism,Activity,Activity,,0.234200743,0.460966543,0.115241636,16,0.6133829,0.356877323,0.118959108,9
+40,Raffard,2020,Ectotherm,Invertebrate,Crocothemis erythraea,Crocothemis erythraea,Aerial,875.8,19,Organism,Activity,Activity,,0.234200743,0.460966543,0.115241636,16,0.524163569,0.41006936,0.096654275,18
+40,Raffard,2020,Ectotherm,Invertebrate,Crocothemis erythraea,Crocothemis erythraea,Aerial,929.3,19,Organism,Activity,Activity,,0.234200743,0.460966543,0.115241636,16,0.408921933,0.306009154,0.081784387,14
+40,Raffard,2020,Ectotherm,Invertebrate,Crocothemis erythraea,Crocothemis erythraea,Aerial,1005,19,Organism,Activity,Activity,,0.234200743,0.460966543,0.115241636,16,0.412639405,0.319918661,0.085501859,14
+40,Raffard,2020,Ectotherm,Invertebrate,Crocothemis erythraea,Crocothemis erythraea,Aerial,1187,19,Organism,Activity,Activity,,0.234200743,0.460966543,0.115241636,16,0.408921933,0.393420269,0.148698885,7
+40,Raffard,2020,Ectotherm,Invertebrate,Crocothemis erythraea,Crocothemis erythraea,Aerial,563.16,25,Organism,Activity,Activity,,0.568773234,0.401486989,0.100371747,16,0.50929368,0.308236505,0.092936803,11
+40,Raffard,2020,Ectotherm,Invertebrate,Crocothemis erythraea,Crocothemis erythraea,Aerial,882.68,25,Organism,Activity,Activity,,0.568773234,0.401486989,0.100371747,16,0.657992565,0.278810409,0.092936803,9
+40,Raffard,2020,Ectotherm,Invertebrate,Crocothemis erythraea,Crocothemis erythraea,Aerial,875.8,25,Organism,Activity,Activity,,0.568773234,0.401486989,0.100371747,16,0.698884758,0.346981766,0.081784387,18
+40,Raffard,2020,Ectotherm,Invertebrate,Crocothemis erythraea,Crocothemis erythraea,Aerial,929.3,25,Organism,Activity,Activity,,0.568773234,0.401486989,0.100371747,16,0.460966543,0.403375703,0.107806691,14
+40,Raffard,2020,Ectotherm,Invertebrate,Crocothemis erythraea,Crocothemis erythraea,Aerial,1005,25,Organism,Activity,Activity,,0.568773234,0.401486989,0.100371747,16,0.602230483,0.347737675,0.092936803,14
+40,Raffard,2020,Ectotherm,Invertebrate,Crocothemis erythraea,Crocothemis erythraea,Aerial,1187,25,Organism,Activity,Activity,,0.568773234,0.401486989,0.100371747,16,0.650557621,0.42292679,0.159851301,7
+41,Crozier,2002,Ectotherm,Invertebrate,Atalopedes campestris,Atalopedes campestris,Aerial,859.95,,Organism,Thermal tolerance,CTmin,,-7.177865613,1.124920907,0.355731225,10,-7.391304348,1.124920907,0.355731225,10
+42,Carbonell,2021,Ectotherm,Invertebrate,Ischnura elegans,Ischnura elegans,Aerial,492.87,16,Organism,Metabolism,Routine MR,nmol O2 h mg,2.253218884,0.997334767,0.25751073,15,3.669527897,2.493336918,0.643776824,15
+42,Carbonell,2021,Ectotherm,Invertebrate,Ischnura elegans,Ischnura elegans,Aerial,492.87,20,Organism,Metabolism,Routine MR,nmol O2 h mg,4.055793991,2.493336918,0.643776824,15,5.729613734,3.740005377,0.965665236,15
+42,Carbonell,2021,Ectotherm,Invertebrate,Ischnura elegans,Ischnura elegans,Aerial,492.87,24,Organism,Metabolism,Routine MR,nmol O2 h mg,4.892703863,5.236007528,1.35193133,15,7.725321888,8.22801183,2.124463519,15
+42,Carbonell,2021,Ectotherm,Invertebrate,Ischnura elegans,Ischnura elegans,Aerial,492.87,28,Organism,Metabolism,Routine MR,nmol O2 h mg,9.399141631,9.973347673,2.575107296,15,20.72961373,13.46401936,3.47639485,15
+42,Carbonell,2021,Ectotherm,Invertebrate,Ischnura elegans,Ischnura elegans,Aerial,492.87,,Organism,Thermal tolerance,CTmin,,3.0204197,0.139749364,,10,2.4038326,0.304097279,,10
+43,Carbonell,2020,Ectotherm,Invertebrate,Ischnura elegans,Ischnura elegans,Aerial,835.74,16,Organism,Thermal tolerance,CTmax,,44.20226843,0.621235415,0.11342155,30,44.86011342,0.621235415,0.11342155,30
+43,Carbonell,2020,Ectotherm,Invertebrate,Ischnura elegans,Ischnura elegans,Aerial,1189.95,16,Organism,Thermal tolerance,CTmax,,44.20226843,0.621235415,0.11342155,30,44.17958412,0.559111873,0.102079395,30
+43,Carbonell,2020,Ectotherm,Invertebrate,Ischnura elegans,Ischnura elegans,Aerial,835.74,20,Organism,Thermal tolerance,CTmax,,44.20226843,1.304594371,0.238185255,30,45.27977316,2.174323952,0.396975425,30
+43,Carbonell,2020,Ectotherm,Invertebrate,Ischnura elegans,Ischnura elegans,Aerial,1189.95,20,Organism,Thermal tolerance,CTmax,,44.20226843,1.304594371,0.238185255,30,44.72400756,0.621235415,0.11342155,30
+43,Carbonell,2020,Ectotherm,Invertebrate,Ischnura elegans,Ischnura elegans,Aerial,835.74,24,Organism,Thermal tolerance,CTmax,,44.67863894,1.925829786,0.351606805,30,46.07372401,0.621235415,0.11342155,30
+43,Carbonell,2020,Ectotherm,Invertebrate,Ischnura elegans,Ischnura elegans,Aerial,1189.95,24,Organism,Thermal tolerance,CTmax,,44.67863894,1.925829786,0.351606805,30,45.46124764,0.43486479,0.079395085,30
+43,Carbonell,2020,Ectotherm,Invertebrate,Ischnura elegans,Ischnura elegans,Aerial,835.74,28,Organism,Thermal tolerance,CTmax,,46.18714556,2.360694577,0.43100189,30,47.68431002,1.428841454,0.260869565,30
+43,Carbonell,2020,Ectotherm,Invertebrate,Ischnura elegans,Ischnura elegans,Aerial,1189.95,28,Organism,Thermal tolerance,CTmax,,46.18714556,2.360694577,0.43100189,30,45.51795841,1.118223747,0.20415879,30
