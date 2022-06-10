@@ -38,7 +38,7 @@ study_ID,author_first,year,thermal_strategy,taxa,species,species_OTL,origin,age,
 15,Pena-Villalobos,2020,Endotherm,Mammalia,Mus_musculus,Mus musculus domesticus,lab,Juvenile,Male,25,Macromolecule,Metabolism,Liver cytochrome c oxidase,umol min mg protein,Activity,%,44,-0.938,n,
 15,Pena-Villalobos,2020,Endotherm,Mammalia,Mus_musculus,Mus musculus domesticus,lab,Juvenile,Male,30,Organism,Metabolism,Resting MR,residual O2 consumption (ml_O2_h),Activity,%,44,-0.757,n,
 16,Newar,2018,Endotherm,Mammalia,Tamias_striatus,Tamias striatus,wild,Adult,Mixed,,Organism,Locomotor capacity,Sprint speed,ms,Exploration,cm,43,-0.593,n,distance moved
-17,Maldonado,2021,Endotherm,Aves,Zonotrichia_capensis,Zonotrichia capensis,wild,Adult,Mixed,30,Organism,Metabolism,Basal MR,ml O2 min,Exploration,,19,-0.412,n,Shannon’s diversity index
+17,Maldonado,2021,Endotherm,Aves,Zonotrichia_capensis,Zonotrichia capensis,wild,Adult,Mixed,30,Organism,Metabolism,Basal MR,ml O2 min,Exploration,,19,-0.412,n,Shannonâ€™s diversity index
 17,Maldonado,2021,Endotherm,Aves,Zonotrichia_capensis,Zonotrichia capensis,wild,Adult,Mixed,30,Organism,Metabolism,Basal MR,ml O2 min,Exploration,,19,0.469,n,
 17,Maldonado,2021,Endotherm,Aves,Zonotrichia_capensis,Zonotrichia capensis,wild,Adult,Mixed,30,Organism,Metabolism,Basal MR,ml O2 min,Exploration,,24,-0.3,n,
 18,Finkemeier,2015,Endotherm,Mammalia,Cavia_aperea,Cavia aperea,lab,Juvenile,Mixed,20,Organism,Metabolism,Resting MR,residual W,Exploration,n,63,0.12,n,number of times in new enclosure
