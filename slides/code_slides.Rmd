@@ -1,0 +1,65 @@
+---
+title: "Meta-analysis in Comparative Physiology: A brief introduction to effect sizes and meta-analytic modelling"
+author: Daniel W.A Noble, Nicholis Wu, Essie Rodgers, Patrice Pottier
+output: 
+ powerpoint_presentation:
+   reference_doc: style.pptx
+ ioslides_presentation:
+    css: slide.css
+date: '`r Sys.Date()`'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+# Load packages
+pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags, vembedr, magick)
+```
+
+## What is meta-analysis? {.firstslide}
+
+- Statistical procedure for synthesising effect size results from different studies
+- Part of a systematic review
+  + <font size="3">Transparent and reproducible literature searches</font>
+  + <font size="3">Reproducible inclusion and exclusion criteria</font>
+
+```{r,  out.height= "250px", fig.align='center', echo=FALSE}
+knitr::include_graphics("http://meta-evidence.co.uk/wp-content/uploads/2018/02/Presentation1-4-1024x576.png")
+```
+
+- Identifies gaps and biases in existing research
+- Explore why effects vary across studies
+- Can test specific hypotheses
+
+## Slide with Bullets {.secondslide}
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+$$
+y_{i} = x^2
+$$
+
+> - Eat eggs
+> - Drink coffee
+
+## Slide with R Output {.thirdslide}
+
+```{r cars, echo = TRUE, tidy=TRUE}
+# LDH activity in 8 C treatment
+ trt_8C <- rnorm(10, 50, 2)
+
+# LDH activity in 26 C treatment
+trt_26C <- rnorm(10, 150, 10)
+
+# What's the difference, i.e., effect size, between treatments?
+mean(trt_26C - trt_8C)
+t.test(trt_26C, trt_8C)
+```
+
+## Slide with Plot {.fourthslide}
+
+```{r pressure}
+plot(pressure)
+```
+
