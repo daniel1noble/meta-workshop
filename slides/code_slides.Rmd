@@ -87,3 +87,32 @@ $$
 sd(expts$effect)
 
 ```
+
+
+
+## se
+
+```{r simfig3, echo = TRUE, tidy=TRUE}
+  means <- c()
+
+   for (i in 1:1000000){
+      mass <- rnorm(n = 18, mean = 10.8, sd = 0.988)
+      means <- c(means, mean(mass))
+    }
+
+   # The mean of the means
+   mean(means)
+   # The standard deviation of the means or standard error
+   sd(means)
+```
+
+## Our analytical calculaton
+
+```{r se, echo = TRUE, tidy=TRUE}
+se <- sd(mass) / sqrt(length(mass))
+se
+```
+## Plots
+```{r simfig3plot, echo = TRUE, tidy=TRUE}
+   ggplot() + geom_histogram(aes(x = means))
+```
