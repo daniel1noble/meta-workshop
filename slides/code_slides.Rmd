@@ -126,7 +126,7 @@ zr_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-worksho
   dplyr::top_n(10) # select first 10 effect sizes to illustrate escalc function
 ```
 
-# Effect calculation
+## Effect calculation
 ```{r Zrescalc,  echo = TRUE}
 # Calculate Fisher's r-to-z transformed correlation coefficient (ZCOR) as yi = effect size and vi = sampling variances, where ri = raw correlation coefficients, and ni = sample size.
 zr_data <- metafor::escalc(measure = "ZCOR", ri = corr_coeff, ni = sample_size, data = zr_data, var.names=c("Zr","v_Zr"))
@@ -134,11 +134,62 @@ zr_data <- metafor::escalc(measure = "ZCOR", ri = corr_coeff, ni = sample_size, 
 zr_data
 ```
 
-# Back transofrmation
+## Back transofrmation
 
 ```{r Zrescalcbackcalc, echo = TRUE}
 # We can easily convert back to r as follows
 zr_data$r <- tanh(zr_data$Zr)
 
 zr_data %>% select(corr_coeff, r)
+```
+
+
+## Hedges
+
+```{r lnRR, echo = TRUE}
+contrast_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/pop_disp_raw_data.csv") %>%
+  dplyr::select(study_ID, taxa, species, trait, response, response_unit, mean_core, sd_core, n_core, mean_front, sd_front, n_front) %>% # remove irrelevant columns for this tutorial
+  dplyr::top_n(10) # select first 10 effect sizes to illustrate escalc function
+```
+
+## Hedgesg
+```{r hedges, echo = TRUE}
+# Calculate Hedges' g as g = effect size and v_g = sampling variances, where m1i = mean of edge population, n1i = sample size of edge population, sd1i = standard deviation of edge population, m2i = mean of core population, n2i = sample size of core population, sd2i = standard deviation of core population.
+contrast_data <- metafor::escalc(measure = "SMD", 
+                              m1i = mean_front, n1i = n_front, sd1i = sd_front,
+                              m2i = mean_core, n2i = n_core, sd2i = sd_core, 
+                              data = contrast_data, var.names=c("g","v_g"))
+contrast_data %>% select(study_ID, mean_core, sd_core, n_core, mean_front, sd_front, n_front, g, v_g)
+```
+
+
+## lnRR
+```{r lnRREffects, echo = TRUE}
+# Calculate log response ratio, lnRR = effect size and v_lnRR = sampling variances, where m1i = mean of edge population, n1i = sample size of edge population, sd1i = standard deviation of edge population, m2i = mean of core population, n2i = sample size of core population, sd2i = standard deviation of core population.
+contrast_data <- metafor::escalc(measure = "ROM", 
+                              m1i = mean_front, n1i = n_front, sd1i = sd_front,
+                              m2i = mean_core, n2i = n_core, sd2i = sd_core, 
+                              data = contrast_data, var.names=c("lnRR","v_lnRR"))
+contrast_data %>% select(study_ID, mean_core, sd_core, n_core, mean_front, sd_front, n_front, lnRR, v_lnRR)
+```
+
+## COnverting back to understand lnRR
+
+```{r ConvertLnRR, echo = TRUE}
+### Let's back calculate effects to make sure we understand why they are interpreted as percentage differences
+
+# Make sure we understand how it's calculated
+with(contrast_data, log(mean_front[1] / mean_core[1]))
+
+# Alternatively....
+with(contrast_data, log(mean_front[1]) - log(mean_core[1]))
+
+# Now lets back-transform to odds. 
+with(contrast_data, exp(log(mean_front[1]) - log(mean_core[1])))
+
+# Interpretation: What this tells us is that the numerator is 1.15 times the denominator, or, that the marginal (front) mean is 15% larger compared to the core mean. We can see that this is true as follows:
+with(contrast_data, exp(log(mean_front[1]) - log(mean_core[1])) * mean_core[1])
+
+# This value should now match the marginal mean value, which it does
+with(contrast_data, mean_front[1])
 ```
