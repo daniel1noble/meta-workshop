@@ -193,3 +193,32 @@ with(contrast_data, exp(log(mean_front[1]) - log(mean_core[1])) * mean_core[1])
 # This value should now match the marginal mean value, which it does
 with(contrast_data, mean_front[1])
 ```
+
+
+# Latency
+
+$$
+ln \bar{X} = log(\bar{X}) - log \sqrt{ \left ( 1 + \frac{SD^2}{\bar{X}^2}\right )}
+$$
+
+$$
+lnSD = \sqrt{ log \left (   1 + \frac{SD^2}{\bar{X}^2} \right )}
+$$
+
+# Proportions
+
+$$
+\bar{X_{p}} = log \left ( \frac{p}{ 1 - p } \right ) 
+$$
+
+$$
+SD_{p} = \sqrt{SD^2 \left ( \frac{1}{p} \right ) + \left ( \frac{p}{ 1 - p^2} \right )}
+$$
+
+
+# Geary test - Counts
+
+$$
+\frac{\bar{X}}{SD} \left ( \frac{4N^{3/2}}{1 + 4N} \right ) \geq 3
+$$
+
