@@ -92,7 +92,7 @@ sd(expts$effect)
 
 ## se
 
-```{r simfig3, echo = TRUE, tidy=TRUE}
+```{r simfig3, echo = TRUE, eval = FALSE, tidy=TRUE}
   means <- c()
 
    for (i in 1:1000000){
@@ -108,11 +108,37 @@ sd(expts$effect)
 
 ## Our analytical calculaton
 
-```{r se, echo = TRUE, tidy=TRUE}
+```{r se, echo = TRUE, eval = FALSE, tidy=TRUE}
 se <- sd(mass) / sqrt(length(mass))
 se
 ```
 ## Plots
-```{r simfig3plot, echo = TRUE, tidy=TRUE}
+```{r simfig3plot, echo = TRUE, eval = FALSE, tidy=TRUE}
    ggplot() + geom_histogram(aes(x = means))
+```
+
+
+## Zr
+
+```{r Zr,  echo = TRUE}
+zr_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/ind_disp_raw_data.csv") %>%
+  dplyr::select(study_ID, taxa, species, trait, response, response_unit, disp_trait, disp_unit, corr_coeff, sample_size) %>% # remove irrelevant columns for this tutorial
+  dplyr::top_n(10) # select first 10 effect sizes to illustrate escalc function
+```
+
+# Effect calculation
+```{r Zrescalc,  echo = TRUE}
+# Calculate Fisher's r-to-z transformed correlation coefficient (ZCOR) as yi = effect size and vi = sampling variances, where ri = raw correlation coefficients, and ni = sample size.
+zr_data <- metafor::escalc(measure = "ZCOR", ri = corr_coeff, ni = sample_size, data = zr_data, var.names=c("Zr","v_Zr"))
+
+zr_data
+```
+
+# Back transofrmation
+
+```{r Zrescalcbackcalc, echo = TRUE}
+# We can easily convert back to r as follows
+zr_data$r <- tanh(zr_data$Zr)
+
+zr_data %>% select(corr_coeff, r)
 ```
