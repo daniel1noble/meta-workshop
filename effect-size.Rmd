@@ -44,6 +44,7 @@ By the end of this tutorial, we hope that you will feel comfortable:
 
 [Visualising Cohen's d](https://rpsychologist.com/cohend/)
 
+
 ## Common Effect Sizes
 
 What is an effect size? The answer to this question depends on what kind of study one wishes to synthesise. For example, an effect size could be a contrast between experimental treatments. We might extract mean differences from experiments manipulating, say, bisphenol-A (BPA) and looking at the effect of BPA on aquatic ectotherm phenotype relative to some control [@WuSeebacher2020]. Alternatively, the effect of interest might be the magnitude and direction of a correlation between two observed variables, such as metabolism and behaviour [@Holtman2016]. At times, we might even just be interested in analysing the mean or variance itself. 
@@ -201,6 +202,11 @@ ratio_data <- metafor::escalc(measure = "ROM",
                               data = ratio_data)
 ratio_data
 ```
+
+## Visualising Cohen's d
+
+<iframe width="800px" height="800px" src="https://rpsychologist.com/cohend/?embed=1&CER=20&M0=100&M0lab=Control&M1=103.3&M1lab=Treatment&SD=15&c0=r-48_g-57_b-79_a-1&c1=r-0_g-0_b-0_a-1&c2=r-106_g-206_b-235_a-1&d=0.22&slider=1&xlab=Outcome" frameborder="0"></iframe>
+
 
 ## Great Resources!
 
