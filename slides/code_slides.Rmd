@@ -195,7 +195,7 @@ with(contrast_data, mean_front[1])
 ```
 
 
-# Latency
+## Latency
 
 $$
 ln \bar{X} = log(\bar{X}) - log \sqrt{ \left ( 1 + \frac{SD^2}{\bar{X}^2}\right )}
@@ -205,7 +205,7 @@ $$
 lnSD = \sqrt{ log \left (   1 + \frac{SD^2}{\bar{X}^2} \right )}
 $$
 
-# Proportions
+## Proportions
 
 $$
 \bar{X_{p}} = log \left ( \frac{p}{ 1 - p } \right ) 
@@ -215,8 +215,14 @@ $$
 SD_{p} = \sqrt{SD^2 \left ( \frac{1}{p} \right ) + \left ( \frac{p}{ 1 - p^2} \right )}
 $$
 
-
-# Geary test - Counts
+## Arcsine transformation
+$$
+\bar{X_{t}} = arcsine(\sqrt{\bar{{X}}})
+$$
+$$
+SD_{t} = \sqrt{\frac{SD^2}{4\bar{X}\left ( 1- \bar{X}\right ) }}
+$$
+## Geary test - Counts
 
 $$
 \frac{\bar{X}}{SD} \left ( \frac{4N^{3/2}}{1 + 4N} \right ) \geq 3
