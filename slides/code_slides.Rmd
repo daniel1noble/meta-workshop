@@ -228,3 +228,18 @@ $$
 \frac{\bar{X}}{SD} \left ( \frac{4N^{3/2}}{1 + 4N} \right ) \geq 3
 $$
 
+## Q10
+
+$$
+\begin{equation} 
+  lnRR_{Q_{10}} = ln\left( \frac{R_{2}}{R_{1}} \right){ \left(\ \frac{10^{\circ}C}{T_{2}-T_{1}} \right) }
+(\#eq:lnq10)
+\end{equation} 
+$$ 
+
+$$
+\begin{equation} 
+  s^2_{lnRR_{Q_{10}}} = \left( \frac{SD_{2}^2}{R^2_{2}N_{2}} + \frac{SD_{1}^2}{R^2_{1}N_{1}} \right){ \left(\ \frac{10^{\circ}C}{T_{2}-T_{1}} \right) }^2
+  (\#eq:Vlnq10)
+\end{equation} 
+$$
