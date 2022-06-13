@@ -1,6 +1,6 @@
 library(tidyverse)
 
-survey <- read.csv("./Current survey summary.csv") %>%
+survey <- read.csv("./survey/Current survey summary.csv") %>%
   rename(attendance = Are.you.attending.the.SEB.workshop.in.person.or.online.,
          meta_analysis_project = Do.you.have.a.meta.analytic.project.that.you.re.currently.working.on.where.you.would.like.advice.,
          Q1 = Q1...Have.you.previously.completed.or.published.a.meta.analysis.,
@@ -21,7 +21,7 @@ p <- survey %>%
   labs(title = "Have you previously completed or published a meta-analysis?", x = NULL) +
   theme_classic()
 
-  
+
 # Learning goal pie Chart
 p2 <- survey %>%
   group_by(learning_goal) %>%
@@ -38,4 +38,6 @@ p2 <- survey %>%
   labs(title = "What do you want to learn?", x = NULL, y = NULL) +
   theme_classic()
 
-  
+pacman::p_load(patchwork)
+
+p | p2
