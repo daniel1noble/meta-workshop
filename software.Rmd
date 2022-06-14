@@ -32,13 +32,25 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 # **Useful Software**
 
-This page compiles some of the useful software tools that are out there for various steps of the meta-analysis workflow. We primarily collate software that we use and that fills important gaps. This is by no means comprehensive. 
+This page compiles some of the useful software tools that are out there for various steps of the meta-analysis workflow. We primarily collate software that we use and that fills important gaps. This is by no means comprehensive and there are many software packages that are underdevelopment. The [ESHhackathon webpage](https://www.eshackathon.org/projects.html) is a good place to look, but we list the ones we have found particularly useful.
 
 ### **Literature Searching, Screening Snowballing**
 
+#### [litsearchr](https://elizagrames.github.io/litsearchr/)
+```{r, echo=FALSE}
+embed_url("https://www.youtube.com/watch?v=Z0GWTzl9OCE") %>% use_align("center")
+```
 
+#### [Revtools](https://onlinelibrary.wiley.com/doi/10.1002/jrsm.1374)
+```{r, echo=FALSE}
+embed_url("https://www.youtube.com/watch?v=WMpPCvBeILQ") %>% use_align("center")
+```
 
-### **Extracting Data** 
+#### [citationchaser](https://estech.shinyapps.io/citationchaser/) and see [paper](https://onlinelibrary.wiley.com/doi/10.1002/jrsm.1563?af=R)
+
+#### Grey literature [greylitsearcher](https://estech.shinyapps.io/greylitsearcher/) 
+
+### **Extracting Data from Figures** 
 
 #### [metaDigitise](https://github.com/daniel1noble/metaDigitise) and [ShinyDigitise](https://github.com/EIvimeyCook/ShinyDigitise)
 ```{r, echo=FALSE}
