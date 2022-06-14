@@ -1,6 +1,6 @@
 ---
 title: "Calculating and interpreting effect sizes"
-author: Daniel W.A. Noble
+author: Daniel W.A. Noble, Nicholas C. Wu
 date: '`r Sys.Date()`'
 bibliography: ./bib/refs.bib
 csl: ./bib/the-journal-of-experimental-biology.csl
