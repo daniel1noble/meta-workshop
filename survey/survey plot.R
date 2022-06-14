@@ -40,4 +40,5 @@ p2 <- survey %>%
 
 pacman::p_load(patchwork)
 
-p | p2
+ggsave(filename = "./figs/survey.png", plot = p | p2, width = 14.726072, height =   4.917492)
+
