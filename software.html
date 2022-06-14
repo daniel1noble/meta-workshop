@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Daniel W.A. Noble" />
+<meta name="author" content="Daniel W.A. Noble, Nicholas C. Wu" />
 
 <meta name="date" content="2022-06-14" />
 
@@ -1993,7 +1993,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Software</h1>
-<h4 class="author">Daniel W.A. Noble</h4>
+<h4 class="author">Daniel W.A. Noble, Nicholas C. Wu</h4>
 <h4 class="date">2022-06-14</h4>
 
 </div>
@@ -2010,6 +2010,8 @@ div.tocify {
 <h3><strong>Literature Searching, Screening Snowballing</strong></h3>
 <div id="litsearchr" class="section level4">
 <h4><a href="https://elizagrames.github.io/litsearchr/">litsearchr</a></h4>
+<p>The <code>litsearchr</code> <em>R</em> package facilitates quick, objective, reproducible search strategy development using <strong>text-mining and keyword co-occurrence networks</strong> to identify important terms to include in a search strategy. It can automatically write Boolean search strings in up to 53 different languages, with stemming support for English. To assess the quality of a search, it can also check the results of a search against a set of known, relevant articles to get performance metrics.</p>
+<p>This YoutTube video demonstrates how to use the <code>litsearchr</code> package to identify search terms for a systematic review using black-backed woodpeckers in post-fire forests as a case study.</p>
 <div class="vembedr" align="center">
 <div>
 <iframe src="https://www.youtube.com/embed/Z0GWTzl9OCE" width="533" height="300" frameborder="0" allowfullscreen data-external="1"></iframe>
@@ -2018,6 +2020,8 @@ div.tocify {
 </div>
 <div id="revtools" class="section level4">
 <h4><a href="https://onlinelibrary.wiley.com/doi/10.1002/jrsm.1374">Revtools</a></h4>
+<p><code>revtools</code> is an <em>R</em> package to support researchers working on evidence synthesis projects. It provides a free, easy-to-use, open-source environment to conduct your literature review or meta-analysis. You can use it to visualise patterns in bibliographic data, interactively select or exclude individual articles or words, and save the results for later analysis.</p>
+<p>This YouTube video provides an introduction to <code>revtools</code> by the author, Martin Westgate.</p>
 <div class="vembedr" align="center">
 <div>
 <iframe src="https://www.youtube.com/embed/WMpPCvBeILQ" width="533" height="300" frameborder="0" allowfullscreen data-external="1"></iframe>
@@ -2026,15 +2030,21 @@ div.tocify {
 </div>
 <div id="citationchaser-and-see-paper" class="section level4">
 <h4><a href="https://estech.shinyapps.io/citationchaser/">citationchaser</a> and see <a href="https://onlinelibrary.wiley.com/doi/10.1002/jrsm.1563?af=R">paper</a></h4>
+<p>In searching for research articles, we often want to obtain lists of references from across studies, and also obtain lists of articles that cite a particular study. In systematic reviews, this supplementary search technique is known as <strong>‘citation chasing’</strong>: forward citation chasing looks for all records citing one or more articles of known relevance; backward citation chasing looks for all records referenced in one or more articles. Traditionally, this process would be done manually, and the resulting records would need to be checked one-by-one against included studies in a review to identify potentially relevant records that should be included in a review. The <code>citationchaser</code> package contains functions to automate this process by making use of the Lens.org API. An input article list can be used to return a list of all referenced records, and/or all citing records in the Lens.org database (consisting of PubMed, PubMed Central, CrossRef, Microsoft Academic Graph and CORE; <a href="https://www.lens.org">https://www.lens.org</a></p>
 </div>
-<div id="grey-literature-greylitsearcher" class="section level4">
-<h4>Grey literature <a href="https://estech.shinyapps.io/greylitsearcher/">greylitsearcher</a></h4>
+<div id="greylitsearcher" class="section level4">
+<h4><a href="https://estech.shinyapps.io/greylitsearcher/">greylitsearcher</a></h4>
+<p>greylitsearcher is a web-based tool for performing systematic and transparent searches of organisational websites. You can use the tool to perform structured and transparent searches of websites using Google’s sitesearch functionality, which allows you to search across all pages of a given website.</p>
 </div>
 </div>
 <div id="extracting-data-from-figures" class="section level3">
 <h3><strong>Extracting Data from Figures</strong></h3>
 <div id="metadigitise-and-shinydigitise" class="section level4">
 <h4><a href="https://github.com/daniel1noble/metaDigitise">metaDigitise</a> and <a href="https://github.com/EIvimeyCook/ShinyDigitise">ShinyDigitise</a></h4>
+<p><code>metaDigitise</code> is an <em>R</em> package that provides functions for <strong>extracting raw data and summary statistics from figures</strong> in primary research papers. Often third party applications are used to do this (e.g., graphClick or dataThief), but the output from these are handled separately from the analysis package, making this process more laborious than it needs to be given that resulting output still requires substantial downstream processing to acquire the relevant statistics of interest.</p>
+<p><code>metaDigitise</code> allows users to extract information from a figure or set of figures all within the <em>R</em> environment making data extraction, analysis and export more streamlined. It also provides users with options to conduct the necessary calculations on raw data immediately after extraction so that <strong>comparable summary statistics can be obtained quickly</strong>. Summaries will condense multiple figures into data frames or lists (depending on the type of figure) and these objects can easily be exported from <em>R</em>, or if using the raw data, analysed in any way the user desires. Conveniently, when needing to process many figures at different times <code>metaDigitise</code> will only import figures not already completed within a directory. This makes it easy to add new figures at anytime.</p>
+<p><code>metaDigitise</code> has also been built for <strong>reproducibility in mind</strong>. It has functions that allow users to redraw their digitisations on figures, correct anything and access the raw calibration data which is written automatically for each figure that is digitised into a special caldat folder within the directory. This makes sharing figure digitisation and reproducing the work of others simple and easy and allows meta-analysts to update existing studies more easily.</p>
+<p>ShinyDigitise is the shiny interface to the <code>metaDigitise</code> package</p>
 <div class="vembedr" align="center">
 <div>
 <iframe src="https://www.youtube.com/embed/2Q8TzgRSACM" width="533" height="300" frameborder="0" allowfullscreen data-external="1"></iframe>
@@ -2043,6 +2053,7 @@ div.tocify {
 </div>
 <div id="juicr" class="section level4">
 <h4><a href="https://cran.r-project.org/web/packages/juicr/index.html">juicR</a></h4>
+<p><code>juicR</code> provides a GUI interface for <strong>automating data extraction from multiple images</strong> containing scatter and bar plots, semi-automated tools to tinker with extraction attempts, and a fully-loaded point-and-click manual extractor with image zoom, calibrator, and classifier. Also provides detailed and R-independent extraction reports as fully-embedded .html records.</p>
 <div class="vembedr" align="center">
 <div>
 <iframe src="https://www.youtube.com/embed/tiL-gZgN9Qk" width="533" height="300" frameborder="0" allowfullscreen data-external="1"></iframe>

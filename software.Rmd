@@ -1,6 +1,6 @@
 ---
 title: "Software"
-author: Daniel W.A. Noble
+author: Daniel W.A. Noble, Nicholas C. Wu
 date: '`r Sys.Date()`'
 bibliography: ./bib/refs.bib
 csl: ./bib/the-journal-of-experimental-biology.csl
@@ -37,26 +37,53 @@ This page compiles some of the useful software tools that are out there for vari
 ### **Literature Searching, Screening Snowballing**
 
 #### [litsearchr](https://elizagrames.github.io/litsearchr/)
+
+The `litsearchr` *R* package facilitates quick, objective, reproducible search strategy development using **text-mining and keyword co-occurrence networks** to identify important terms to include in a search strategy. It can automatically write Boolean search strings in up to 53 different languages, with stemming support for English. To assess the quality of a search, it can also check the results of a search against a set of known, relevant articles to get performance metrics.
+
+This YoutTube video demonstrates how to use the `litsearchr` package to identify search terms for a systematic review using black-backed woodpeckers in post-fire forests as a case study. 
+
 ```{r, echo=FALSE}
 embed_url("https://www.youtube.com/watch?v=Z0GWTzl9OCE") %>% use_align("center")
 ```
 
 #### [Revtools](https://onlinelibrary.wiley.com/doi/10.1002/jrsm.1374)
+
+`revtools` is an *R* package to support researchers working on evidence synthesis projects. It provides a free, easy-to-use, open-source environment to conduct your literature review or meta-analysis. You can use it to visualise patterns in bibliographic data, interactively select or exclude individual articles or words, and save the results for later analysis.
+
+This YouTube video provides an introduction to `revtools` by the author, Martin Westgate.
+
 ```{r, echo=FALSE}
 embed_url("https://www.youtube.com/watch?v=WMpPCvBeILQ") %>% use_align("center")
 ```
 
 #### [citationchaser](https://estech.shinyapps.io/citationchaser/) and see [paper](https://onlinelibrary.wiley.com/doi/10.1002/jrsm.1563?af=R)
 
-#### Grey literature [greylitsearcher](https://estech.shinyapps.io/greylitsearcher/) 
+In searching for research articles, we often want to obtain lists of references from across studies, and also obtain lists of articles that cite a particular study. In systematic reviews, this supplementary search technique is known as **'citation chasing'**: forward citation chasing looks for all records citing one or more articles of known relevance; backward citation chasing looks for all records referenced in one or more articles. Traditionally, this process would be done manually, and the resulting records would need to be checked one-by-one against included studies in a review to identify potentially relevant records that should be included in a review. The `citationchaser` package contains functions to automate this process by making use of the Lens.org API. An input article list can be used to return a list of all referenced records, and/or all citing records in the Lens.org database (consisting of PubMed, PubMed Central, CrossRef, Microsoft Academic Graph and CORE; [https://www.lens.org](https://www.lens.org)
+
+#### [greylitsearcher](https://estech.shinyapps.io/greylitsearcher/) 
+
+greylitsearcher is a web-based tool for performing systematic and transparent searches of organisational websites. You can use the tool to perform structured and transparent searches of websites using Google’s sitesearch functionality, which allows you to search across all pages of a given website.
 
 ### **Extracting Data from Figures** 
 
 #### [metaDigitise](https://github.com/daniel1noble/metaDigitise) and [ShinyDigitise](https://github.com/EIvimeyCook/ShinyDigitise)
+
+`metaDigitise` is an *R* package that provides functions for **extracting raw data and summary statistics from figures** in primary research papers. Often third party applications are used to do this (e.g., graphClick or dataThief), but the output from these are handled separately from the analysis package, making this process more laborious than it needs to be given that resulting output still requires substantial downstream processing to acquire the relevant statistics of interest. 
+
+`metaDigitise` allows users to extract information from a figure or set of figures all within the *R* environment making data extraction, analysis and export more streamlined. It also provides users with options to conduct the necessary calculations on raw data immediately after extraction so that **comparable summary statistics can be obtained quickly**. Summaries will condense multiple figures into data frames or lists (depending on the type of figure) and these objects can easily be exported from *R*, or if using the raw data, analysed in any way the user desires. Conveniently, when needing to process many figures at different times `metaDigitise` will only import figures not already completed within a directory. This makes it easy to add new figures at anytime. 
+
+`metaDigitise` has also been built for **reproducibility in mind**. It has functions that allow users to redraw their digitisations on figures, correct anything and access the raw calibration data which is written automatically for each figure that is digitised into a special caldat folder within the directory. This makes sharing figure digitisation and reproducing the work of others simple and easy and allows meta-analysts to update existing studies more easily.
+
+ShinyDigitise is the shiny interface to the `metaDigitise` package
+
 ```{r, echo=FALSE}
 embed_url("https://www.youtube.com/watch?v=2Q8TzgRSACM") %>% use_align("center")
 ```
+
 #### [juicR](https://cran.r-project.org/web/packages/juicr/index.html)
+
+`juicR` provides a GUI interface for **automating data extraction from multiple images** containing scatter and bar plots, semi-automated tools to tinker with extraction attempts, and a fully-loaded point-and-click manual extractor with image zoom, calibrator, and classifier. Also provides detailed and R-independent extraction reports as fully-embedded .html records.
+
 ```{r, echo=FALSE}
 embed_url("https://www.youtube.com/watch?v=tiL-gZgN9Qk") %>% use_align("center")
 ```
