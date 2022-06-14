@@ -1,0 +1,36 @@
+---
+title: "Nuisance heterogeneity"
+author: Patrice Pottier and Daniel W.A. Noble
+date: '`r Sys.Date()`'
+bibliography: ./bib/refs.bib
+csl: ./bib/the-journal-of-experimental-biology.csl
+output:
+  bookdown::html_document2:
+    css: style.css
+    code_folding: show
+    number_sections: no
+    toc: yes
+    toc_depth: 6
+    toc_float: yes
+---
+
+
+asr_dat <- read.csv("https://osf.io/qn2af/download")
+
+
+## References
+
+<div id="refs"></div>
+
+<br>
+
+## Session Information
+
+```{r sessioninfo, echo = FALSE, tidy=TRUE}
+# Here, we'll create some R code
+pander(sessionInfo(), locale = FALSE)
+```
+
+## [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/) {.hide}
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
