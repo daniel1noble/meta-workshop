@@ -32,13 +32,18 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ## Why do we do meta-analysis?
 
-Meta-analysis is the gold-standard for research synthesis across all disciplines. We synthesise studies to gain broader insights into the efficacy of treatment effects and / or relationships between variables. In physiology, ecology and evolution, where we are also dealing with many different populations and species we're also not just interested in understanding 'what the overall effect' actually is, we are also really focused on attempting to understand what factors (e.g., biological, methodological) explain variation in effects [@Noble2022; @Lag2010]. Answers to both these types of questions are fundamental to establishing the the generality of findings, testing hypotheses about what might drive variation among effects and identifying publication biases that may result in a skewed picture of existing work. Such insights have the potential to shape future research in important ways.
+Meta-analysis is the gold-standard for research synthesis across all disciplines. We synthesise studies to gain broader insights into the efficacy of treatment effects and / or relationships between variables. In physiology, ecology and evolution, where we are also dealing with many different populations and species we're not just interested in understanding 'what the overall effect' actually is, we are also really focused on attempting to understand what factors (e.g., biological, methodological) explain variation in effects [@Noble2022; @Lag2010]. Answers to both these types of questions are fundamental to establishing the the generality of findings, testing hypotheses about what might drive variation among effects and identifying publication biases that may result in a skewed picture of existing work. Such insights have the potential to shape future research in important ways.
 
 ## How does meta-analysis work?
 
-Meta-analysis is a way to synthesise [effect sizes](https://daniel1noble.github.io/meta-workshop/effect-size) using a special (or maybe not so special) set of models that account for each effect sizes sampling variance and factors causing true between-study variance. Why would we want to account for a given study's sampling variance? We want to do this because studies vary greatly in their sample size, and thus their power to detect effects. As meta-analysts we want to weight effect sizes from studies with higher power more in an analysis.
+Meta-analysis is a way to synthesise [effect sizes](https://daniel1noble.github.io/meta-workshop/effect-size) using a special (or maybe not so special) set of models that account for each effect sizes sampling variance. In other words, meta-analyses are:
 
-[Marc Lajeunesse](http://lajeunesse.myweb.usf.edu) does a brilliant job explaining the goals and types of models that meta-analysts use. I recommend watching his short meta-analysis tutorial videos, but especially the one below for an excellent accessible overview of how meta-analytic models are working. 
+> Statistical methods and techniques for aggregating, summarizing, and drawing inferences from collections of studies
+
+<br>
+Why would we want to account for a given study's sampling variance? We want to do this because studies vary greatly in their sample size, and thus their power, to detect effects. As meta-analysts we want to weight effect sizes from studies with higher power more in an analysis. These studies are more likely to be 'correct' and their estimates less biased as a result of sampling variance.
+
+[Marc Lajeunesse](http://lajeunesse.myweb.usf.edu) does a brilliant job explaining the goals and types of models that meta-analysts use. I recommend watching his short meta-analysis tutorials, but especially the one below for an excellent accessible overview of how meta-analytic models are working. 
 
 ```{r, echo=FALSE}
 embed_url("https://www.youtube.com/watch?app=desktop&v=3XkC_jetn-U") %>% use_align("center")
@@ -47,6 +52,8 @@ embed_url("https://www.youtube.com/watch?app=desktop&v=3XkC_jetn-U") %>% use_ali
 ## References
 
 <div id="refs"></div>
+
+<br>
 
 
 ## Session Information
