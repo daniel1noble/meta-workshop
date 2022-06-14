@@ -142,17 +142,17 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 **Background**: Physiology is expected to drive movement, including short-term activity, exploration of unfamiliar environments, and larger scale dispersal which can influence species distributions in an environmentally sensitive manner. To test whether there is a relationship between physiology and movement pattern (separated as activity, exploration, and dispersal), we extracted data from the literature on common physiological traits measured (e.g., metabolic rate, hormone levels, body condition) with either activity, exploration, and dispersal at the individual level. As we are interested in relationships at the individual level, we extracted correlation data in the form of [correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) and sample size.
 
 We also included moderator variables that are likely to explain variation in the dataset:
-- taxonomic groups (amphibians, reptiles, invertebrates, mammals, birds),
-- thermoregulation strategy (ectotherm or endotherm), 
-- sex (male, female, mixed), 
-- age (juvenile, adult), 
-- origin (wild-caught, captive-raised; the “origin” moderator is relevant for the ‘individual movement’ analysis only, and refers to common laboratory animals such as zebrafish).
+* taxonomic groups (amphibians, reptiles, invertebrates, mammals, birds),
+* thermoregulation strategy (ectotherm or endotherm), 
+* sex (male, female, mixed), 
+* age (juvenile, adult), 
+* origin (wild-caught, captive-raised; the “origin” moderator is relevant for the ‘individual movement’ analysis only, and refers to common laboratory animals such as zebrafish).
 
 To account for non-independence and test for publication bias we also extracted data on:
-- publication year
-- species name
-- effect size ID
-- study ID
+* publication year
+* species name
+* effect size ID
+* study ID
 
 For complete detail on the study aim and design, please see [Wu & Seebacher (2022)](https://doi.org/10.1038/s42003-022-03055-y)
 
@@ -176,15 +176,15 @@ zr_data
 To compare differences in the physiological characteristics between individuals from an established range core to their expanding range edge we collected data from studies that reported physiological response from the range core (core) and range edge (front) in the form of mean, sample size, and variance (SD, SE, or 95% CI). This information is used to calculate the log response ratio (lnRR).
 
 We also included moderator variables that are likely to explain variation in the dataset:
-- taxonomic groups (amphibians, reptiles, invertebrates, mammals, birds),
-- thermoregulation strategy (ectotherm or endotherm), 
-- distance between core population and edge population. 
+* taxonomic groups (amphibians, reptiles, invertebrates, mammals, birds),
+* thermoregulation strategy (ectotherm or endotherm), 
+* distance between core population and edge population. 
 
 To account for non-independence and test for publication bias we also extracted data on:
-- publication year
-- species name
-- effect size ID
-- study ID
+* publication year
+* species name
+* effect size ID
+* study ID
 
 For complete detail on the study aim and design, please see [Wu & Seebacher (2022)](https://doi.org/10.1038/s42003-022-03055-y)
 
