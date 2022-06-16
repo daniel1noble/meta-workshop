@@ -132,6 +132,8 @@ zr_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-worksho
 zr_data <- metafor::escalc(measure = "ZCOR", ri = corr_coeff, ni = sample_size, data = zr_data, var.names=c("Zr","v_Zr"))
 
 zr_data
+
+metafor::forest(x = zr_data$Zr[1:6], vi = zr_data$v_Zr[1:6], xlab = "Z-transformed Correlation (Zr)")
 ```
 
 ## Back transofrmation
