@@ -245,3 +245,149 @@ $$
   (\#eq:Vlnq10)
 \end{equation} 
 $$
+
+
+## Fixed effect
+
+
+```{r fixmodel, echo = TRUE}
+
+# Generate some simulated effect size data with known sampling variance
+# assumed to come from a common underlying distribution
+set.seed(86) # Set see so that we all get the same simulated results
+ # We will have 5 studies
+    stdy  <- 1:5                                      
+# We know the variance for each effect
+    Ves     <- c(0.05, 0.10, 0.02, 0.10, 0.09)    
+# We'll need this later but these are weights
+    W     <- 1 / Ves                                          
+# We assume they are sampled from a normal distribution  with a mean effect size of 2
+    es     <- rnorm(length(Ves), 2, sqrt(Ves))          
+# Data for our fixed effect meta-analysis
+    dataFE <- data.frame(stdy = stdy, es, Ves)
+
+```
+
+
+## Fixed effects
+```{r fePLOT, echo = FALSE}
+  
+  plot(stdy - 0.25 ~ es, col = "black", pch = 16, ylim = c(0, 6), xlim = c(1, 3.2), 
+       data = dataFE, ylab = "Study", xlab = "Effect size")
+  abline(v = 2, lty =3)
+  arrows(x0 = dataFE$es, y0 = dataFE$stdy- 0.25, y1 = dataFE$stdy- 0.25, x1 = dataFE$es + sqrt(dataFE$Ves), 
+         angle = 90, length = 0.05, col = "black")
+  arrows(x0 = dataFE$es, y0 = dataFE$stdy- 0.25, y1 = dataFE$stdy- 0.25, x1 = dataFE$es - sqrt(dataFE$Ves), 
+         angle = 90, length = 0.05, col = "black")
+```
+
+
+## Fixed effect model
+
+
+```{r, fixedma,  eval=TRUE, echo=TRUE}
+# Run a fixed effect meta-analysis using the FE dataset. 
+    metafor::rma(yi = es, vi = Ves, method = "FE", data = dataFE)
+```
+
+## Now by hand FE
+
+We can even do all the seemingly fancy stuff `metafor` is doing ourselves if we want....we just need to know the equations:
+ $$
+  \bar{ES}= \sum{\left (W*ES \right )}/ \sum{W}
+ $$
+$$
+  \sigma_{\bar{ES}}^2= \frac{1}{\sum{W}}
+ $$
+ 
+```{r, fixedmahand,  eval=TRUE, echo=TRUE}
+# Calculate pooled effect size
+       EsP.FE <- sum(W*dataFE$es) / sum(W)
+       EsP.FE
+# Calculate the pooled variance around estimate
+    VarEsP.FE <- 1 / sum(W)
+    VarEsP.FE
+# Calculate the standard error around estimate
+    SE.EsP.FE <- sqrt(VarEsP.FE)
+    SE.EsP.FE
+```
+
+## Random effect in code
+
+```{r randomSim , echo = TRUE}
+# Here adding 0.8 says we want to add 0.8 as the between study variability. In other words, each effect size is sampled from a larger distribution of effect sizes that itself comes from a distribution with a variance of 0.8. 
+    esRE        <- rnorm(length(Ves), 2, sqrt(Ves + 0.8)) 
+# Data for our random effect meta-analysis 
+    dataRE <-  data.frame(stdy = stdy, esRE, Ves)
+```
+
+## Random effect plot
+
+```{r, fvsr, eval=TRUE, echo=FALSE, fig.cap="Mean (arrows are sampling standard deviation) effect size for each study. Data simulated under a fixed effect model in black and data simulated under a random effect model in red."}
+    
+  plot(stdy - 0.25 ~ es, col = "black", pch = 16, ylim = c(0, 6), xlim = c(1, 3.2), 
+       data = dataFE, ylab = "Study", xlab = "Effect size")
+  abline(v = 2, lty =3)
+  arrows(x0 = dataFE$es, y0 = dataFE$stdy- 0.25, y1 = dataFE$stdy- 0.25, x1 = dataFE$es + sqrt(dataFE$Ves), 
+         angle = 90, length = 0.05, col = "black")
+  arrows(x0 = dataFE$es, y0 = dataFE$stdy- 0.25, y1 = dataFE$stdy- 0.25, x1 = dataFE$es - sqrt(dataFE$Ves), 
+         angle = 90, length = 0.05, col = "black")
+  
+  points(stdy + 0.25 ~ esRE, col = "red", pch = 16, data = dataRE)
+  arrows(x0 = dataRE$es, y0 = dataRE$stdy+ 0.25, y1 = dataRE$stdy+ 0.25, x1 = dataRE$es + sqrt(dataRE$Ves), 
+         angle = 90, length = 0.05, col = "red")
+  arrows(x0 = dataRE$es, y0 = dataRE$stdy+ 0.25, y1 = dataRE$stdy+ 0.25, x1 = dataRE$es - sqrt(dataRE$Ves), 
+         angle = 90, length = 0.05, col = "red")
+  
+```
+## random effect model
+
+
+```{r, re,  eval=TRUE, echo=TRUE}
+metafor::rma(yi = esRE, vi = Ves, method="DL", data = dataRE)
+```
+
+## Random by hand
+We first need to estimate $\tau^2$ or the between-study variance which can be calculated from these equations:
+
+$$\tau^2 = \frac{Q - df}{C} $$
+where 
+
+$$ Q = \sum_{i=1}^{k}{W_{i}ES_{i}^2} - \frac{ \left (\sum_{i=1}^{k}{W_{i}ES_{i}} \right)^2}{\sum_{i=1}^{k}{W_{i}}}$$
+$$ C = \sum{W_{i}} - \frac{\sum{W_{i}^2}}{\sum{W_{i}}}$$
+
+## Random effect by hand 2
+```{r, re_hand, eval=TRUE, echo=TRUE}
+# Calculate our Q statistic again
+    Q <- sum(W*(dataRE$es^2) ) - (sum(W*dataRE$es)^2 / sum(W))
+    Q
+
+# Calculate tau2
+    C <- sum(W) - ((sum(W^2))/sum(W))
+    C
+
+# Calculate df
+    df <- nrow(dataRE) - 1   
+    T2 <- (Q - df) / C
+    T2
+```
+
+
+## Now that we have tau2 lets do the meta-analysis
+Remember, things are the same but the weighting is different now.
+
+```{r, re_w, eval=TRUE, echo=TRUE}
+    # RE weights
+      W.re <- 1 / (T2 + dataRE$Ves)
+    
+    #Pooled effect size for random effect meta-analysis
+      esPoolRE  <- sum(W.re*dataRE$es) / sum(W.re) 
+      esPoolRE
+    
+    # Calculate the pooled variance around estimate
+       VarES <- 1 / sum(W.re)
+    
+    # Calculate the standard error around estimate
+       SE.ES.RE <- sqrt(VarES)
+       SE.ES.RE
+```
