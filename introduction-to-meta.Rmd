@@ -32,7 +32,11 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ## Why do we do meta-analysis?
 
-Meta-analysis is the gold-standard for research synthesis across all disciplines. We synthesise studies to gain broader insights into the efficacy of treatment effects and / or relationships between variables. In physiology, ecology and evolution, where we are also dealing with many different populations and species we're not just interested in understanding 'what the overall effect' actually is, we are also really focused on attempting to understand what factors (e.g., biological, methodological) explain variation in effects [@Noble2022; @Lag2010]. Answers to both these types of questions are fundamental to establishing the the generality of findings, testing hypotheses about what might drive variation among effects and identifying publication biases that may result in a skewed picture of existing work. Such insights have the potential to shape future research in important ways.
+Meta-analysis is the gold-standard for research synthesis across all disciplines. We synthesise studies to gain broader insights into the efficacy of treatment effects and / or relationships between variables. In physiology, ecology and evolution, we are also dealing with many different populations and species. As such, we're not just interested in understanding 'what the overall effect' actually is (in fact, we may not even care in many cases), but we are mainly focused on attempting to understand what factors (e.g., biological, methodological) explain variation in effects [@Noble2022; @Lag2010]. In fact, reporting upon measures of variability, or what is referred to as 'heterogeneity' in meta-analysis, is essential to meta-analysis reporting and placing effects within context [@ODea2021; @NakagawaSantos2012; @Borenstein2019; @Nakagawa2017]. There are a number of important metrics of heterogeneity that are commonly used and reported upon in the meta-analytic literature [@NakagawaSantos2012; @Borenstein2019; @Nakagawa2017]. We'll discuss some of the key ones.
+
+Meta-analyst's have also worked hard to develop tools that can be used to try and understand different forms of publication practices and biases within the scientific literature. Such biases can occur if studies reporting non-significant or opposite results to what is predicted are not found in systematic searches ['i.e., the 'file-drawer' problem; @Jennions2013]. Alternatively, biases could result from selective reporting or 'p-hacking'. Visual and quantitative tools that have been developed try and identify and 'correct' for such biases on meta-analytic results [@Jennions2013; @Nakagawa2021b; @Rothstein2005]. Having said that, aside from working hard to try and incorporate 'gray literature' (unpublished theses, government reports, etc.) and working hard to include work done in non-English speaking languages, there is little one can truly due to counteract publication biases beyond a few simple tools. We cannot know for certain what isn't published in many cases or how a sample of existing work on a topic might be biased. Nonetheless, exploring the possibility of publication bias and its possible effects on conclusions is a core component of meta-analysis [@ODea2021]. 
+
+Applying the statistical tools of meta-analysis is therefore fundamental to establishing the generality of findings, testing hypotheses about what might drive variation among effects and identifying publication biases that may result in a skewed picture of existing work. Such insights have the potential to shape future research in important ways [@KortichevaGure2013].
 
 ## How does meta-analysis work?
 
@@ -43,11 +47,15 @@ Meta-analysis is a way to synthesise [effect sizes](https://daniel1noble.github.
 <br>
 Why would we want to account for a given study's sampling variance? We want to do this because studies vary greatly in their sample size, and thus their power, to detect effects. As meta-analysts we want to weight effect sizes from studies with higher power more in an analysis. These studies are more likely to be 'correct' and their estimates less biased as a result of sampling variance.
 
-[Marc Lajeunesse](http://lajeunesse.myweb.usf.edu) does a brilliant job explaining the goals and types of models that meta-analysts use. I recommend watching his short meta-analysis tutorials, but especially the one below for an excellent accessible overview of how meta-analytic models are working. 
+[Marc Lajeunesse](http://lajeunesse.myweb.usf.edu) does a brilliant job explaining the goals and types of models that meta-analysts use. In the following video he describes why weighting in meta-analysis is so important. 
 
 ```{r, echo=FALSE}
 embed_url("https://www.youtube.com/watch?app=desktop&v=3XkC_jetn-U") %>% use_align("center")
 ```
+
+We can effectively think of a meta-analysis as a weighted regression model with the weights being the inverse sampling variance for each effect size. Weights are calculated differently depending on the meta-analytic model in question (more on that in later tutorials). 
+
+Throughout this workshop we will highlight the various features of meta-analysis that we discuss above. We'll try to focus on dissecting how meta-analytic models are working and focus on important aspects of effect sizes and modelling that users should be aware of when meta-analysing a body of work for their specific question of interest. An important aspect to doing meta-analysis well (which can be hard) is being critical of the data and assumptions inherent to both effect sizes and statistical models. Meta-analysis also has some unique sources of non-independence [@Noble2017] that isn't always apparent. We'll try and cover these and discuss some ways in which you can protect yourself from their impacts on inferences. 
 
 ## References
 
