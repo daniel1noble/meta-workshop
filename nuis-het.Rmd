@@ -14,6 +14,29 @@ output:
     toc_float: yes
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE, tidy = TRUE)
+options(digits=2)
+```
+
+```{r klippy, echo=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+#install.packages("devtools")
+remotes::install_github("rlesur/klippy")
+klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done', position = 'right', color = "red")
+```
+
+# Introduction
+
+
+
+
+``{r loadpackages, echo = TRUE, results = "hide", messages = FALSE, class.source='klippy'}
+#install.packages("pacman")
+#devtools::install_github("itchyshin/orchard_plot", subdir = "orchaRd", force = TRUE)
+#devtools::install_github("daniel1noble/metaAidR")
+pacman::p_load(devtools, png, jpeg, pander, cowplot, flextable, formatR, magick,
+               tidyverse, metafor, orchaRd, here, osfr, magrittr, metaAidR)
+```
 
 asr_dat <- read.csv("https://osf.io/qn2af/download")
 
