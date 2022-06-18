@@ -218,6 +218,8 @@ mat_splt[[2]][lower.tri(mat_splt[[2]])] <- data$cov[1:3]
 
 ### Testing out new make_VCV with contrast_data as example
 contrast_data$cluster <- c(1,1,2,2,3,3,3,0,0,0,0)
+contrast_data$cluster <- paste0(contrast_data$cluster,".", contrast_data$study_ID)
+
 metaAidR::make_VCV_matrix(contrast_data, V = "v_lnRR", obs = "obs", cluster = "cluster", type = "cor")
 
 make_VCV_matrix(contrast_data, V = "v_lnRR", obs = "obs", cluster = "cluster", m = "mean_core", sd = "sd_core", n = "n_core", cov_type = "ROM")
