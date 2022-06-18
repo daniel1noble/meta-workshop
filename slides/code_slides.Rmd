@@ -173,7 +173,7 @@ contrast_data <- metafor::escalc(measure = "ROM",
                               m2i = mean_core, n2i = n_core, sd2i = sd_core, 
                               data = contrast_data, var.names=c("lnRR","v_lnRR"))
 contrast_data %>% select(study_ID, mean_core, sd_core, n_core, mean_front, sd_front, n_front, lnRR, v_lnRR)
-contrast_data$cluster <- c(1,1,1,2,2,3,4,5,6,7,8)
+#contrast_data$cluster <- c(1,1,1,2,2,3,4,5,6,7,8)
 contrast_data$obs <- 1:nrow(contrast_data)
 data <- contrast_data
 covariance_funtions <- function(data, m, sd, n, cov_type){
