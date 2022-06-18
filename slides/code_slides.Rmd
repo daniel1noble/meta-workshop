@@ -178,11 +178,39 @@ contrast_data$obs <- 1:nrow(contrast_data)
 
 mm <- diag(contrast_data$cluster)
 
-splt <- split(data, data$cluster)
- row1 <- as.numeric(unlist(lapply(splt, function(x) row.names(x))))
- row2 <- as.numeric(unlist(lapply(splt, function(x) x$cluster)))
+covariance_funtions <- function(data, m, sd, n, cov_type){
 
-which(diag(mm) %in% duplicated(diag(mm)), arr.ind=TRUE)
+  if(cov_type == "ROM"){
+    # Covariance for shared control when using log response ratio. From Jageunesse 2011. Ecology
+    cov <- data[, sd]^2 / (data[, n] * data[, m]^2)
+  }
+
+  if(cov_type == "LOR"){
+    #formula for odds ratio (1/x + 1/(m-x))
+    cov <- (1/data[, m] + 1) / (data[, n] - data[, m])
+  }
+  return(cov)
+}
+
+# Step 1: split on cluster
+splt <- split(data, data$cluster)
+
+# Step 2: calculate the covariance. Because cluster will have repeated values these will be the same within a study
+data$cov <- unlist(lapply(splt, function(x) 
+                  if(dim(x)[1] > 1) {
+                    covariance_funtions(x, m = "mean_core",sd = "sd_core", n = "n_core", cov_type = "ROM") } else { NA}))
+
+# Step 3: build matrix
+m <- diag(data$v_lnRR)
+m[which(duplicated(data[,cluster])==TRUE)+1, which(duplicated(data[,cluster])==TRUE)] <- data$cov[which(duplicated(data[,cluster])==TRUE)]
+
+  m[upper.tri(m)] <- t(m[lower.tri(m)])
+
+mat_splt <- lapply(splt, function(x) diag(x$v_lnRR))
+
+
+
+mat_splt[[2]][lower.tri(mat_splt[[2]])] <- data$cov[1:3]
 
 
 ### Testing out new make_VCV with contrast_data as example
