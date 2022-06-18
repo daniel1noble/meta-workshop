@@ -166,13 +166,30 @@ contrast_data %>% select(study_ID, mean_core, sd_core, n_core, mean_front, sd_fr
 
 
 ## lnRR
-```{r lnRREffects, echo = TRUE}
+```{r lnRREffects, echo = TRUE, eval = FALSE}
 # Calculate log response ratio, lnRR = effect size and v_lnRR = sampling variances, where m1i = mean of edge population, n1i = sample size of edge population, sd1i = standard deviation of edge population, m2i = mean of core population, n2i = sample size of core population, sd2i = standard deviation of core population.
 contrast_data <- metafor::escalc(measure = "ROM", 
                               m1i = mean_front, n1i = n_front, sd1i = sd_front,
                               m2i = mean_core, n2i = n_core, sd2i = sd_core, 
                               data = contrast_data, var.names=c("lnRR","v_lnRR"))
 contrast_data %>% select(study_ID, mean_core, sd_core, n_core, mean_front, sd_front, n_front, lnRR, v_lnRR)
+contrast_data$cluster <- c(1,1,1,2,2,3,4,5,6,7,8)
+contrast_data$obs <- 1:nrow(contrast_data)
+
+mm <- diag(contrast_data$cluster)
+
+splt <- split(data, data$cluster)
+ row1 <- as.numeric(unlist(lapply(splt, function(x) row.names(x))))
+ row2 <- as.numeric(unlist(lapply(splt, function(x) x$cluster)))
+
+which(diag(mm) %in% duplicated(diag(mm)), arr.ind=TRUE)
+
+
+### Testing out new make_VCV with contrast_data as example
+
+make_VCV_matrix(contrast_data, V = "v_lnRR", obs = "obs", cluster = "cluster", type = "cor")
+
+make_VCV_matrix(contrast_data, V = "v_lnRR", obs = "obs", cluster = "cluster", m = "mean_core", sd = "sd_core", n = "n_core", cov_type = "ROM")
 ```
 
 ## COnverting back to understand lnRR
