@@ -33,7 +33,27 @@ There are a few different ways to deal with nuisance heterogeneity. The most com
 
 # Effect Sizes Corrected for Nuisance Heterogenity
 
-One common, and well known, effect size that is used in comparative physiology is the temperature coefficient, $Q_{10}$. As discussed, effect sizes need to be: 1) comparable across studies and 2) we need to know, or be able to approximate, the sampling variance in order to make use of meta-analytic models. 
+One common, and well known, effect size that is used in comparative physiology is the temperature coefficient, $Q_{10}$. As discussed, effect sizes need to be: 1) comparable across studies and 2) we need to know, or be able to approximate, the sampling variance in order to make use of meta-analytic models. The $Q_{10}$, or what we call $LnRR_{Q_{10}}$ because of its similarities with the log response ratio, is defined as follows by @Noble2022: 
+
+
+$$
+\begin{equation} 
+  Q_{10} = \left( \frac{R_{2}}{R_{1}} \right)^{ \left(\ \frac{10^{\circ}C}{T_{2}-T_{1}} \right) }
+  (\#eq:q10)
+\end{equation} 
+$$ 
+
+Here, $R_{1}$ and $R_{2}$ are mean physiological rates and $T_{1}$ and $T_{2}$ are the temperatures that these rates are measured. Natural log transformation of equation \@ref(eq:q10) leads to the following log transformed $Q_{10}$:
+
+$$
+\begin{equation} 
+  lnRR_{Q_{10}} = ln\left( \frac{R_{2}}{R_{1}} \right){ \left(\ \frac{10^{\circ}C}{T_{2}-T_{1}} \right) }
+(\#eq:lnq10)
+\end{equation} 
+$$ 
+
+Equation \@ref(eq:lnq10) is essentially a temperature-corrected equivalent of *lnRR* when the numerator and denominator are measured at different temperatures.
+
 
 ``{r loadpackages, echo = TRUE, results = "hide", messages = FALSE, class.source='klippy'}
 #install.packages("pacman")
@@ -42,6 +62,9 @@ One common, and well known, effect size that is used in comparative physiology i
 pacman::p_load(devtools, png, jpeg, pander, cowplot, flextable, formatR, magick,
                tidyverse, metafor, orchaRd, here, osfr, magrittr, metaAidR)
 ```
+
+
+
 
 ```{r}
 asr_dat <- read.csv("https://osf.io/qn2af/download")
