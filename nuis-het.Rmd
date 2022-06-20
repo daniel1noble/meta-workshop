@@ -27,8 +27,11 @@ klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done',
 
 # Introduction
 
+Nuisance heterogeneity -- factors causing variation in effects that are blatantly obvious, like temperature and dosage differences -- are common in comparative physiology meta-analyses. 
 
+# Effect Sizes Corrected for Nuisance Heterogenity
 
+One common, and well known, effect size that is used in comparative physiology is the temperature coefficient, $Q_{10}$. As discussed, effect sizes need to be: 1) comparable across studies and 2) we need to know, or be able to approximate, the sampling variance in order to make use of meta-analytic models. 
 
 ``{r loadpackages, echo = TRUE, results = "hide", messages = FALSE, class.source='klippy'}
 #install.packages("pacman")
@@ -38,8 +41,9 @@ pacman::p_load(devtools, png, jpeg, pander, cowplot, flextable, formatR, magick,
                tidyverse, metafor, orchaRd, here, osfr, magrittr, metaAidR)
 ```
 
+```{r}
 asr_dat <- read.csv("https://osf.io/qn2af/download")
-
+```
 
 ## References
 
