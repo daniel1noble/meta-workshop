@@ -29,7 +29,7 @@ klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done',
 
 Nuisance heterogeneity -- factors causing variation in effects that are blatantly obvious, like temperature and dosage differences -- are common in studies used in comparative physiology meta-analyses. Nuisance heterogeneity can be a big driver of effect size magnitude. For example, a contrast-based effect size, such as log response ratio, calculated from a study that has manipulated treatments to have a 10 $^{\circ}$C temperature difference between treatments is likely going to give you a much larger effect size than a study manipulated a treatment temperature difference of 2$^{\circ}$C. Amalgamating such effects within a meta-analysis will make the interpretation of effect magnitude complicated because it's difficult to know what magnitude of, say temperature, our effect size should be interpreted over. 
 
-There are a few different ways to deal with nuisance heterogeneity. The most common approach is to simply include a moderator in a meta-regression model that controls for the temperature difference between treatments. You can re-scale this continuous moderator (center the variable on the mean so 0, equates to the average difference) so that intercepts are more interpretable [@Noble2022]. Alternatively, we can 'correct' our effect sizes to account for the nuisance variable. In this tutorial, we'll overview the latter approach as it can simplify modelling.
+There are a few different ways to deal with nuisance heterogeneity. The most common approach is to simply include a moderator in a meta-regression model that controls for the temperature difference between treatments [@Noble2022]. You can re-scale this continuous moderator (center the variable on the mean so '0' equates to the average difference) so that intercepts are more interpretable [@Noble2022]. Alternatively, we can 'correct' our effect sizes to account for the nuisance variable. In this tutorial, we'll overview the latter approach as it can simplify modelling.
 
 # Effect Sizes Corrected for Nuisance Heterogenity
 
@@ -52,7 +52,15 @@ $$
 \end{equation} 
 $$ 
 
-Equation \@ref(eq:lnq10) is essentially a temperature-corrected equivalent of *lnRR* when the numerator and denominator are measured at different temperatures.
+Equation \@ref(eq:lnq10) is essentially a temperature-corrected equivalent of *lnRR* when the numerator and denominator are measured at different temperatures. $lnRR_{Q_{10}}$ is more likely to satisfy the assumption of residual normality than $Q_{10}$ [see @Hedges1999]. The recognition of this equivalence means that we can calculate the sampling variance for equation \@ref(eq:lnq10) as follows:
+
+$$
+\begin{equation} 
+  s^2_{lnRR_{Q_{10}}} = \left( \frac{SD_{2}^2}{R^2_{2}N_{2}} + \frac{SD_{1}^2}{R^2_{1}N_{1}} \right){ \left(\ \frac{10^{\circ}C}{T_{2}-T_{1}} \right) }^2
+  (\#eq:Vlnq10)
+\end{equation} 
+$$
+
 
 
 ``{r loadpackages, echo = TRUE, results = "hide", messages = FALSE, class.source='klippy'}
@@ -80,7 +88,7 @@ asr_dat <- read.csv("https://osf.io/qn2af/download")
 
 ```{r sessioninfo, echo = FALSE, tidy=TRUE}
 # Here, we'll create some R code
-pander(sessionInfo(), locale = FALSE)
+pander::pander(sessionInfo(), locale = FALSE)
 ```
 
 ## [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/) {.hide}
