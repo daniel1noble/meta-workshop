@@ -33,6 +33,7 @@ There are a few different ways to deal with nuisance heterogeneity. The most com
 
 # Effect Sizes Corrected for Nuisance Heterogenity
 
+### Temperature Coefficient, $Q_{10}$
 One common, and well known, effect size that is used in comparative physiology is the temperature coefficient, $Q_{10}$. As discussed, effect sizes need to be: 1) comparable across studies and 2) we need to know, or be able to approximate, the sampling variance in order to make use of meta-analytic models. The $Q_{10}$, or what we call $LnRR_{Q_{10}}$ because of its similarities with the log response ratio, is defined as follows by @Noble2022: 
 
 
@@ -60,6 +61,10 @@ $$
   (\#eq:Vlnq10)
 \end{equation} 
 $$
+
+### Acclimation Response Ratio, ARR
+
+@Pottier2021 developed the acclimation response ratio, ARR, to standardise temperature differences to compare thermal tolerances across sexes. The effect size allows one to investigate the variation in the relationship between acclimation temperature and thermal tolerance (i.e. variation in slope). Because heat tolerance is consistently measured in degrees Celsius (`CTmax`) in the studies compiled, we can calculate the slope between acclimation temperature and heat tolerance, which is termed as the acclimation response ratio (`ARR`) in the literature. It can be defined as follows:
 
 
 
