@@ -9,9 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Patrice Pottier and Daniel W.A. Noble" />
+<meta name="author" content="Daniel W.A. Noble &amp; Patrice Pottier" />
 
-<meta name="date" content="2022-06-23" />
+<meta name="date" content="2022-06-24" />
 
 <title>Nuisance heterogeneity</title>
 
@@ -2015,8 +2015,8 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Nuisance heterogeneity</h1>
-<h4 class="author">Patrice Pottier and Daniel W.A. Noble</h4>
-<h4 class="date">2022-06-23</h4>
+<h4 class="author">Daniel W.A. Noble &amp; Patrice Pottier</h4>
+<h4 class="date">2022-06-24</h4>
 
 </div>
 
@@ -2027,14 +2027,14 @@ div.tocify {
 </script>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>Nuisance heterogeneity – factors causing variation in effects that are blatantly obvious, like temperature and dosage differences – are common in studies used in comparative physiology meta-analyses. Nuisance heterogeneity can be a big driver of effect size magnitude. For example, a contrast-based effect size, such as log response ratio, calculated from a study that has manipulated treatments to have a 10 <span class="math inline">\(^{\circ}\)</span>C temperature difference between treatments is likely going to give you a much larger effect size than a study manipulated a treatment temperature difference of 2<span class="math inline">\(^{\circ}\)</span>C. Amalgamating such effects within a meta-analysis will make the interpretation of effect magnitude complicated because it’s difficult to know what magnitude of, say temperature, our effect size should be interpreted over.</p>
+<p>Nuisance heterogeneity – factors causing variation in effects that are blatantly obvious, like temperature and dosage differences – are common in studies used in comparative physiology meta-analyses <span class="citation">(Borenstein, 2019; Noble et al., 2022)</span>. Nuisance heterogeneity can be a big driver of effect size magnitude. For example, a contrast-based effect size, such as log response ratio, calculated from a study that has manipulated treatments to have a 10 <span class="math inline">\(^{\circ}\)</span>C temperature difference between treatments is likely going to give you a much larger effect size than a study that manipulated a treatment temperature difference of 2<span class="math inline">\(^{\circ}\)</span>C. Amalgamating such effects within a meta-analysis will make the interpretation of effect magnitude complicated because it’s difficult to know what magnitude of, say temperature, our effect size should be interpreted over.</p>
 <p>There are a few different ways to deal with nuisance heterogeneity. The most common approach is to simply include a moderator in a meta-regression model that controls for the temperature difference between treatments <span class="citation">(Noble et al., 2022)</span>. You can re-scale this continuous moderator (center the variable on the mean so ‘0’ equates to the average difference) so that intercepts are more interpretable <span class="citation">(Noble et al., 2022)</span>. Alternatively, we can ‘correct’ our effect sizes to account for the nuisance variable. In this tutorial, we’ll overview the latter approach as it can simplify modelling.</p>
 </div>
 <div id="effect-sizes-corrected-for-nuisance-heterogenity" class="section level1">
 <h1>Effect Sizes Corrected for Nuisance Heterogenity</h1>
 <div id="temperature-coefficient-q_10" class="section level3">
 <h3>Temperature Coefficient, <span class="math inline">\(Q_{10}\)</span></h3>
-<p>One common, and well known, effect size that is used in comparative physiology is the temperature coefficient, <span class="math inline">\(Q_{10}\)</span>. As discussed, effect sizes need to be: 1) comparable across studies and 2) we need to know, or be able to approximate, the sampling variance in order to make use of meta-analytic models. The <span class="math inline">\(Q_{10}\)</span>, or what we call <span class="math inline">\(LnRR_{Q_{10}}\)</span> because of its similarities with the log response ratio, is defined as follows by <span class="citation">Noble et al. (2022)</span>:</p>
+<p>One common and well known effect size that is used in comparative physiology is the temperature coefficient, <span class="math inline">\(Q_{10}\)</span>. As discussed, effect sizes need to be: 1) comparable across studies and 2) we need to know, or be able to approximate, the sampling variance in order to make use of meta-analytic models. The <span class="math inline">\(Q_{10}\)</span>, or what we call <span class="math inline">\(LnRR_{Q_{10}}\)</span> because of its similarities with the log response ratio, is defined as follows by <span class="citation">Noble et al. (2022)</span>:</p>
 <p><span class="math display" id="eq:q10">\[
 \begin{equation}
   Q_{10} = \left( \frac{R_{2}}{R_{1}} \right)^{ \left(\ \frac{10^{\circ}C}{T_{2}-T_{1}} \right) }
@@ -2058,7 +2058,16 @@ div.tocify {
 </div>
 <div id="acclimation-response-ratio-arr" class="section level3">
 <h3>Acclimation Response Ratio, ARR</h3>
-<p><span class="citation">Pottier et al. (2021)</span> developed the acclimation response ratio, ARR, to standardise temperature differences to compare thermal tolerances across sexes. The effect size allows one to investigate the variation in the relationship between acclimation temperature and thermal tolerance (i.e. variation in slope). Because heat tolerance is consistently measured in degrees Celsius (<code>CTmax</code>) in the studies compiled, we can calculate the slope between acclimation temperature and heat tolerance, which is termed as the acclimation response ratio (<code>ARR</code>) in the literature. It can be defined as follows:</p>
+<p><span class="citation">Pottier et al. (2021)</span> developed the acclimation response ratio, ARR. The effect size allows one to investigate variation in the relationship between acclimation temperature and thermal tolerance (i.e. variation in slope). Because heat tolerance is consistently measured in degrees Celsius (<code>CTmax</code>) in the studies compiled, the slope between acclimation temperature and heat tolerance can be calculated, which is termed as the acclimation response ratio (<code>ARR</code>) in the literature. It can be defined as follows:</p>
+<p><span class="math display">\[
+\text{ARR} = \frac{M_{1} - M_{2}}{T_2 - T_1},
+\]</span>
+where, <span class="math inline">\(M_{i}\)</span> is the mean for treatment 1 and 2 while <span class="math inline">\(T_{i}\)</span> is the temperature of treatment 1 and 2.</p>
+<p>When the two groups are independent than the sampling variace for <span class="math inline">\(ARR\)</span> is:</p>
+<p><span class="math display">\[
+\sigma^2_{ARR} = \left( \frac{1} {T_2 - T_1} \right)^2
+\left( \frac{SD^2_{1}} {N_{1}} + \frac{SD^2_{2}} {N_{2}} \right)
+\]</span></p>
 <p>``{r loadpackages, echo = TRUE, results = “hide”, messages = FALSE, class.source=‘klippy’}
 #install.packages(“pacman”)
 #devtools::install_github(“itchyshin/orchard_plot”, subdir = “orchaRd”, force = TRUE)
@@ -2076,6 +2085,9 @@ asr_dat &lt;- read.csv(&quot;https://osf.io/qn2af/download&quot;)</code></pre>
 <div id="references" class="section level2">
 <h2>References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Borenstein2019" class="csl-entry">
+<strong>Borenstein, M.</strong> (2019). Heterogenity in meta-analysis. In (ed. Cooper, H.), Hedges, L. V.), and Valentine, J. C.), pp. 454–466. New York: Russell Sage Foundation.
+</div>
 <div id="ref-Hedges1999" class="csl-entry">
 <strong>Hedges, L. V., Gurevitch, J. and Curtis, P. S.</strong> (1999). The meta-analysis of response ratios in experimental ecology. <em>Ecology</em> <strong>80</strong>, 1150–1156.
 </div>
