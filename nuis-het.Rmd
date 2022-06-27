@@ -70,9 +70,9 @@ $$
 
 #### $lnRR_{Q_{10}}$: Diving vertebrates and climate change
 
-We'll demonstrate how to apply $lnRR_{Q_{10}}$ to a data set on diving vertebrates by @Rodgers2021. @Rodgers2021 already analysed $Q_{10}$, but at the time they did not have $lnRR_{Q_{10}}$, meaning it was not possible to analyse these data using meta-analytic models -- they resorted to meta-regression approaches instead with standard effect sizes, which work equally as well. Here, we will show you how to calculate $lnRR_{Q_{10}}$ and interpret it. 
-
 ![](./figs/rodgers_2021.png)
+
+We'll demonstrate how to apply $lnRR_{Q_{10}}$ to a data set on diving vertebrates by @Rodgers2021. @Rodgers2021 already analysed $Q_{10}$, but at the time they did not have $lnRR_{Q_{10}}$, meaning it was not possible to analyse these data using meta-analytic models -- they resorted to meta-regression approaches instead with standard effect sizes, which work equally as well. Here, we will show you how to calculate $lnRR_{Q_{10}}$ and interpret it. 
 
 #### Download Data and Functions for $lnRR_{Q_{10}}$
 
@@ -118,6 +118,7 @@ lnRR_Q10 <- function(t1, t2, r1, r2, sd1, sd2, n1, n2, name ="acute"){
 
 ```
 
+#### Calculating and Interpreting $lnRR_{Q_{10}}$
 We can now use the function above to calculate $lnRR_{Q_{10}}$. 
 
 ```{r ln10calc, message=FALSE, warning=FALSE}
@@ -130,7 +131,12 @@ head(q10_dat %>% mutate(exp_lnRR_Q10 = exp(lnRR_Q10)) %>% select(exp_lnRR_Q10, Q
 
 ```
 
+**Interpretation**: Now that we have our $lnRR_{Q_{10}}$ effect size estimates which we back-transformed how do we interpret them? Given these are simply $Q_{10}$'s we can interpret these normally. **For the first row of our data we can see that dive duration when temperatures increase by 10$^{\circ}$C is expected to decrease by ~67% (1-0.33)**. In other words, the dive duration 10$^{\circ}$C above the first temperature is 33% of the rate 10$^{\circ}$C lower. 
+
+
 ### Acclimation Response Ratio, ARR
+
+![](./figs/pottier.png)
 
 @Pottier2021 developed the acclimation response ratio, ARR. The effect size allows one to investigate variation in the relationship between acclimation temperature and thermal tolerance (i.e. variation in slope). Because heat tolerance is consistently measured in degrees Celsius (`CTmax`) in the studies compiled, the slope between acclimation temperature and heat tolerance can be calculated, which is termed as the acclimation response ratio (`ARR`) in the literature. It can be defined as follows:
 
@@ -139,21 +145,58 @@ $$
 $$
 where, $M_{i}$ is the mean for treatment 1 and 2 while $T_{i}$ is the temperature of treatment 1 and 2. 
 
-When the two groups are independent than the sampling variace for $ARR$ is:
+When the two groups are independent than the sampling variance for $ARR$ is:
 
 $$
 \sigma^2_{ARR} = \left( \frac{1} {T_2 - T_1} \right)^2 
 \left( \frac{SD^2_{1}} {N_{1}} + \frac{SD^2_{2}} {N_{2}} \right)
 $$
 
+In this example, we will use a simplified data set from @Pottier2021, and demonstrate how to investigate the mean effect of acclimation temperature on heat tolerance.This effect size is calculated as the difference between the heat tolerance at the higher (`mean_high`) and the lower (`mean_low`) acclimation temperatures, divided by the difference between acclimation temperatures (`acc_temp_high` - `acc_temp_low`). 
 
-
-
-
+#### Download Data and Functions for $ARR$
 
 ```{r}
 asr_dat <- read.csv("https://osf.io/qn2af/download")
 ```
+
+We'll also need a function for calculating ARR and its sampling varinace because these don't exist in any current packages. 
+
+```{r ARRfunc}
+#' @title arr
+#' @description Calculates the acclimation response ratio (ARR).  
+#' @param t2_l  Lowest of the two treatment temperatures
+#' @param t1_h  Highest of the two treatment temperatures
+#' @param x1_h  Mean trait value at high temperature
+#' @param x2_l  Mean trait value at low temperature
+#' @param sd1_h Standard deviation of mean trait value at high temperature
+#' @param sd2_l Standard deviation of mean trait value at low temperature
+#' @param n1_h  Sample size at high temperature
+#' @param n2_l  Sample size at low temperature
+
+arr <- function(x1_h, x2_l, sd1_h, sd2_l, n1_h, n2_l, t1_h, t2_l){
+        ARR <- (x1_h - x2_l)/(t1_h - t2_l)
+      V_ARR <- ((1/(t1_h - t2_l))^2*(sd2_l^2/n2_l + sd1_h^2/n1_h))
+return(data.frame(ARR, V_ARR))
+}
+```
+
+
+#### Calculating and Interpreting $ARR$
+Using the `arr` function above we can now calculate the acclimation response ratio (ARR)
+
+```{r, tidy=TRUE}
+# Calculate the effect sizes
+asr_dat<-asr_dat %>% 
+              mutate(ARR= arr(x1_h = mean_high, x2_l = mean_low, t1_h = acc_temp_high, t2_l = acc_temp_low, 
+                              sd1_h = sd_high, sd2_l = sd_low, n1_h = n_high_adj, n2_l = n_low_adj)[,1], 
+                     V_ARR = arr(x1_h =  mean_high, x2_l = mean_low, t1_h = acc_temp_high, t2_l = acc_temp_low, 
+                              sd1_h = sd_high, sd2_l = sd_low, n1_h = n_high_adj, n2_l = n_low_adj)[,2])
+head(asr_dat %>% select(ARR, V_ARR))
+```
+
+
+**Interpretation**: If we look at the first row of data, **we can see that for each degree increase in acclimation temperature, the heat tolerance of the animals included in this data set increases by `r asr_dat[1,"ARR"]`$^{\circ}$C**. 
 
 # References
 
