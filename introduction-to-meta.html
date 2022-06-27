@@ -11,7 +11,7 @@
 
 <meta name="author" content="Daniel W.A. Noble" />
 
-<meta name="date" content="2022-06-17" />
+<meta name="date" content="2022-06-27" />
 
 <title>Introduction to Meta-analysis</title>
 
@@ -2016,7 +2016,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Introduction to Meta-analysis</h1>
 <h4 class="author">Daniel W.A. Noble</h4>
-<h4 class="date">2022-06-17</h4>
+<h4 class="date">2022-06-27</h4>
 
 </div>
 
@@ -2047,6 +2047,15 @@ Why would we want to account for a given study’s sampling variance? We want to
 </div>
 <p>We can effectively think of a meta-analysis as a weighted regression model with the weights being the inverse sampling variance for each effect size. Weights are calculated differently depending on the meta-analytic model in question (more on that in later tutorials).</p>
 <p>Throughout this workshop we will highlight the various features of meta-analysis that we discuss above. We’ll try to focus on dissecting how meta-analytic models are working and focus on important aspects of effect sizes and modelling that users should be aware of when meta-analysing a body of work for their specific question of interest. An important aspect to doing meta-analysis well (which can be hard) is being critical of the data and assumptions inherent to both effect sizes and statistical models. Meta-analysis also has some unique sources of non-independence <span class="citation">(Noble et al., 2017)</span> that isn’t always apparent. We’ll try and cover these and discuss some ways in which you can protect yourself from their impacts on inferences.</p>
+</div>
+<div id="meta-analysis-with-metafor" class="section level2">
+<h2>Meta-analysis with <code>metafor</code>!</h2>
+<p>Throughout our workshop we will make use of the <code>metafor</code> package <span class="citation">(Viechtbauer, 2010)</span>. It has substantial capabilities. If you’re not familiar with <code>metafor</code> we would suggest having a look at Wolfgang’s fantastic <code>UseR</code> talk below. Having said that, we will go over the variaous functions as we move through tutorials.</p>
+<div class="vembedr" align="center">
+<div>
+<iframe src="https://www.youtube.com/embed/IkduL5iRdqo" width="533" height="300" frameborder="0" allowfullscreen data-external="1"></iframe>
+</div>
+</div>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>
@@ -2083,6 +2092,9 @@ Why would we want to account for a given study’s sampling variance? We want to
 </div>
 <div id="ref-Rothstein2005" class="csl-entry">
 <strong>Rothstein, H. R., Sutton, A. J. and Borenstein, M.</strong> (2005). Publication bias in meta-analysis: Prevention, assessment and adjustments. <em>Wiley, Chichester</em>.
+</div>
+<div id="ref-Viechtbauer2010" class="csl-entry">
+<strong>Viechtbauer, W.</strong> (2010). Conducting meta-analyses in r with the metafor package. <em>Journal of Statistical Software</em> <strong>36</strong>, 1–48. URL: https://www.jstatsoft.org/v36/i03/.
 </div>
 </div>
 <p><br></p>

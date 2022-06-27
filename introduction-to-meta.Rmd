@@ -57,6 +57,14 @@ We can effectively think of a meta-analysis as a weighted regression model with 
 
 Throughout this workshop we will highlight the various features of meta-analysis that we discuss above. We'll try to focus on dissecting how meta-analytic models are working and focus on important aspects of effect sizes and modelling that users should be aware of when meta-analysing a body of work for their specific question of interest. An important aspect to doing meta-analysis well (which can be hard) is being critical of the data and assumptions inherent to both effect sizes and statistical models. Meta-analysis also has some unique sources of non-independence [@Noble2017] that isn't always apparent. We'll try and cover these and discuss some ways in which you can protect yourself from their impacts on inferences. 
 
+## Meta-analysis with `metafor`!
+
+Throughout our workshop we will make use of the `metafor` package [@Viechtbauer2010]. It has substantial capabilities. If you're not familiar with `metafor` we would suggest having a look at Wolfgang's fantastic `UseR` talk below. Having said that, we will go over the variaous functions as we move through tutorials.
+
+```{r, echo=FALSE}
+vembedr::embed_url("https://www.youtube.com/watch?v=IkduL5iRdqo") %>% vembedr::use_align("center")
+```
+
 ## References
 
 <div id="refs"></div>
