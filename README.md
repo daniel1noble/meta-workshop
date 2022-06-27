@@ -14,9 +14,9 @@ We also provide a list of [useful readings](#read) and [software](https://daniel
 
 In preparation for the workshop, we highly recommend the following background knowledge as we will use the `metafor` *R* package ([Viechtbauer 2010](https://www.jstatsoft.org/article/view/v036i03)) as our primary method for constructing meta-analytic models:
 
-* Understand the basis of a meta-analysis (see [Introduction: why do meta-analysis?](https://daniel1noble.github.io/meta-workshop/introduction-to-meta))
+* Understanding the basis for doing a meta-analysis (see [Introduction: why do meta-analysis?](https://daniel1noble.github.io/meta-workshop/introduction-to-meta))
 * Familiarise yourself with the `metafor` package and its functions (see [`metafor` website](https://wviechtb.github.io/metafor/))
-* As our workshop focuses on real-world data (and the complexities that it comes with) we highly recommend working through the ["Meta-Analysis in *R* with {metafor}](https://www.youtube.com/watch?v=IkduL5iRdqo&t=1602s&ab_channel=UseROslo) tutorial from "UseR Olso" for the basis of constructing meta-analytic models. Having a basic understanding of meta-analysis and `metafor` will greatly help with this workshop. Having said that, this is not essential if you are already familiar with meta-analysis. 
+* As our workshop focuses on real-world data (and the complexities that it comes with) we highly recommend working through the ["Meta-Analysis in *R* with {metafor}](https://www.youtube.com/watch?v=IkduL5iRdqo&t=1602s&ab_channel=UseROslo) tutorial from "UseR Olso". Having said that, this is not essential as we will walk participants through the code we provide. 
 
 ## **Recommended readings** {#read}
 
@@ -34,8 +34,8 @@ For a comprehensive guide on meta-analysis starting from a scoping study to writ
 * [Introduction: why do meta-analysis?](https://daniel1noble.github.io/meta-workshop/introduction-to-meta)
 * [Effect sizes: what to use, when to use them, and what they mean?](https://daniel1noble.github.io/meta-workshop/effect-size)
     + [Calculating and interpreting effect sizes](https://daniel1noble.github.io/meta-workshop/effect-size)
-    + [Effect size assumptions and checking their suitability](https://daniel1noble.github.io/meta-workshop/effect-assume)
     + [Controlling for nuisance heterogeneity](https://daniel1noble.github.io/meta-workshop/nuis-het)
+    + [Effect size assumptions and checking their suitability](https://daniel1noble.github.io/meta-workshop/effect-assume)
 * [Meta-analytic models](https://daniel1noble.github.io/meta-workshop/effect-size)
     + [Fixed vs random effect meta-analytic models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
     + [Multi-level meta-analytic models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
