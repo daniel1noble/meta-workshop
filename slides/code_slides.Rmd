@@ -441,3 +441,55 @@ Remember, things are the same but the weighting is different now.
        SE.ES.RE <- sqrt(VarES)
        SE.ES.RE
 ```
+
+## Q10 write our functioon
+
+```{r ln10funcs, echo = TRUE, message=FALSE, warning=FALSE}
+
+#' @title lnRR_Q10
+#' @description Calculates the log Q10 response ratio.  Note that temperature 2 is placed in the numerator and temperature 1 is in the denominator
+#' @param t1  Lowest of the two treatment temperatures
+#' @param t2  Highest of the two treatment temperatures
+#' @param r1  Mean physiological rate for temperature 1
+#' @param r2  Mean physiological rate for temperature 2
+#' @param sd1 Standard deviation for physiological rates at temperature 1
+#' @param sd2 Standard deviation for physiological rates at temperature 2
+#' @param n1  Sample size at temperature 1
+#' @param n2  Sample size at temperature 2
+#' @param name Character string for column name
+#' @example
+#' lnRR_Q10(20, 30, 10, 5, 1, 1, 30, 30)
+#' lnRR_Q10(20, 30, 10, 5, 1, 1, 30, 30, name = "acclim")
+#' @export
+
+lnRR_Q10 <- function(t1, t2, r1, r2, sd1, sd2, n1, n2, name ="acute"){
+        
+    lnRR_Q10 <- (10 / (t2 - t1))   * log(r2 / r1)
+  V_lnRR_Q10 <- (10 / (t2 - t1))^2 * ((sd1^2 / (n1*r1^2)) + (sd2^2 / (n2*r2^2)))
+  
+              dat <- data.frame(lnRR_Q10, V_lnRR_Q10)
+    colnames(dat) <- c(paste0("lnRR_Q10", name),  
+                       paste0("V_lnRR_Q10", name))
+  return(dat)
+}
+
+```
+
+## Q10
+```{r ln101, echo = TRUE, message=FALSE, warning=FALSE}
+q10_dat <- read.csv("https://osf.io/download/fb3ht/") 
+
+# Calculate lnRRQ10 and it's associated sampling variance
+q10_dat <- cbind(q10_dat, with(q10_dat, lnRR_Q10(t1 = t1, t2 = t2, r1 = mean_t1, r2 = mean_t2, sd1 = sd_t1, sd2 = sd_t2, n1 = n_t1, n2 = n_t2, name = "")))
+head(q10_dat)
+
+```
+
+## Q10 Interpretation
+```{r ln102, echo = TRUE,message=FALSE, warning=FALSE}
+# Now we can back-calculate to put on the original Q10 scale. We can than check that this matches the Q10 already in the data
+head(q10_dat %>% mutate(exp_lnRR_Q10 = exp(lnRR_Q10)) %>% select(exp_lnRR_Q10, Q10))
+
+```
+
+**For the first row of our data we can see that dive duration when temperatures increase by 10$^{\circ}$C is expected to decrease by ~67% (1-0.33)**.
