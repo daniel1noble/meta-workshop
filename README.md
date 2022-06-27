@@ -38,11 +38,11 @@ For a comprehensive guide on meta-analysis starting from a scoping study to writ
     <!-- + [Effect size assumptions and checking their suitability](https://daniel1noble.github.io/meta-workshop/effect-assume)-->
 * [Meta-analytic models](https://daniel1noble.github.io/meta-workshop/effect-size)
     + [Fixed vs random effect meta-analytic models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
-    + [Multi-level meta-analytic models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
-    + [Phylogenetic meta-analytic models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
-    + [Complex non-independence -- shared controls and traits](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
-    + [Multi-level metaregression models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
-* [Interpreting and reporting meta-analytic model results](https://daniel1noble.github.io/meta-workshop/effect-size)
+    + [Multi-level meta-analytic models](https://daniel1noble.github.io/meta-workshop/multi-level)
+    + [Phylogenetic meta-analytic models]()
+    + [Complex non-independence -- shared controls and traits]()
+    + [Multi-level metaregression models]()
+* [Interpreting and reporting meta-analytic model results]()
     + [Interpreting mean estimates on different scales]()
     + [Reporting heterogeneity -- a critical aspect of meta-analysis]()
   
