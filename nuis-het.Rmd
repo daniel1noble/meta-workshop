@@ -1,6 +1,6 @@
 ---
 title: "Nuisance heterogeneity"
-author: Daniel W.A. Noble & Patrice Pottier
+author: Daniel W.A. Noble, Essie Rodgers & Patrice Pottier
 date: '`r Sys.Date()`'
 bibliography: ./bib/refs.bib
 csl: ./bib/the-journal-of-experimental-biology.csl
@@ -12,6 +12,8 @@ output:
     toc: yes
     toc_depth: 6
     toc_float: yes
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -27,14 +29,18 @@ klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done',
 
 # Introduction
 
-Nuisance heterogeneity -- factors causing variation in effects that are blatantly obvious, like temperature and dosage differences -- are common in studies used in comparative physiology meta-analyses [@Noble2022; @Borenstein2019]. Nuisance heterogeneity can be a big driver of effect size magnitude. For example, a contrast-based effect size, such as log response ratio, calculated from a study that has manipulated treatments to have a 10 $^{\circ}$C temperature difference between treatments is likely going to give you a much larger effect size than a study that manipulated a treatment temperature difference of 2$^{\circ}$C. Amalgamating such effects within a meta-analysis will make the interpretation of effect magnitude complicated because it's difficult to know what magnitude of, say temperature, our effect size should be interpreted over. 
+In the [previous tutorial](https://daniel1noble.github.io/meta-workshop/effect-size) we over-viewed a few of the common effect size statistics likely to be used in comparative physiology. However, studies can vary in ways that can make the interpretation of these statistics challenging.  
 
-There are a few different ways to deal with nuisance heterogeneity. The most common approach is to simply include a moderator in a meta-regression model that controls for the temperature difference between treatments [@Noble2022]. You can re-scale this continuous moderator (center the variable on the mean so '0' equates to the average difference) so that intercepts are more interpretable [@Noble2022]. Alternatively, we can 'correct' our effect sizes to account for the nuisance variable. In this tutorial, we'll overview the latter approach as it can simplify modelling.
+Nuisance heterogeneity -- factors causing variation in effects that are blatantly obvious, like temperature and dosage differences applied across studies -- are common in studies used in comparative physiology meta-analyses [@Noble2022; @Borenstein2019]. Nuisance heterogeneity can be a big driver of effect size magnitude. For example, a contrast-based effect size, such as log response ratio, calculated from a study that has manipulated treatments to have a 10$^{\circ}$C temperature difference between treatments is likely going to give you a much larger effect size than a study that manipulated a treatment temperature difference of 2$^{\circ}$C. Amalgamating such effects within a meta-analysis will make the interpretation of effect magnitude complicated because it's difficult to know what magnitude of, say temperature, our effect size should be interpreted over. 
+
+There are a few different ways to deal with nuisance heterogeneity. The most common approach is to simply include a moderator in a meta-regression model that controls for the temperature difference between treatments [@Noble2022]. You can re-scale this continuous moderator (center the variable on the mean so '0' equates to the average difference) so that intercepts can be interpreted more easily [@Noble2022]. Alternatively, we can 'correct' our effect sizes to account for the nuisance variable. In this tutorial, we'll overview the latter approach as it can simplify modelling.
 
 # Effect Sizes Corrected for Nuisance Heterogenity
 
 ### Temperature Coefficient, $Q_{10}$
-One common and well known effect size that is used in comparative physiology is the temperature coefficient, $Q_{10}$. As discussed, effect sizes need to be: 1) comparable across studies and 2) we need to know, or be able to approximate, the sampling variance in order to make use of meta-analytic models. The $Q_{10}$, or what we call $LnRR_{Q_{10}}$ because of its similarities with the log response ratio, is defined as follows by @Noble2022: 
+One common and well known effect size that is used in comparative physiology is the temperature coefficient, $Q_{10}$. As [discussed](https://daniel1noble.github.io/meta-workshop/effect-size), effect sizes need to be: 1) comparable across studies and 2) we need to know, or be able to approximate, the sampling variance in order to make use of meta-analytic models. While $Q_{10}$ satisfies 1) we do now know what the sampling variance should be for this effect size. @Noble2022 fixes that issue by deriving it's sampling variance. 
+
+To begin, recall that $Q_{10}$, is defined as: 
 
 
 $$
@@ -53,7 +59,7 @@ $$
 \end{equation} 
 $$ 
 
-Equation \@ref(eq:lnq10) is essentially a temperature-corrected equivalent of *lnRR* when the numerator and denominator are measured at different temperatures. $lnRR_{Q_{10}}$ is more likely to satisfy the assumption of residual normality than $Q_{10}$ [see @Hedges1999]. The recognition of this equivalence means that we can calculate the sampling variance for equation \@ref(eq:lnq10) as follows:
+@Noble2022 call this transformed effect size $LnRR_{Q_{10}}$ because of its similarities with the log response ratio. Equation \@ref(eq:lnq10) is essentially a temperature-corrected equivalent of *lnRR* when the numerator and denominator are measured at different temperatures. $lnRR_{Q_{10}}$ is more likely to satisfy the assumption of residual normality than $Q_{10}$ and given it's similarities to *lnRR* we can now approximate it's sampling variance [see @Hedges1999]. The recognition of this equivalence means that we can calculate the sampling variance for equation \@ref(eq:lnq10) as follows:
 
 $$
 \begin{equation} 
@@ -61,6 +67,68 @@ $$
   (\#eq:Vlnq10)
 \end{equation} 
 $$
+
+#### $lnRR_{Q_{10}}$: Diving vertebrates and climate change
+
+We'll demonstrate how to apply $lnRR_{Q_{10}}$ to a data set on diving vertebrates by @Rodgers2021. @Rodgers2021 already analysed $Q_{10}$, but at the time they did not have $lnRR_{Q_{10}}$, meaning it was not possible to analyse these data using meta-analytic models -- they resorted to meta-regression approaches instead with standard effect sizes, which work equally as well. Here, we will show you how to calculate $lnRR_{Q_{10}}$ and interpret it. 
+
+![](./figs/rodgers_2021.png)
+
+#### Download Data and Functions for $lnRR_{Q_{10}}$
+
+We'll download the data set used to analyse $Q_{10}$ and load a bunch of packages that are necessary. 
+
+```{r ln10, message=FALSE, warning=FALSE}
+q10_dat <- read.csv("https://osf.io/download/fb3ht/") 
+
+#install.packages("pacman")
+pacman::p_load(devtools, pander, tidyverse, metafor)
+```
+
+We'll now need a function for calculating $lnRR_{Q_{10}}$ because this effect size is not part of the `metafor` package. 
+
+```{r ln10funcs, message=FALSE, warning=FALSE}
+
+#' @title lnRR_Q10
+#' @description Calculates the log Q10 response ratio.  Note that temperature 2 is placed in the numerator and temperature 1 is in the denominator
+#' @param t1  Lowest of the two treatment temperatures
+#' @param t2  Highest of the two treatment temperatures
+#' @param r1  Mean physiological rate for temperature 1
+#' @param r2  Mean physiological rate for temperature 2
+#' @param sd1 Standard deviation for physiological rates at temperature 1
+#' @param sd2 Standard deviation for physiological rates at temperature 2
+#' @param n1  Sample size at temperature 1
+#' @param n2  Sample size at temperature 2
+#' @param name Character string for column name
+#' @example
+#' lnRR_Q10(20, 30, 10, 5, 1, 1, 30, 30)
+#' lnRR_Q10(20, 30, 10, 5, 1, 1, 30, 30, name = "acclim")
+#' @export
+
+lnRR_Q10 <- function(t1, t2, r1, r2, sd1, sd2, n1, n2, name ="acute"){
+        
+    lnRR_Q10 <- (10 / (t2 - t1))   * log(r2 / r1)
+  V_lnRR_Q10 <- (10 / (t2 - t1))^2 * ((sd1^2 / (n1*r1^2)) + (sd2^2 / (n2*r2^2)))
+  
+              dat <- data.frame(lnRR_Q10, V_lnRR_Q10)
+    colnames(dat) <- c(paste0("lnRR_Q10", name),  
+                       paste0("V_lnRR_Q10", name))
+  return(dat)
+}
+
+```
+
+We can now use the function above to calculate $lnRR_{Q_{10}}$. 
+
+```{r ln10calc, message=FALSE, warning=FALSE}
+# Calculate lnRRQ10 and it's associated sampling variance
+q10_dat <- cbind(q10_dat, with(q10_dat, lnRR_Q10(t1 = t1, t2 = t2, r1 = mean_t1, r2 = mean_t2, sd1 = sd_t1, sd2 = sd_t2, n1 = n_t1, n2 = n_t2, name = "")))
+head(q10_dat)
+
+# Now we can back-calculate to put on the original Q10 scale. We can than check that this matches the Q10 already in the data
+head(q10_dat %>% mutate(exp_lnRR_Q10 = exp(lnRR_Q10)) %>% select(exp_lnRR_Q10, Q10))
+
+```
 
 ### Acclimation Response Ratio, ARR
 
@@ -78,13 +146,7 @@ $$
 \left( \frac{SD^2_{1}} {N_{1}} + \frac{SD^2_{2}} {N_{2}} \right)
 $$
 
-``{r loadpackages, echo = TRUE, results = "hide", messages = FALSE, class.source='klippy'}
-#install.packages("pacman")
-#devtools::install_github("itchyshin/orchard_plot", subdir = "orchaRd", force = TRUE)
-#devtools::install_github("daniel1noble/metaAidR")
-pacman::p_load(devtools, png, jpeg, pander, cowplot, flextable, formatR, magick,
-               tidyverse, metafor, orchaRd, here, osfr, magrittr, metaAidR)
-```
+
 
 
 
@@ -93,19 +155,19 @@ pacman::p_load(devtools, png, jpeg, pander, cowplot, flextable, formatR, magick,
 asr_dat <- read.csv("https://osf.io/qn2af/download")
 ```
 
-## References
+# References
 
 <div id="refs"></div>
 
 <br>
 
-## Session Information
+# Session Information
 
 ```{r sessioninfo, echo = FALSE, tidy=TRUE}
 # Here, we'll create some R code
 pander::pander(sessionInfo(), locale = FALSE)
 ```
 
-## [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/) {.hide}
+# [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/) {.hide}
 
 <div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
