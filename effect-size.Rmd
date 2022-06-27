@@ -20,7 +20,7 @@ options(digits=2)
 
 ```{r klippy, echo=FALSE, include=TRUE, message=FALSE, warning=FALSE}
 #install.packages("devtools")
-remotes::install_github("rlesur/klippy")
+#remotes::install_github("rlesur/klippy")
 klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done', position = 'right', color = "red")
 
 # Load packages
@@ -31,25 +31,23 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ## Introduction
 
-Meta-analysis quantitatively synthesises effect size data collected from existing research. The effect size one uses for a study question needs to be chosen carefully. Each make certain assumptions about the underlying data. It's important to be weary of these assumptions and identify when something might have gone wrong. 
+Meta-analysis quantitatively aggregates effect size data collected from existing research. The effect size one uses for a study question needs to be chosen carefully. Each make certain assumptions about the underlying data. It's important to be weary of these assumptions and identify when something might have gone wrong. 
 
-Meta-analyses in comparative physiology, and indeed, ecology and evolution more generally, often use highly heterogeneous data [@Noble2022]. We'll discuss some of these issues as we walk through the tutorial and identify some ways in which some of this heterogeneity can be dealt with when deriving the effect size itself. 
+The effect size chosen must satisfy two important features. First, the effect size must be comparable across studies. This means that they must be placed on the same scale so that they can be aggregated. Some effect size estimates can be inter-converted to each other (e.g., Zr, Hedges' g), but this isn't the case for all of them. Second, we must be able to derive or approximate the sampling variance for a given effect size. As [already indicated](https://daniel1noble.github.io/meta-workshop/introduction-to-meta), the sampling variance is very important if one wishes to use meta-analytic models that account for sampling variance and is needed to report certain measures of heterogeneity. 
+
+Meta-analyses in comparative physiology, and indeed, ecology and evolution more generally, often use highly heterogeneous data [@Noble2022; @Senior2016]. This poses other challenges in aggregating effect size data that make their comparability questionable. We'll discuss some of these issues in later [tutorials](https://daniel1noble.github.io/meta-workshop/nuis-het) and identify some ways in which some of this heterogeneity can be dealt with when deriving the effect size itself. 
 
 By the end of this tutorial, we hope that you will feel comfortable:
 
 1. Calculating different effect sizes from your data.
-2. Understanding what sampling variance is, and why it is important.
-3. Interpreting the meaning of different effect sizes
-4. Transforming effect size estimates back to original scales
-
-[Visualising Cohen's d](https://rpsychologist.com/cohend/)
-
+2. Interpreting the meaning of different effect size statistics
+3. Transforming effect size estimates back to their original scales when needed
 
 ## Common Effect Sizes
 
 What is an effect size? The answer to this question depends on what kind of study one wishes to synthesise. For example, an effect size could be a contrast between experimental treatments. We might extract mean differences from experiments manipulating, say, bisphenol-A (BPA) and looking at the effect of BPA on aquatic ectotherm phenotype relative to some control [@WuSeebacher2020]. Alternatively, the effect of interest might be the magnitude and direction of a correlation between two observed variables, such as metabolism and behaviour [@Holtman2016]. At times, we might even just be interested in analysing the mean or variance itself. 
 
-> "The terms treatment effects and effect sizes are used in different ways by different people. Meta-analyses in medicine often refer to the effect size as a treatment effect, and this term is sometimes assumed to refer to odds ratios, risk ratios, or risk differences, which are common in meta-analyses that deal with medical interven- tions. Similarly, meta-analyses in the social sciences often refer to the effect size simply as an effect size and this term is sometimes assumed to refer to standardized mean differences or to correlations, which are common in social science meta- analyses" [@Borenstein2009]
+> "An effect size is a statistical parameter that can be used to compare, on the same scale, the results of different studies in which a common effect of interest has been measured" [@Rosenberg2013]
 
 <br>
 There are many types of effect sizes that are commonplace in ecological and evolutionary research [Table \@ref(tab:tablea) describes many of the more common ones from @Noble2022]. 
@@ -124,7 +122,7 @@ tablea <- flextable(table_fin)                                                  
 FitFlextableToPage(tablea, pgwidth = 8)
 ```
 
-We'll use `metafor` to demonstrate how to calculate two commonly used effect size estimates in the field of comparative physiology, including Z-transformed correlation coefficients (Zr) and log response ratios. In a third example, we'll overview how to calculate effect sizes that control for 'nuisance heterogeneity', which makes the interpretation of the estimate different. Throughout, we'll focus on what the effect size means, its sampling variance and how to transform these to understand what the calculation means on the original scale. 
+We'll use `metafor` to demonstrate how to calculate commonly used effect size estimates in the field of comparative physiology, including Z-transformed correlation coefficients (Zr), log response ratios and Hedge's g. 
 
 ## Setting up
 
@@ -133,7 +131,7 @@ To start, well need to load some packages and data. The data is all stored on Gi
 ```{r loadpackages, eval=TRUE, message=FALSE, warning=FALSE}
 # Load packages
 #install.packages("pacman") # If you haven't already installed the pacman package do so with this code
-pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags, tidyverse)
+pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags)
 # To use mathjaxr you need to run equatags::mathjax_install()
 ```
 
@@ -141,33 +139,31 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 **Background**: Physiology is expected to drive movement, including short-term activity, exploration of unfamiliar environments, and larger scale dispersal which can influence species distributions in an environmentally sensitive manner. To test whether there is a relationship between physiology and movement pattern (separated as activity, exploration, and dispersal), we extracted data from the literature on common physiological traits measured (e.g., metabolic rate, hormone levels, body condition) with either activity, exploration, and dispersal at the individual level. As we are interested in relationships at the individual level, we extracted correlation data in the form of [correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) and sample size.
 
-We also included moderator variables that are likely to explain variation in the dataset:
-* taxonomic groups (amphibians, reptiles, invertebrates, mammals, birds),
-* thermoregulation strategy (ectotherm or endotherm), 
-* sex (male, female, mixed), 
-* age (juvenile, adult), 
-* origin (wild-caught, captive-raised; the “origin” moderator is relevant for the ‘individual movement’ analysis only, and refers to common laboratory animals such as zebrafish).
-
-To account for non-independence and test for publication bias we also extracted data on:
-* publication year
-* species name
-* effect size ID
-* study ID
-
 For complete detail on the study aim and design, please see [Wu & Seebacher (2022)](https://doi.org/10.1038/s42003-022-03055-y)
 
-Download the data. The following code illustrates how to calculate the Fisher z-transformed effect size (yi) and sampling variance (vi) from correlation coefficients (ri) and sample size (ni) using 10 row of data from the main dataset.
+Download the data. The following code illustrates how to calculate the Fisher z-transformed effect size (Zr) and sampling variance (V_Zr) from correlation coefficients (ri) and sample size (ni) using 10 rows of data from the main dataset.
 
-```{r Zr}
+```{r Zr, message=FALSE}
 zr_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/ind_disp_raw_data.csv") %>%
   dplyr::select(study_ID, taxa, species, trait, response, response_unit, disp_trait, disp_unit, corr_coeff, sample_size) %>% # remove irrelevant columns for this tutorial
   dplyr::top_n(10) # select first 10 effect sizes to illustrate escalc function
 
 # Calculate Fisher's r-to-z transformed correlation coefficient (ZCOR) as yi = effect size and vi = sampling variances, where ri = raw correlation coefficients, and ni = sample size.
-zr_data <- metafor::escalc(measure = "ZCOR", ri = corr_coeff, ni = sample_size, data = zr_data)
+zr_data <- metafor::escalc(measure = "ZCOR", ri = corr_coeff, ni = sample_size, data = zr_data, var.names = c("Zr", "V_Zr"))
 
 zr_data
 ```
+
+We want to convert to Zr instead of using the correlation (r) itself because Zr will satisfy assumptions of normality (see below) that are inherent to meta-analytic models. We can, however, convert back to the original correlation coefficient quite easily as follows:
+
+```{r Zrescalcbackcalc, echo = TRUE}
+# We can easily convert back to r as follows
+zr_data$r <- tanh(zr_data$Zr)
+
+zr_data %>% select(corr_coeff, r)
+```
+
+The correlation coefficient itself is a unit less measure that captures both the strength and direction of relationship between two variables. The raw correlation coefficient ranges from -1 to 1. If a correlation is positive it indicates that, as the value of one variable increases so to does the value of the second variable. The magnitude of the value indicates how strong they co-vary. For example, a correlation of 1 indicates that variable 1 perfectly co-varies with variable 2.
 
 ## Difference in physiology between populations from range core and edge: Log response ratio (lnRR)
 
@@ -175,22 +171,11 @@ zr_data
 
 To compare differences in the physiological characteristics between individuals from an established range core to their expanding range edge we collected data from studies that reported physiological response from the range core (core) and range edge (front) in the form of mean, sample size, and variance (SD, SE, or 95% CI). This information is used to calculate the log response ratio (lnRR).
 
-We also included moderator variables that are likely to explain variation in the dataset:
-* taxonomic groups (amphibians, reptiles, invertebrates, mammals, birds),
-* thermoregulation strategy (ectotherm or endotherm), 
-* distance between core population and edge population. 
-
-To account for non-independence and test for publication bias we also extracted data on:
-* publication year
-* species name
-* effect size ID
-* study ID
-
 For complete detail on the study aim and design, please see [Wu & Seebacher (2022)](https://doi.org/10.1038/s42003-022-03055-y)
 
 Download the data. The following code illustrates how to calculate the log response ratio (yi) and sampling variance (vi) from the mean (mi), sample size (ni) and standard deviation (sdi) from the edge population (1), and core population (2) using 10 row of data from the main dataset.
 
-```{r lnRR}
+```{r lnRR, message=FALSE}
 ratio_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/pop_disp_raw_data.csv") %>%
   dplyr::select(study_ID, taxa, species, trait, response, response_unit, mean_core, sd_core, n_core, mean_front, sd_front, n_front) %>% # remove irrelevant columns for this tutorial
   dplyr::top_n(10) # select first 10 effect sizes to illustrate escalc function
@@ -203,16 +188,43 @@ ratio_data <- metafor::escalc(measure = "ROM",
 ratio_data
 ```
 
-## Visualising Cohen's d
+Now that we have calculated the log response ratio lets just make sure we understand what is being done. We'll take this subset of data and do some back calculations to make sure we understand how to inter convert. To demonstrate, we'll just convert (and back convert) the first row of data. 
 
-<iframe width="800px" height="800px" src="https://rpsychologist.com/cohend/?embed=1&CER=20&M0=100&M0lab=Control&M1=103.3&M1lab=Treatment&SD=15&c0=r-48_g-57_b-79_a-1&c1=r-0_g-0_b-0_a-1&c2=r-106_g-206_b-235_a-1&d=0.22&slider=1&xlab=Outcome" frameborder="0"></iframe>
+```{r ConvertLnRR, echo = TRUE}
+### Let's back calculate effects to make sure we understand why they are interpreted as percentage differences
 
+# First, lets make sure we understand how it's calculated
+with(ratio_data, log(mean_front[1] / mean_core[1]))
 
-## Great Resources!
+# Alternatively....
+with(ratio_data, log(mean_front[1]) - log(mean_core[1]))
 
-```{r, echo=FALSE}
-vembedr::embed_url("https://www.youtube.com/watch?v=IkduL5iRdqo") %>% vembedr::use_align("center")
+# Now lets back-transform to odds. 
+with(ratio_data, exp(log(mean_front[1]) - log(mean_core[1])))
+
+# Interpretation: What this tells us is that the numerator is 1.15 times the denominator, or, that the marginal (front) mean is 15% larger compared to the core mean. We can see that this is true as follows:
+with(ratio_data, exp(log(mean_front[1]) - log(mean_core[1])) * mean_core[1])
+
+# This value should now match the marginal mean value, which it does
+with(ratio_data, mean_front[1])
 ```
+
+Hopefully this is useful to interpret the meaning of the effect size data at the level of individual observations. The same principles will apply (for the most part) when converting back to the original scale from the mean estimates from meta-analytic models. 
+
+## Cohen's d and Hedges g -- Visualising Their Meaning
+
+We could also use [Wu & Seebacher (2022)](https://doi.org/10.1038/s42003-022-03055-y)'s data to calculate Hedge's g. Hedge's g is very similar to Cohen's d, but it has a small sample correction. This can also be done with `metafor::escalc()` by setting measure to "SMD".  We can use the same data here as all the summary statistics that are needed for calculating lnRR are the same as Hedge's g. We can calculate as follows. 
+
+```{r hedges}
+# Calculate hedges g as yi = effect size and vi = sampling variances, where m1i = mean of edge population, n1i = sample size of edge population, sd1i = standard deviation of edge population, m2i = mean of core population, n2i = sample size of core population, sd2i = standard deviation of core population.
+hedge_data <- metafor::escalc(measure = "SMD", 
+                              m1i = mean_front, n1i = n_front, sd1i = sd_front,
+                              m2i = mean_core, n2i = n_core, sd2i = sd_core, 
+                              data = ratio_data, var.names = c("d", "d_vi"))
+hedge_data
+```
+
+Visualising and interpreting Hedge's g can be slightly less intuitive compared to log response ratios. There's a great [online resource](https://rpsychologist.com/cohend/) by Kristoffer Magnusson with some visuals that can help you decipher the meaning of Cohen's d effects, which is the same as Hedge's g. 
 
 ## References
 
