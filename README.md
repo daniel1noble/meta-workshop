@@ -35,7 +35,7 @@ For a comprehensive guide on meta-analysis starting from a scoping study to writ
 * [Effect sizes: what to use, when to use them, and what they mean?](https://daniel1noble.github.io/meta-workshop/effect-size)
     + [Calculating and interpreting effect sizes](https://daniel1noble.github.io/meta-workshop/effect-size)
     + [Controlling for nuisance heterogeneity](https://daniel1noble.github.io/meta-workshop/nuis-het)
-    + [Effect size assumptions and checking their suitability](https://daniel1noble.github.io/meta-workshop/effect-assume) {.hide}
+    <!-- + [Effect size assumptions and checking their suitability](https://daniel1noble.github.io/meta-workshop/effect-assume)-->
 * [Meta-analytic models](https://daniel1noble.github.io/meta-workshop/effect-size)
     + [Fixed vs random effect meta-analytic models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
     + [Multi-level meta-analytic models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
