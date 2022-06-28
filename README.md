@@ -39,7 +39,7 @@ For a comprehensive guide on meta-analysis starting from a scoping study to writ
 * [Meta-analytic models](https://daniel1noble.github.io/meta-workshop/effect-size)
     + [Fixed vs random effect meta-analytic models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
     + [Multi-level meta-analytic models](https://daniel1noble.github.io/meta-workshop/multi-level)
-    + [Phylogenetic meta-analytic models]()
+    + [Phylogenetic meta-analytic models](https://daniel1noble.github.io/meta-workshop/phylo)
     + [Complex non-independence -- shared controls and traits]()
     + [Multi-level metaregression models]()
 * [Interpreting and reporting meta-analytic model results]()
