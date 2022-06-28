@@ -152,7 +152,7 @@ You will notice two additional arguments being specified:
 MLMA <- metafor::rma.mv(yi= ARR~ 1, V = V_ARR, 
                    method="REML",
                    random=list(~1|species_ID,
-                               ~1|authors,
+                               ~1|study_ID,
                                ~1|es_ID), 
                    dfs = "contain",
                    test="t",

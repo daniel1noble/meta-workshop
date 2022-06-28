@@ -2108,7 +2108,7 @@ asr_dat &lt;- asr_dat %&gt;%
 </ul>
 <pre class="r klippy"><code># Multi-level meta-analytic model
 MLMA &lt;- metafor::rma.mv(yi = ARR ~ 1, V = V_ARR, method = &quot;REML&quot;, random = list(~1 |
-    species_ID, ~1 | authors, ~1 | es_ID), dfs = &quot;contain&quot;, test = &quot;t&quot;, data = asr_dat)
+    species_ID, ~1 | study_ID, ~1 | es_ID), dfs = &quot;contain&quot;, test = &quot;t&quot;, data = asr_dat)
 print(MLMA)</code></pre>
 <pre><code>## 
 ## Multivariate Meta-Analysis Model (k = 123; method: REML)
@@ -2117,7 +2117,7 @@ print(MLMA)</code></pre>
 ## 
 ##             estim    sqrt  nlvls  fixed      factor 
 ## sigma^2.1  0.0008  0.0280     29     no  species_ID 
-## sigma^2.2  0.0154  0.1241     21     no     authors 
+## sigma^2.2  0.0154  0.1241     21     no    study_ID 
 ## sigma^2.3  0.0097  0.0987    123     no       es_ID 
 ## 
 ## Test for Heterogeneity:
