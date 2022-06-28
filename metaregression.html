@@ -2075,7 +2075,7 @@ asr_dat &lt;- asr_dat %&gt;%
 <p>Our data is now ready for analysis! We will use the <code>rma.mv</code> function in <code>metafor</code> to fit our first multilevel meta-analysis model. The model takes the ARR as a response variable (<code>yi</code>) and accounts for it’s sampling variance (<code>V</code> = V_ARR). We are also going to estimate a random effect variance for species, between study and within-study grouping variables to control for non-independence and understand sources driving effect size variability. These are all denoted in the <code>random</code> argument of <code>metafor</code> which takes a list of all the random effects.</p>
 <p>You will notice two additional arguments being specified:</p>
 <ul>
-<li><p>The first, <code>dfs</code>, which calculates the degrees of freedom for the inferential tests in the model. <code>dfs = &quot;contain&quot;</code> will calculate the degrees of freedom based on the lowest clustering level minus 1 (in this case study). Simulations have shown that this is a more robust measure to protect against type I errors <span class="citation">(Nakagawa et al., 2022)</span>.</p></li>
+<li><p>The first, <code>dfs</code>, which calculates the degrees of freedom for the inferential tests in the model. <code>dfs = &quot;contain&quot;</code> will calculate the degrees of freedom based on the lowest clustering level minus 1 (in this case study). Simulations have shown that this is a more robust measure to protect against type I errors <span class="citation">(Nakagawa et al., 2022a)</span>.</p></li>
 <li><p>The second argument, <code>test</code> specifies the test statistic used. <code>metafor</code> defaults to z values based on the standard normal distribution, however, simulations have shown <span class="citation">(Pappalardo et al., 2020)</span> and it has been recommended <span class="citation">(Rosenberg, 2013)</span>, that the t-distribution be used because samples sizes are often small and the true variance of the test is being estimated.</p></li>
 </ul>
 <pre class="r klippy"><code># Multi-level meta-analytic model
@@ -2106,14 +2106,218 @@ print(MLMA)</code></pre>
 <p>We can also see that there’s a significant amount of heterogeneity among our effect size estimates with our <em>Q</em>-test being significant. Some of this heterogeneity seems to be driven by variation among studies, within studies and among species as judged by the variance components of the model. We’ll probe how to dissect and discuss this heterogeneity in later tutorials.</p>
 </div>
 </div>
+<div id="niky-moved-phylogenetic-mlma-here" class="section level2">
+<h2>Niky moved phylogenetic MLMA here</h2>
+<div id="run-phylogenetically-corrected-multi-level-meta-regression" class="section level3">
+<h3>Run phylogenetically corrected, multi-level meta-regression</h3>
+<p>We will first extract the raw data, calculate Zr and sampling variance, and reconstruct the phylogeny from the <a href="https://daniel1noble.github.io/meta-workshop/phylo">Phylogenetic Meta-analysis tutorial</a>. Note, we have now included additional moderators <code>Zr_sei</code> and <code>year_centre</code> in the raw data. The magnitude of the overall effect can be exaggerated because statistically non-significant effect sizes are less likely to be published, especially when they are based on small sample sizes (here as standard error <code>Zr_sei</code>; <a href="https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.13724"><span class="citation">Nakagawa et al. (2022b)</span></a>). Time-lag bias occurs when larger or statistically significant effects are published more quickly than smaller or non-statistically significant effects, and can manifest as a decline in the magnitude of the overall effect over time (i.e. a decline effect; <a href="https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3001511"><span class="citation">Clements et al. (2022)</span></a>). To test this, we standardise the publication year as <code>year_centre</code> (i.e. set the mean value of year as 0).</p>
+<pre class="r"><code>pacman::p_load(rotl, ape)
+
+zr_data &lt;- read.csv(&quot;https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/ind_disp_raw_data.csv&quot;) %&gt;%
+  dplyr::select(-dispersal_def) %&gt;% # remove irrelevant columns
+  tibble::rowid_to_column(&quot;es_ID&quot;) %&gt;% # add effect size ID
+  dplyr::mutate(Zr_sei      = 1 / sqrt(sample_size - 3), # Standard error (SE)
+                year_centre = year - mean(year),  # mean-centring year of publication
+                species_OTL = stringr::str_replace_all(species_OTL, &quot;_&quot;, &quot; &quot;)) # remove underscore for some species with missing underscore. Some inconsistency when curating the database.
+
+# Calculate Zr and sampling variance
+zr_data &lt;- metafor::escalc(measure = &quot;ZCOR&quot;, ri = corr_coeff, ni = sample_size, data = zr_data, var.names = c(&quot;Zr&quot;, &quot;V_Zr&quot;))
+
+# Create species list based on OTL names and match with OTL database
+species &lt;- sort(unique(as.character(zr_data$species_OTL))) # generate list of species (as character format)
+taxa    &lt;- rotl::tnrs_match_names(names = species) # match taxonomic names to the OTL
+
+# Retrieving phylogenetic relationships among taxa in the form of a trimmed sub-tree
+tree &lt;- rotl::tol_induced_subtree(ott_ids = ott_id(taxa), label_format = &quot;name&quot;)</code></pre>
+<pre><code>## 
+Progress [---------------------------------] 0/984 (  0) ?s
+Progress [==============================] 984/984 (100)  0s
+                                                            </code></pre>
+<pre><code>## Warning in collapse_singles(tr, show_progress): Dropping singleton
+## nodes with labels: Deuterostomia, Chordata, mrcaott42ott658, Craniata
+## (subphylum in Deuterostomia), Vertebrata (subphylum in Deuterostomia),
+## Gnathostomata (superclass in phylum Chordata), Teleostomi, Sarcopterygii,
+## Dipnotetrapodomorpha, Mammalia, Eutheria (in Deuterostomia), mrcaott42ott30082,
+## Glires, mrcaott42ott29157, Rodentia, mrcaott42ott48903, mrcaott42ott254702,
+## Myomorpha, Muroidea, mrcaott42ott45197, mrcaott42ott55942, mrcaott42ott102,
+## mrcaott102ott283439, mrcaott102ott38119, mrcaott102ott125766,
+## mrcaott102ott456651, mrcaott102ott1729, mrcaott102ott23039, mrcaott102ott289304,
+## mrcaott102ott185328, mrcaott102ott542525, mrcaott102ott348560,
+## mrcaott102ott542521, mrcaott102ott321218, Mus musculus, mrcaott8118ott211375,
+## mrcaott8118ott606407, mrcaott8118ott993024, mrcaott8118ott106790,
+## mrcaott8118ott366063, mrcaott8118ott167547, mrcaott8118ott106786,
+## mrcaott8118ott92106, mrcaott92106ott577539, mrcaott92106ott182319,
+## mrcaott19510ott565388, mrcaott19510ott154782, mrcaott19510ott981023,
+## mrcaott19510ott79088, mrcaott79088ott404792, mrcaott79088ott89162,
+## mrcaott79088ott89262, mrcaott89262ott89265, mrcaott89262ott838823,
+## mrcaott89262ott197974, mrcaott197974ott764841, mrcaott739ott15637, Neotominae,
+## mrcaott18770ott5266794, mrcaott18770ott39171, mrcaott18770ott39181,
+## mrcaott18770ott76407, mrcaott76407ott1024550, mrcaott76407ott138845,
+## mrcaott76407ott319357, mrcaott76407ott373073, mrcaott76407ott576106,
+## mrcaott76407ott259483, mrcaott259483ott1026151, mrcaott259483ott259485,
+## Peromyscus maniculatus, mrcaott9032ott42889, Arvicolinae, mrcaott42889ott176437,
+## mrcaott42889ott48249, mrcaott48249ott270179, mrcaott48249ott90548,
+## mrcaott48249ott496185, mrcaott48249ott131164, mrcaott131164ott427965,
+## mrcaott131164ott404170, mrcaott131164ott163267, mrcaott163267ott177476,
+## mrcaott163267ott509531, mrcaott163267ott803141, mrcaott163267ott7067213,
+## mrcaott163267ott449577, Hystricomorpha, mrcaott38834ott173065,
+## mrcaott38834ott45520, mrcaott38834ott44975, mrcaott44975ott67355,
+## mrcaott67355ott88915, mrcaott88915ott236057, mrcaott236057ott744018, Caviidae,
+## mrcaott236057ott264229, mrcaott236057ott484314, Cavia, mrcaott236059ott744000,
+## mrcaott236059ott810517, Sciuromorpha, mrcaott10477ott829369, Sciuridae,
+## mrcaott10477ott43435, mrcaott10477ott97818, mrcaott10477ott259084,
+## mrcaott10477ott152097, Marmotini, Tamias, mrcaott428070ott429973,
+## mrcaott429973ott501354, mrcaott429973ott501356, mrcaott501356ott599867,
+## mrcaott599867ott599879, mrcaott786ott112387, Primates, Haplorrhini, Simiiformes,
+## Catarrhini, mrcaott786ott3607729, mrcaott786ott83926, Cercopithecoidea,
+## Cercopithecidae, mrcaott786ott5512, Cercopithecinae, mrcaott33609ott111862,
+## mrcaott33609ott436611, mrcaott436611ott741053, mrcaott436611ott554544,
+## mrcaott436611ott665522, Papio, mrcaott485691ott741051, mrcaott485691ott554291,
+## mrcaott485691ott1013353, Papio cynocephalus, Strepsirrhini, mrcaott3428ott50727,
+## Lemuriformes, mrcaott3428ott22554, mrcaott3428ott132960, mrcaott3428ott5146,
+## Cheirogaleidae, mrcaott5146ott311696, mrcaott5146ott516007, mrcaott5146ott16910,
+## Microcebus, mrcaott311211ott765339, mrcaott1548ott6790, mrcaott1548ott3607484,
+## mrcaott1548ott4942380, mrcaott1548ott4942547, mrcaott1548ott3021, Artiodactyla,
+## mrcaott1548ott21987, mrcaott1548ott5256, Ruminantia, Pecora, Cervidae,
+## mrcaott15447ott54038, mrcaott54038ott256566, mrcaott256566ott1008240,
+## Capreolus, Capreolus capreolus, mrcaott20474ott233507, mrcaott20474ott561127,
+## mrcaott20474ott21273, mrcaott20474ott23046, mrcaott20474ott98208,
+## mrcaott20474ott938450, Caprinae, mrcaott20474ott768699, mrcaott20474ott274550,
+## mrcaott20474ott346628, mrcaott20474ott88864, mrcaott88864ott143624,
+## mrcaott88864ott698614, mrcaott88864ott556488, mrcaott556488ott862859, Capra
+## pyrenaica, mrcaott132224ott185299, Ovis, Bovinae, mrcaott24247ott73074,
+## mrcaott73074ott1054629, mrcaott73074ott354607, mrcaott73074ott116346,
+## Syncerus, Syncerus caffer, mrcaott4697ott263949, Carnivora, mrcaott4697ott6940,
+## Caniformia, mrcaott4697ott10732, mrcaott4697ott231602, mrcaott4697ott638813,
+## mrcaott4697ott203417, Mustelidae, mrcaott4697ott901933, mrcaott4697ott4709,
+## mrcaott4697ott135341, Melinae, Meles, Meles meles, Eulipotyphla,
+## mrcaott3285ott17250, mrcaott3285ott60434, Soricidae, Crocidurinae,
+## Crocidura, Metatheria, mrcaott6735ott29033, mrcaott6735ott905267,
+## mrcaott6735ott70811, Diprotodontia, mrcaott6735ott44497, mrcaott6735ott34417,
+## mrcaott34417ott262996, mrcaott34417ott42481, Macropodidae, mrcaott42481ott46393,
+## mrcaott42481ott42818, mrcaott42481ott65579, mrcaott42481ott317154,
+## mrcaott42481ott733444, mrcaott42481ott234941, mrcaott42481ott836770,
+## mrcaott42481ott42493, mrcaott42481ott398453, mrcaott42481ott901181, Sauropsida,
+## Sauria, mrcaott246ott4128455, mrcaott246ott4127082, mrcaott246ott4129629,
+## mrcaott246ott4142716, mrcaott246ott4126667, mrcaott246ott2982,
+## mrcaott246ott31216, mrcaott246ott4947920, mrcaott246ott4127428,
+## mrcaott246ott4126230, mrcaott246ott4127421, mrcaott246ott664349,
+## mrcaott246ott4126505, mrcaott246ott4127015, mrcaott246ott4129653,
+## mrcaott246ott4127541, mrcaott246ott4946623, mrcaott246ott4126482,
+## mrcaott246ott4128105, mrcaott246ott4127288, mrcaott246ott4132146,
+## mrcaott246ott3602822, mrcaott246ott4143599, mrcaott246ott3600976,
+## mrcaott246ott4132107, Aves, Neognathae, mrcaott246ott5481, mrcaott246ott5021,
+## mrcaott246ott7145, mrcaott246ott928360, mrcaott246ott3600042,
+## mrcaott246ott47588, mrcaott246ott7113, Passeriformes, mrcaott246ott3212,
+## mrcaott246ott428578, mrcaott246ott44866, mrcaott246ott5929, mrcaott246ott32658,
+## mrcaott246ott4820, mrcaott246ott22325, mrcaott246ott176461, mrcaott246ott10351,
+## mrcaott246ott3364, mrcaott3364ott73828, mrcaott3364ott4083, mrcaott4083ott35042,
+## mrcaott4083ott370807, mrcaott4083ott469177, mrcaott4083ott11712,
+## mrcaott4083ott52094, mrcaott4083ott24017, mrcaott24017ott105913,
+## mrcaott105913ott311555, mrcaott311555ott1082386, mrcaott311555ott445491,
+## Taeniopygia, mrcaott4088ott95302, mrcaott4088ott8371, mrcaott4088ott6366,
+## mrcaott4088ott5616, mrcaott5616ott5620, mrcaott5616ott28339,
+## mrcaott5616ott6023, mrcaott6023ott243614, mrcaott6023ott101225,
+## mrcaott6023ott125079, mrcaott125079ott463026, Zonotrichia (genus in domain
+## Eukaryota), Junco, mrcaott765405ott4947621, mrcaott765405ott7068418,
+## Junco hyemalis, mrcaott9416ott840030, mrcaott9416ott96147,
+## mrcaott9416ott7068473, Passer, mrcaott9416ott407769, mrcaott9416ott25628,
+## mrcaott9416ott407764, mrcaott9416ott68955, mrcaott9416ott73636, Passer
+## domesticus, mrcaott1488ott72472, mrcaott1488ott2375, mrcaott2375ott73144,
+## mrcaott2375ott71358, mrcaott2375ott814750, mrcaott2375ott61147, Cyanistes,
+## mrcaott123763ott258794, mrcaott84656ott5925750, mrcaott84656ott325811,
+## mrcaott84656ott325806, mrcaott84656ott875992, Parus, mrcaott84656ott492911,
+## mrcaott2907ott6895, Strigiformes, Strigidae, mrcaott98069ott254541,
+## mrcaott98069ott176475, mrcaott98069ott178693, Athene, mrcaott98069ott649945,
+## mrcaott98069ott526159, Accipitriformes, mrcaott1858ott1036186,
+## mrcaott1858ott806938, Accipitridae, Accipitrinae, mrcaott1858ott103122,
+## mrcaott1858ott8285, mrcaott1858ott238260, mrcaott1858ott317639,
+## mrcaott1858ott1866, mrcaott1858ott806935, mrcaott1858ott14661,
+## mrcaott1858ott1864, mrcaott1867ott14657, mrcaott14657ott901447,
+## mrcaott14657ott479314, mrcaott14657ott624767, mrcaott14657ott283156, Hieraaetus
+## fasciatus, mrcaott47576ott103132, mrcaott47576ott677096, mrcaott47576ott677101,
+## mrcaott47576ott317001, Neophron, Neophron percnopterus, mrcaott5272ott9830,
+## mrcaott5272ott92263, mrcaott92263ott472423, Phoenicopteriformes,
+## Phoenicopteridae, Phoenicopterus, mrcaott472423ott595567, Phoenicopterus
+## ruber, mrcaott1662ott4947157, Lepidosauria, Squamata (order in Deuterostomia),
+## Bifurcata, Unidentata, mrcaott1662ott4126044, Serpentes, mrcaott1662ott20148,
+## mrcaott1662ott4126085, mrcaott1662ott35603, mrcaott1662ott16254,
+## mrcaott1662ott106872, mrcaott1662ott215727, mrcaott1662ott6519,
+## mrcaott1662ott49551, mrcaott1662ott4565, mrcaott1662ott120972,
+## mrcaott1662ott106866, mrcaott1662ott69228, mrcaott1662ott69220,
+## mrcaott1662ott334726, mrcaott1662ott430823, mrcaott1662ott7069534,
+## mrcaott1662ott334719, mrcaott1662ott1669, mrcaott1669ott28505,
+## mrcaott28505ott331713, mrcaott28505ott234912, mrcaott28505ott49758,
+## mrcaott28505ott405892, Pantherophis</code></pre>
+<pre class="r"><code>set.seed(1) 
+tree &lt;- ape::compute.brlen(tree, method = &quot;Grafen&quot;, power = 1) # compute branch lengths
+tree &lt;- ape::multi2di(tree, random = TRUE) # use a randomization approach to deal with polytomies
+
+# Create correlation matrix for analysis
+phylo_cor &lt;- vcv(tree, cor = T)</code></pre>
+<p>From the original study aim, the first thing we were interested in is the relationship of physiology with activity, exploration and dispersal (Zr). The following code runs a phylogeneticlly corrected, multi-level meta-analysis via the <code>rma.mv</code> function. We have a “~ -1” in the <code>mod</code> argument because we are interested in the effect size of activity, exploration and dispersal, not the overall model. If you are interested in the overall model, run the code with ” ~ 1” instead. <code>disp_trait</code> (activity, exploration, or dispersal) was our main interest, with the moderator <code>Zr_sei</code> (effect size standard error) and <code>year_centre</code> (mean centering of year) to test for time-lag and publication bias <span class="citation">(Nakagawa et al., 2022b)</span>.</p>
+<p>Building upon the multi-level meta-analytic model from the <a href="https://daniel1noble.github.io/meta-workshop/multi-level#Building_more_Complex_Multilevel_Meta-analytic_Models">Multi-level Meta-analysis</a> section, we also included random effects (<code>random</code> argument) to account for non-independence such as <code>es_ID</code> (effect size identity), <code>study_ID</code>(unique study identity), <code>species</code>(unique species identity), <code>species_OTL</code>(species relatedness). The <code>R</code> argument allows the correlation matrix (here, <code>phylo_cor</code>) to be incorporated to the model which corresponds to the components specified in the <code>random</code> argument <code>~1 | species_OTL</code>.</p>
+<p>Note: remember to add underscore to the species OTL because the tree tip names have underscores.</p>
+<pre class="r"><code>overall_model &lt;- metafor::rma.mv(yi = Zr, V = V_Zr, mod = ~-1 + disp_trait + Zr_sei +
+    year_centre, random = list(~1 | study_ID, ~1 | es_ID, ~1 | species, ~1 | species_OTL),
+    R = list(species_OTL = phylo_cor), method = &quot;REML&quot;, test = &quot;t&quot;, data = zr_data %&gt;%
+        dplyr::mutate(species_OTL = stringr::str_replace_all(species_OTL, &quot; &quot;, &quot;_&quot;)))
+summary(overall_model)</code></pre>
+<pre><code>## 
+## Multivariate Meta-Analysis Model (k = 272; method: REML)
+## 
+##    logLik   Deviance        AIC        BIC       AICc  ​ 
+## -156.8283   313.6566   331.6566   363.9418   332.3570   
+## 
+## Variance Components:
+## 
+##             estim    sqrt  nlvls  fixed       factor    R 
+## sigma^2.1  0.0063  0.0792     88     no     study_ID   no 
+## sigma^2.2  0.1158  0.3403    272     no        es_ID   no 
+## sigma^2.3  0.0168  0.1297     79     no      species   no 
+## sigma^2.4  0.0008  0.0275     74     no  species_OTL  yes 
+## 
+## Test for Residual Heterogeneity:
+## QE(df = 267) = 2123.4835, p-val &lt; .0001
+## 
+## Test of Moderators (coefficients 1:5):
+## F(df1 = 5, df2 = 267) = 2.4937, p-val = 0.0315
+## 
+## Model Results:
+## 
+##                        estimate      se     tval   df    pval    ci.lb   ci.ub​ 
+## disp_traitActivity       0.2043  0.0796   2.5665  267  0.0108   0.0476  0.3610 
+## disp_traitDispersal      0.1962  0.0929   2.1108  267  0.0357   0.0132  0.3792 
+## disp_traitExploration    0.1563  0.0852   1.8357  267  0.0675  -0.0113  0.3240 
+## Zr_sei                  -0.4759  0.3200  -1.4875  267  0.1381  -1.1059  0.1540 
+## year_centre             -0.0089  0.0055  -1.6173  267  0.1070  -0.0198  0.0019 
+##  
+## disp_traitActivity     * 
+## disp_traitDispersal    * 
+## disp_traitExploration  . 
+## Zr_sei 
+## year_centre 
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p><strong>Interpretation</strong>: We can see from above that the model estimates <strong>a positive relationship</strong> between physiology and activity with <strong>an overall mean of 0.204 with a 95% confidence interval (95% CI) of 0.048 to 0.361</strong>. Exploration and dispersal was also, on average, positively associated with physiology, but exploration had higher level of uncertainty (Exploration = 0.156 [95% CI -0.011, 0.324], Dispersal = 0.196, [95% CI 0.013, 0.379]).</p>
+<p>There was no evidence of the influence of small sample size bias (-0.476 [95% CI -1.106, 0.154]) and time-lag (-0.009 [95% CI -0.02, 0.002]). Heterogeneity remained high in this analysis based on the Q-test.</p>
+</div>
+</div>
 <div id="references" class="section level2">
 <h2>References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Clements2022" class="csl-entry">
+<strong>Clements, J. C., Sundin, J., Clark, T. D. and Jutfelt, F.</strong> (2022). Meta-analysis reveals an extreme <span>“decline effect”</span> in the impacts of ocean acidification on fish behavior. <em>PLoS Biology</em> <strong>20</strong>, e3001511.
+</div>
 <div id="ref-Lag2010" class="csl-entry">
 <strong>Lajeunesse, M. J.</strong> (2010). Achieving synthesis with meta-analysis by combining and comparing all available studies. <em>Ecology</em> <strong>91</strong>, 2561–2564.
 </div>
 <div id="ref-Nakagawa2021" class="csl-entry">
-<strong>Nakagawa, S., Senior, A. M., Viechtbauer, W. and Noble, D. W. A.</strong> (2022). An assessment of statistical methods for non-independent data in ecological meta-analyses: comment. <em>Ecology</em> <strong>103</strong>, e03490, https://doi.org/10.1002/ecy.3490.
+<strong>Nakagawa, S., Senior, A. M., Viechtbauer, W. and Noble, D. W. A.</strong> (2022a). An assessment of statistical methods for non-independent data in ecological meta-analyses: comment. <em>Ecology</em> <strong>103</strong>, e03490, https://doi.org/10.1002/ecy.3490.
+</div>
+<div id="ref-Nakagawa2021b" class="csl-entry">
+<strong>Nakagawa, S., Lagisz, M., Jennions, M. D., Koricheva, J., Daniel W. A. Noble, T. H. P., Sánchez-Tójar, A., Yang, Y. and O’Dea, R. E.</strong> (2022b). Methods for testing publication bias in ecological and evolutionary meta-analyses. <em>Methods in Ecology and Evolution</em> <strong>13</strong>, 4–21.
 </div>
 <div id="ref-Noble2022" class="csl-entry">
 <strong>Noble, D. W. A., Pottier, P., Lagisz, M., Burke, S., Drobniak, S. M., O’Dea, R. E. and Nakagawa, S.</strong> (2022). Meta-analytic approaches and effect sizes to account for <span>“nuisance heterogeneity”</span> in comparative physiology. <em>Journal of Experimental Biology</em> <strong>225</strong>, jeb243225.
@@ -2135,14 +2339,14 @@ print(MLMA)</code></pre>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session Information</h2>
-<p><strong>R version 4.2.0 (2022-04-22)</strong></p>
+<p><strong>R version 4.1.3 (2022-03-10)</strong></p>
 <p><strong>Platform:</strong> aarch64-apple-darwin20 (64-bit)</p>
 <p><strong>attached base packages:</strong>
 <em>stats</em>, <em>graphics</em>, <em>grDevices</em>, <em>utils</em>, <em>datasets</em>, <em>methods</em> and <em>base</em></p>
 <p><strong>other attached packages:</strong>
-<em>magick(v.2.7.3)</em>, <em>vembedr(v.0.1.5)</em>, <em>equatags(v.0.1.1)</em>, <em>mathjaxr(v.1.6-0)</em>, <em>pander(v.0.6.5)</em>, <em>orchaRd(v.2.0)</em>, <em>forcats(v.0.5.1)</em>, <em>stringr(v.1.4.0)</em>, <em>dplyr(v.1.0.9)</em>, <em>purrr(v.0.3.4)</em>, <em>readr(v.2.1.2)</em>, <em>tidyr(v.1.2.0)</em>, <em>tibble(v.3.1.7)</em>, <em>ggplot2(v.3.3.6)</em>, <em>tidyverse(v.1.3.1)</em>, <em>flextable(v.0.7.1)</em>, <em>metafor(v.3.4-0)</em>, <em>metadat(v.1.2-0)</em> and <em>Matrix(v.1.4-1)</em></p>
+<em>ape(v.5.6-2)</em>, <em>rotl(v.3.0.12)</em>, <em>magick(v.2.7.3)</em>, <em>vembedr(v.0.1.5)</em>, <em>equatags(v.0.2.0)</em>, <em>mathjaxr(v.1.6-0)</em>, <em>pander(v.0.6.5)</em>, <em>forcats(v.0.5.1)</em>, <em>stringr(v.1.4.0)</em>, <em>dplyr(v.1.0.9)</em>, <em>purrr(v.0.3.4)</em>, <em>readr(v.2.1.2)</em>, <em>tidyr(v.1.2.0)</em>, <em>tibble(v.3.1.7)</em>, <em>ggplot2(v.3.3.6)</em>, <em>tidyverse(v.1.3.1)</em>, <em>flextable(v.0.7.2)</em>, <em>metafor(v.3.4-0)</em>, <em>metadat(v.1.2-0)</em> and <em>Matrix(v.1.4-1)</em></p>
 <p><strong>loaded via a namespace (and not attached):</strong>
-<em>nlme(v.3.1-157)</em>, <em>fs(v.1.5.2)</em>, <em>lubridate(v.1.8.0)</em>, <em>httr(v.1.4.3)</em>, <em>tools(v.4.2.0)</em>, <em>backports(v.1.4.1)</em>, <em>bslib(v.0.3.1)</em>, <em>utf8(v.1.2.2)</em>, <em>R6(v.2.5.1)</em>, <em>DBI(v.1.1.2)</em>, <em>colorspace(v.2.0-3)</em>, <em>withr(v.2.5.0)</em>, <em>tidyselect(v.1.1.2)</em>, <em>curl(v.4.3.2)</em>, <em>compiler(v.4.2.0)</em>, <em>cli(v.3.3.0)</em>, <em>rvest(v.1.0.2)</em>, <em>formatR(v.1.12)</em>, <em>pacman(v.0.5.1)</em>, <em>xml2(v.1.3.3)</em>, <em>officer(v.0.4.2)</em>, <em>bookdown(v.0.26)</em>, <em>sass(v.0.4.1)</em>, <em>scales(v.1.2.0)</em>, <em>systemfonts(v.1.0.4)</em>, <em>digest(v.0.6.29)</em>, <em>rmarkdown(v.2.14)</em>, <em>base64enc(v.0.1-3)</em>, <em>pkgconfig(v.2.0.3)</em>, <em>htmltools(v.0.5.2)</em>, <em>dbplyr(v.2.2.0)</em>, <em>fastmap(v.1.1.0)</em>, <em>rlang(v.1.0.2)</em>, <em>readxl(v.1.4.0)</em>, <em>rstudioapi(v.0.13)</em>, <em>jquerylib(v.0.1.4)</em>, <em>generics(v.0.1.2)</em>, <em>jsonlite(v.1.8.0)</em>, <em>zip(v.2.2.0)</em>, <em>magrittr(v.2.0.3)</em>, <em>Rcpp(v.1.0.8.3)</em>, <em>munsell(v.0.5.0)</em>, <em>fansi(v.1.0.3)</em>, <em>gdtools(v.0.2.4)</em>, <em>lifecycle(v.1.0.1)</em>, <em>stringi(v.1.7.6)</em>, <em>yaml(v.2.3.5)</em>, <em>grid(v.4.2.0)</em>, <em>crayon(v.1.5.1)</em>, <em>lattice(v.0.20-45)</em>, <em>haven(v.2.5.0)</em>, <em>hms(v.1.1.1)</em>, <em>knitr(v.1.39)</em>, <em>klippy(v.0.0.0.9500)</em>, <em>pillar(v.1.7.0)</em>, <em>uuid(v.1.1-0)</em>, <em>reprex(v.2.0.1)</em>, <em>xslt(v.1.4.3)</em>, <em>glue(v.1.6.2)</em>, <em>evaluate(v.0.15)</em>, <em>data.table(v.1.14.2)</em>, <em>remotes(v.2.4.2)</em>, <em>modelr(v.0.1.8)</em>, <em>vctrs(v.0.4.1)</em>, <em>tzdb(v.0.3.0)</em>, <em>cellranger(v.1.1.0)</em>, <em>gtable(v.0.3.0)</em>, <em>assertthat(v.0.2.1)</em>, <em>locatexec(v.0.1.1)</em>, <em>xfun(v.0.31)</em>, <em>broom(v.0.8.0)</em> and <em>ellipsis(v.0.3.2)</em></p>
+<em>nlme(v.3.1-158)</em>, <em>fs(v.1.5.2)</em>, <em>lubridate(v.1.8.0)</em>, <em>progress(v.1.2.2)</em>, <em>httr(v.1.4.3)</em>, <em>tools(v.4.1.3)</em>, <em>backports(v.1.4.1)</em>, <em>bslib(v.0.3.1)</em>, <em>utf8(v.1.2.2)</em>, <em>R6(v.2.5.1)</em>, <em>DBI(v.1.1.3)</em>, <em>colorspace(v.2.0-3)</em>, <em>withr(v.2.5.0)</em>, <em>prettyunits(v.1.1.1)</em>, <em>tidyselect(v.1.1.2)</em>, <em>curl(v.4.3.2)</em>, <em>compiler(v.4.1.3)</em>, <em>cli(v.3.3.0)</em>, <em>rvest(v.1.0.2)</em>, <em>formatR(v.1.12)</em>, <em>pacman(v.0.5.1)</em>, <em>xml2(v.1.3.3)</em>, <em>officer(v.0.4.3)</em>, <em>bookdown(v.0.27)</em>, <em>sass(v.0.4.1)</em>, <em>scales(v.1.2.0)</em>, <em>systemfonts(v.1.0.4)</em>, <em>digest(v.0.6.29)</em>, <em>rmarkdown(v.2.14)</em>, <em>rentrez(v.1.2.3)</em>, <em>katex(v.1.4.0)</em>, <em>base64enc(v.0.1-3)</em>, <em>pkgconfig(v.2.0.3)</em>, <em>htmltools(v.0.5.2)</em>, <em>dbplyr(v.2.2.1)</em>, <em>fastmap(v.1.1.0)</em>, <em>rlang(v.1.0.3.9000)</em>, <em>readxl(v.1.4.0)</em>, <em>rstudioapi(v.0.13)</em>, <em>jquerylib(v.0.1.4)</em>, <em>generics(v.0.1.2)</em>, <em>jsonlite(v.1.8.0)</em>, <em>zip(v.2.2.0)</em>, <em>magrittr(v.2.0.3)</em>, <em>Rcpp(v.1.0.8.3)</em>, <em>munsell(v.0.5.0)</em>, <em>fansi(v.1.0.3)</em>, <em>gdtools(v.0.2.4)</em>, <em>lifecycle(v.1.0.1)</em>, <em>stringi(v.1.7.6)</em>, <em>yaml(v.2.3.5)</em>, <em>grid(v.4.1.3)</em>, <em>parallel(v.4.1.3)</em>, <em>crayon(v.1.5.1)</em>, <em>rncl(v.0.8.6)</em>, <em>lattice(v.0.20-45)</em>, <em>haven(v.2.5.0)</em>, <em>hms(v.1.1.1)</em>, <em>knitr(v.1.39)</em>, <em>klippy(v.0.0.0.9500)</em>, <em>pillar(v.1.7.0)</em>, <em>uuid(v.1.1-0)</em>, <em>XML(v.3.99-0.10)</em>, <em>reprex(v.2.0.1)</em>, <em>xslt(v.1.4.3)</em>, <em>glue(v.1.6.2)</em>, <em>evaluate(v.0.15)</em>, <em>V8(v.4.2.0)</em>, <em>data.table(v.1.14.2)</em>, <em>remotes(v.2.4.2)</em>, <em>BiocManager(v.1.30.18)</em>, <em>modelr(v.0.1.8)</em>, <em>vctrs(v.0.4.1)</em>, <em>tzdb(v.0.3.0)</em>, <em>cellranger(v.1.1.0)</em>, <em>gtable(v.0.3.0)</em>, <em>assertthat(v.0.2.1)</em>, <em>xfun(v.0.31)</em>, <em>broom(v.0.8.0)</em> and <em>ellipsis(v.0.3.2)</em></p>
 </div>
 <div id="back-to-table-of-contents" class="section level2 hide">
 <h2><a href="https://daniel1noble.github.io/meta-workshop/">Back to Table of Contents</a></h2>

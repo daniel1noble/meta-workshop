@@ -131,6 +131,61 @@ print(MLMA)
 
 We can also see that there's a significant amount of heterogeneity among our effect size estimates with our *Q*-test being significant. Some of this heterogeneity seems to be driven by variation among studies, within studies and among species as judged by the variance components of the model. We'll probe how to dissect and discuss this heterogeneity in later tutorials. 
 
+
+## Niky moved phylogenetic MLMA here
+### Run phylogenetically corrected, multi-level meta-regression
+
+We will first extract the raw data, calculate Zr and sampling variance, and reconstruct the phylogeny from the [Phylogenetic Meta-analysis tutorial](https://daniel1noble.github.io/meta-workshop/phylo). Note, we have now included additional moderators `Zr_sei` and `year_centre` in the raw data. The magnitude of the overall effect can be exaggerated because statistically non-significant effect sizes are less likely to be published, especially when they are based on small sample sizes (here as standard error `Zr_sei`; [@Nakagawa2021b](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.13724)). Time-lag bias occurs when larger or statistically significant effects are published more quickly than smaller or non-statistically significant effects, and can manifest as a decline in the magnitude of the overall effect over time (i.e. a decline effect; [@Clements2022](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3001511)). To test this, we standardise the publication year as `year_centre` (i.e. set the mean value of year as 0).
+
+```{r raw data}
+pacman::p_load(rotl, ape)
+
+zr_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/ind_disp_raw_data.csv") %>%
+  dplyr::select(-dispersal_def) %>% # remove irrelevant columns
+  tibble::rowid_to_column("es_ID") %>% # add effect size ID
+  dplyr::mutate(Zr_sei      = 1 / sqrt(sample_size - 3), # Standard error (SE)
+                year_centre = year - mean(year),  # mean-centring year of publication
+                species_OTL = stringr::str_replace_all(species_OTL, "_", " ")) # remove underscore for some species with missing underscore. Some inconsistency when curating the database.
+
+# Calculate Zr and sampling variance
+zr_data <- metafor::escalc(measure = "ZCOR", ri = corr_coeff, ni = sample_size, data = zr_data, var.names = c("Zr", "V_Zr"))
+
+# Create species list based on OTL names and match with OTL database
+species <- sort(unique(as.character(zr_data$species_OTL))) # generate list of species (as character format)
+taxa    <- rotl::tnrs_match_names(names = species) # match taxonomic names to the OTL
+
+# Retrieving phylogenetic relationships among taxa in the form of a trimmed sub-tree
+tree <- rotl::tol_induced_subtree(ott_ids = ott_id(taxa), label_format = "name")
+
+set.seed(1) 
+tree <- ape::compute.brlen(tree, method = "Grafen", power = 1) # compute branch lengths
+tree <- ape::multi2di(tree, random = TRUE) # use a randomization approach to deal with polytomies
+
+# Create correlation matrix for analysis
+phylo_cor <- vcv(tree, cor = T)
+```
+
+From the original study aim, the first thing we were interested in is the relationship of physiology with activity, exploration and dispersal (Zr). The following code runs a phylogeneticlly corrected, multi-level meta-analysis via the `rma.mv` function. We have a “~ -1” in the `mod` argument because we are interested in the effect size of activity, exploration and dispersal, not the overall model. If you are interested in the overall model, run the code with ” ~ 1” instead. `disp_trait` (activity, exploration, or dispersal) was our main interest, with the moderator `Zr_sei` (effect size standard error) and `year_centre` (mean centering of year) to test for time-lag and publication bias [@Nakagawa2021b].
+
+Building upon the multi-level meta-analytic model from the [Multi-level Meta-analysis](https://daniel1noble.github.io/meta-workshop/multi-level#Building_more_Complex_Multilevel_Meta-analytic_Models) section, we also included random effects (`random` argument) to account for non-independence such as `es_ID` (effect size identity), `study_ID`(unique study identity), `species`(unique species identity), `species_OTL`(species relatedness). The `R` argument allows the correlation matrix (here, `phylo_cor`) to be incorporated to the model which corresponds to the components specified in the `random` argument `~1 | species_OTL`.
+
+Note: remember to add underscore to the species OTL because the tree tip names have underscores.
+
+```{r analysis}
+overall_model <- metafor::rma.mv(yi = Zr, V = V_Zr, 
+                                        mod    = ~ -1 + disp_trait + Zr_sei + year_centre, 
+                                        random = list(~1 | study_ID, ~1 | es_ID, ~1 | species, ~1 | species_OTL),
+                                        R      = list(species_OTL = phylo_cor),
+                                        method = "REML", test = "t",
+                                        data   = zr_data %>%
+                                   dplyr::mutate(species_OTL = stringr::str_replace_all(species_OTL, " ", "_")))
+summary(overall_model)
+```
+
+**Interpretation**: We can see from above that the model estimates **a positive relationship** between physiology and activity with **an overall mean of `r overall_model$b[1,]` with a 95% confidence interval (95% CI) of `r overall_model$ci.lb[1]` to `r overall_model$ci.ub[1]`**. Exploration and dispersal was also, on average, positively associated with physiology, but exploration had higher level of uncertainty (Exploration = `r overall_model$b[3,]` [95% CI `r overall_model$ci.lb[3]`, `r overall_model$ci.ub[3]`], Dispersal = `r overall_model$b[2,]`, [95% CI `r overall_model$ci.lb[2]`, `r overall_model$ci.ub[2]`]). 
+
+There was no evidence of the influence of small sample size bias (`r overall_model$b[4,]` [95% CI `r overall_model$ci.lb[4]`, `r overall_model$ci.ub[4]`]) and time-lag (`r overall_model$b[5,]` [95% CI `r overall_model$ci.lb[5]`, `r overall_model$ci.ub[5]`]). Heterogeneity remained high in this analysis based on the Q-test. 
+
 ## References
 
 <div id="refs"></div>
