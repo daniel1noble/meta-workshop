@@ -71,7 +71,6 @@ vembedr::embed_url("https://www.youtube.com/watch?v=IkduL5iRdqo") %>% vembedr::u
 
 <br>
 
-
 ## Session Information
 
 ```{r sessioninfo, echo = FALSE}
