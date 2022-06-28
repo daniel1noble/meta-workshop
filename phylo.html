@@ -2222,11 +2222,10 @@ phylo_cor &lt;- vcv(tree, cor = T)</code></pre>
 </div>
 <div id="run-phylogenetically-corrected-multi-level-meta-analysis-on-overall-effect" class="section level3">
 <h3>Run phylogenetically corrected, multi-level meta-analysis on overall effect</h3>
-<p>From the original study aim, the first thing we were interested in is the <strong>overall relationship</strong> of physiology with activity, exploration and dispersal (Zr). The following code runs a phylogeneticlly corrected, multi-level meta-analysis via the <code>rma.mv</code> function. We have a “~ -1” in the <code>mod</code> argument because we are interested in the effect size of activity, exploration and dispersal, not the overall model. If you are interested in the overall model, run the code with ” ~ 1” instead. <code>disp_trait</code> (activity, exploration, or dispersal) was our main interest, with the moderator <code>year_centre</code> to test for publication bias.</p>
-<p>Building upon the multi-level meta-analytic model from the <a href="https://daniel1noble.github.io/meta-workshop/multi-level#Building_more_Complex_Multilevel_Meta-analytic_Models">Multi-level Meta-analysis</a> section, we also included random effects (<code>R</code> argument) to account for non-independence such as <code>es_ID</code> (effect size identity), <code>study_ID</code> (unique study identity), <code>species</code> (unique species identity), <code>species_OTL</code> (species relatedness).</p>
+<p>Lets say we are interested in the <strong>overall relationship</strong> of physiology and movement (Zr). The following code runs a phylogeneticlly corrected, multi-level meta-analysis via the <code>rma.mv</code> function. Building upon the multi-level meta-analytic model from the <a href="https://daniel1noble.github.io/meta-workshop/multi-level#Building_more_Complex_Multilevel_Meta-analytic_Models">Multi-level Meta-analysis</a> section, we also included random effects (<code>random</code> argument) to account for non-independence such as <code>es_ID</code> (effect size identity), <code>study_ID</code> (unique study identity), <code>species</code> (unique species identity), <code>species_OTL</code> (species relatedness). The <code>R</code> argument allows the correlation matrix (here, <code>phylo_cor</code>) to be incorporated to the model which corresponds to the components specified in the <code>random</code> argument <code>~1 | species_OTL</code>.</p>
 <p>Note: remember to add underscore to the species OTL because the tree tip names have underscores.</p>
-<pre class="r"><code>overall_model &lt;- metafor::rma.mv(yi = Zr, V = V_Zr, mod = ~-1 + disp_trait + year_centre,
-    random = list(~1 | study_ID, ~1 | es_ID, ~1 | species, ~1 | species_OTL), R = list(species_OTL = phylo_cor),
+<pre class="r"><code>overall_model &lt;- metafor::rma.mv(yi = Zr, V = V_Zr, mod = ~1, random = list(~1 |
+    study_ID, ~1 | es_ID, ~1 | species, ~1 | species_OTL), R = list(species_OTL = phylo_cor),
     method = &quot;REML&quot;, test = &quot;t&quot;, data = zr_data %&gt;%
         dplyr::mutate(species_OTL = stringr::str_replace_all(species_OTL, &quot; &quot;, &quot;_&quot;)))
 summary(overall_model)</code></pre>
@@ -2234,39 +2233,27 @@ summary(overall_model)</code></pre>
 ## Multivariate Meta-Analysis Model (k = 272; method: REML)
 ## 
 ##    logLik   Deviance        AIC        BIC       AICc  ​ 
-## -158.4075   316.8150   332.8150   361.5429   333.3710   
+## -160.5426   321.0852   331.0852   349.0958   331.3116   
 ## 
 ## Variance Components:
 ## 
 ##             estim    sqrt  nlvls  fixed       factor    R 
-## sigma^2.1  0.0138  0.1177     88     no     study_ID   no 
-## sigma^2.2  0.1155  0.3398    272     no        es_ID   no 
-## sigma^2.3  0.0113  0.1063     79     no      species   no 
+## sigma^2.1  0.0016  0.0398     88     no     study_ID   no 
+## sigma^2.2  0.1155  0.3399    272     no        es_ID   no 
+## sigma^2.3  0.0260  0.1614     79     no      species   no 
 ## sigma^2.4  0.0000  0.0000     74     no  species_OTL  yes 
 ## 
-## Test for Residual Heterogeneity:
-## QE(df = 268) = 2124.2527, p-val &lt; .0001
-## 
-## Test of Moderators (coefficients 1:4):
-## F(df1 = 4, df2 = 268) = 2.7869, p-val = 0.0270
+## Test for Heterogeneity:
+## Q(df = 271) = 2508.8317, p-val &lt; .0001
 ## 
 ## Model Results:
 ## 
-##                        estimate      se     tval   df    pval    ci.lb   ci.ub​ 
-## disp_traitActivity       0.1040  0.0437   2.3790  268  0.0181   0.0179  0.1901 
-## disp_traitDispersal      0.1251  0.0795   1.5733  268  0.1168  -0.0315  0.2817 
-## disp_traitExploration    0.0614  0.0577   1.0639  268  0.2883  -0.0522  0.1749 
-## year_centre             -0.0081  0.0055  -1.4593  268  0.1456  -0.0189  0.0028 
-##  
-## disp_traitActivity     * 
-## disp_traitDispersal 
-## disp_traitExploration 
-## year_centre 
+## estimate      se    tval   df    pval   ci.lb   ci.ub    ​ 
+##   0.0979  0.0347  2.8202  271  0.0052  0.0296  0.1662  ** 
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p><strong>Interpretation</strong>: We can see from above that the model estimates <strong>a positive relationship between physiology and activity with an overall mean of 0.104 with a 95% confidence interval (95% CI) of 0.0179 to 0.1901</strong>. Exploration and dispersal also was positively associated with physiology, but with higher uncertainty (Exploration = <strong>0.0614 (95% CI -0.0522, 0.1749)</strong>, Dispersal = <strong>0.1251 (95% CI -0.0315, 0.2817)</strong>).</p>
-<p>In this analysis, we also observe high heterogeneity among our effect size estimates with our Q-test being significant, a very common observation in ecological and evolutionary meta-analysis studies. Some of this heterogeneity may be driven by variation among studies, within studies, among species, and phylogeny as seen by the variance components of the model.</p>
+<p><strong>Interpretation</strong>: We can see from above that the model estimates <strong>a positive relationship</strong> between physiology and movement with <strong>an overall mean of 0.0979 with a 95% confidence interval (95% CI) of 0.0296 to 0.1662</strong>. In this analysis, we also observe high heterogeneity among our effect size estimates with our Q-test being significant, a very common observation in ecological and evolutionary meta-analysis studies. Some of this heterogeneity may be driven by variation among studies, within studies, among species, and phylogeny as seen by the variance components of the model.</p>
 </div>
 </div>
 <div id="references" class="section level2">

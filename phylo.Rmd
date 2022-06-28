@@ -123,15 +123,13 @@ phylo_cor <- vcv(tree, cor = T)
 
 ### Run phylogenetically corrected, multi-level meta-analysis on overall effect
 
-From the original study aim, the first thing we were interested in is the **overall relationship** of physiology with activity, exploration and dispersal (Zr). The following code runs a phylogeneticlly corrected, multi-level meta-analysis via the `rma.mv` function. We have a "~ -1" in the `mod` argument because we are interested in the effect size of activity, exploration and dispersal, not the overall model. If you are interested in the overall model, run the code with " ~ 1" instead. `disp_trait` (activity, exploration, or dispersal) was our main interest, with the moderator `year_centre` to test for publication bias.
-
-Building upon the multi-level meta-analytic model from the [Multi-level Meta-analysis](https://daniel1noble.github.io/meta-workshop/multi-level#Building_more_Complex_Multilevel_Meta-analytic_Models) section, we also included random effects (`R` argument) to account for non-independence such as  `es_ID` (effect size identity), `study_ID` (unique study identity), `species` (unique species identity), `species_OTL` (species relatedness).
+Lets say we are interested in the **overall relationship** of physiology and movement (Zr). The following code runs a phylogeneticlly corrected, multi-level meta-analysis via the `rma.mv` function. Building upon the multi-level meta-analytic model from the [Multi-level Meta-analysis](https://daniel1noble.github.io/meta-workshop/multi-level#Building_more_Complex_Multilevel_Meta-analytic_Models) section, we also included random effects (`random` argument) to account for non-independence such as  `es_ID` (effect size identity), `study_ID` (unique study identity), `species` (unique species identity), `species_OTL` (species relatedness). The `R` argument allows the correlation matrix (here, `phylo_cor`) to be incorporated to the model which corresponds to the components specified in the `random` argument `~1 | species_OTL`.
 
 Note: remember to add underscore to the species OTL because the tree tip names have underscores.
 
 ```{r analysis}
 overall_model <- metafor::rma.mv(yi = Zr, V = V_Zr, 
-                                        mod    = ~ -1 + disp_trait + year_centre, 
+                                        mod    = ~ 1, 
                                         random = list(~1 | study_ID, ~1 | es_ID, ~1 | species, ~1 | species_OTL),
                                         R      = list(species_OTL = phylo_cor),
                                         method = "REML", test = "t",
@@ -141,9 +139,7 @@ summary(overall_model)
 ```
 
 
-**Interpretation**: We can see from above that the model estimates **a positive relationship between physiology and activity with an overall mean of `r overall_model$b[1,]` with a 95% confidence interval (95% CI) of `r overall_model$ci.lb[1]` to `r overall_model$ci.ub[1]`**. Exploration and dispersal also was positively associated with physiology, but with higher uncertainty (Exploration = **`r overall_model$b[3,]` (95% CI `r overall_model$ci.lb[3]`, `r overall_model$ci.ub[3]`)**, Dispersal = **`r overall_model$b[2,]` (95% CI `r overall_model$ci.lb[2]`, `r overall_model$ci.ub[2]`)**).
-
-In this analysis, we also observe high heterogeneity among our effect size estimates with our Q-test being significant, a very common observation in ecological and evolutionary meta-analysis studies. Some of this heterogeneity may be driven by variation among studies, within studies, among species, and phylogeny as seen by the variance components of the model.
+**Interpretation**: We can see from above that the model estimates **a positive relationship** between physiology and movement with **an overall mean of `r overall_model$b[1,]` with a 95% confidence interval (95% CI) of `r overall_model$ci.lb[1]` to `r overall_model$ci.ub[1]`**. In this analysis, we also observe high heterogeneity among our effect size estimates with our Q-test being significant, a very common observation in ecological and evolutionary meta-analysis studies. Some of this heterogeneity may be driven by variation among studies, within studies, among species, and phylogeny as seen by the variance components of the model.
 
 ## References
 
