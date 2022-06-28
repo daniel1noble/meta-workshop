@@ -137,6 +137,8 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ## Correlation between physiology and movement patterns: Z-transformed Correlation Coefficient (Zr)
 
+![](./figs/WuSeebacher.png)
+
 **Background**: Physiology is expected to drive movement, including short-term activity, exploration of unfamiliar environments, and larger scale dispersal which can influence species distributions in an environmentally sensitive manner. To test whether there is a relationship between physiology and movement pattern (separated as activity, exploration, and dispersal), we extracted data from the literature on common physiological traits measured (e.g., metabolic rate, hormone levels, body condition) with either activity, exploration, and dispersal at the individual level. As we are interested in relationships at the individual level, we extracted correlation data in the form of [correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) and sample size.
 
 For complete detail on the study aim and design, please see [@WuSeebacher2022](https://doi.org/10.1038/s42003-022-03055-y)
