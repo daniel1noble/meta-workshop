@@ -16,7 +16,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, cache = FALSE, tidy = TRUE)
-options(digits=4)
+options(digits=3)
 ```
 
 ```{r klippy, echo=FALSE, include=TRUE, message=FALSE, warning=FALSE}
@@ -30,7 +30,7 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 # To use mathjaxr 
 ```
 
-## Multi-level Meta-analysis
+## Introduction to Multi-level Meta-analysis
 
 Ecological and evolutionary meta-analysis more often than not need much more sophisticated multilevel meta-analytic models [@NakagawaSantos2012; @Hadfield2010; @Noble2017] compared with [random effect models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random) to analyse data. Biological data from field and lab-based experiments are highly structured -- many studies could be done on the same species or they could be done by the same lab group or student sharing similar methodology [@Noble2017; @NakagawaSantos2012]. In addition, we might have many effect size estimates from a single study because many traits are measured, or many treatments are applied [@Noble2017]. This adds complexity to the data set and also results in special types of non-independence that are somewhat unique to meta-analysis -- especially when using contrast-based effect sizes like Hedges' g, log response ratios, log odds ratios etc [@Noble2017]. 
 
@@ -83,6 +83,83 @@ s_{j} \sim N(0, \tau^2) \\
 s_{k} \sim N(0, \sigma_{k}^2) \\
 e_{i} \sim N(0, \sigma_{e}^2)
 $$
+
+## Fitting a Multi-level Meta-analytic Model
+
+![](./figs/pottier.png)
+
+To demonstrate how to fit a multilevel meta-analytic model similar to the one discussed above we'll turn to a [familiar example](https://daniel1noble.github.io/meta-workshop/nuis-het) by @Pottier2021, who used the acclimation response ratio (ARR) to analyse thermal acclimation responses on $CT_{max}$ and how this differs between the sexes. We'll keep it simple for the moment and focus exclusively on a single sex. 
+
+### Download Data and Functions for $ARR$
+
+We'll download the raw data from the paper again. We'll also need to load the `metafor` package to fit our models and the tidyverse package for processing the data.
+
+```{r}
+# install.packages("pacman") ; uncomment this line if you haven't already installed 'pacman'
+pacman::p_load(metafor, tidyverse)
+
+asr_dat <- read.csv("https://osf.io/qn2af/download")
+```
+
+We'll also need our function for calculating ARR and its sampling variance because these don't exist in any current packages. 
+
+```{r ARRfunc}
+#' @title arr
+#' @description Calculates the acclimation response ratio (ARR).  
+#' @param t2_l  Lowest of the two treatment temperatures
+#' @param t1_h  Highest of the two treatment temperatures
+#' @param x1_h  Mean trait value at high temperature
+#' @param x2_l  Mean trait value at low temperature
+#' @param sd1_h Standard deviation of mean trait value at high temperature
+#' @param sd2_l Standard deviation of mean trait value at low temperature
+#' @param n1_h  Sample size at high temperature
+#' @param n2_l  Sample size at low temperature
+
+arr <- function(x1_h, x2_l, sd1_h, sd2_l, n1_h, n2_l, t1_h, t2_l){
+        ARR <- (x1_h - x2_l)/(t1_h - t2_l)
+      V_ARR <- ((1/(t1_h - t2_l))^2*(sd2_l^2/n2_l + sd1_h^2/n1_h))
+return(data.frame(ARR, V_ARR))
+}
+```
+
+
+### Calculating $ARR$ and It's Sampling Variance
+Using the `arr` function above we can now calculate the acclimation response ratio (ARR). Given @Pottier2021 were interested in comparing the sexes, they calculated the ARR difference between males and females. To simplify here, we'll just focus on estimating the ARR for a single sex, females. As such, we'll calculate our ARR effect size and sampling variance and then sub-set out the data on females.
+
+```{r, tidy=TRUE}
+# Calculate the effect sizes
+asr_dat<-asr_dat %>% 
+              mutate(ARR= arr(x1_h = mean_high, x2_l = mean_low, t1_h = acc_temp_high, t2_l = acc_temp_low, 
+                              sd1_h = sd_high, sd2_l = sd_low, n1_h = n_high_adj, n2_l = n_low_adj)[,1], 
+                     V_ARR = arr(x1_h =  mean_high, x2_l = mean_low, t1_h = acc_temp_high, t2_l = acc_temp_low, 
+                           sd1_h = sd_high, sd2_l = sd_low, n1_h = n_high_adj, n2_l = n_low_adj)[,2]) %>% 
+                filter(sex == "female")
+```
+
+### Fitting a Multilevel Meta-analytic Model in `metafor`
+
+Our data is now ready for analysis! We will use the `rma.mv` function in `metafor` to fit our first multilevel meta-analysis model. The model takes the ARR as a response variable (`yi`) and accounts for it's sampling variance (`V` = V_ARR). We are also going to estimate a random effect variance for species, between study and within-study grouping variables to control for non-independence and understand sources driving effect size variability. These are all denoted in the `random` argument of `metafor` which takes a list of all the random effects. 
+
+You will notice two additional arguments being specified. The first, `dfs`, which calculates the degrees of freedom for the inferential tests in the model. `dfs = "contain"` will calculate the degrees of freedom based on the lowest clustering level minus 1 (in this case study). Simulations have shown that this is a more robust measure to protect against type I errors [@Nakagawa2021]. The second argument, `test` specifies the test statistic used. `metafor` defaults to z values based on the standard normal distribution, however, simulations have shown [@Pappalardo2021] and it has been recommended [@Rosenberg2013b], that the t-distribution be used because samples sizes are often small and the true variance of the test is being estimated. 
+
+```{r, class.source='klippy'}
+
+# Multi-level meta-analytic model
+MLMA <- metafor::rma.mv(yi= ARR~ 1, V = V_ARR, 
+                   method="REML",
+                   random=list(~1|species_ID,
+                               ~1|authors,
+                               ~1|es_ID), 
+                   dfs = "contain",
+                   test="t",
+                   data=asr_dat)
+print(MLMA)
+
+```
+
+**Interpretation**: We can see from above that the model estimates an **overall meta-analytic mean as `r MLMA$b` with a 95% confidence interval of `r MLMA$ci.lb` to `r MLMA$ci.ub`**. **In other words, for each degree variation in acclimation temperature female heat tolerance changes by an average of `r MLMA$b`$^{\circ}$C**. 
+
+We can also see that there's a significant amount of heterogeneity among our effect size estimates with our *Q*-test being significant. Some of this heterogeneity seems to be driven by variation among studies, within studies and among species as judged by the variance components of the model. We'll probe how to dissect and discuss this heterogeneity in later tutorials. 
 
 ## References
 
