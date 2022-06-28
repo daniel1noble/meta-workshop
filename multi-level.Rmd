@@ -1,6 +1,6 @@
 ---
 title: "Multi-level Meta-analysis"
-author: Daniel W.A. Noble
+author: Daniel W.A. Noble & Patrice Pottier
 date: '`r Sys.Date()`'
 bibliography: ./bib/refs.bib
 csl: ./bib/the-journal-of-experimental-biology.csl
