@@ -2014,7 +2014,7 @@ div.tocify {
 </script>
 <div id="phylogenetic-meta-analysis" class="section level2">
 <h2>Phylogenetic Meta-analysis</h2>
-<p>Adding further to the complexity of multi-level meta-analytic models in comparative biology, these fields often incorporate data from multiple species which share an evolutionary history, described by a phylogeny (Arnqvist &amp; Wooster, 1995; Chamberlain et al., 2012; Gurevitch &amp; Hedges, 1999). As a result, the samples (and the effect sizes obtained from these samples) <strong>are not independent which violates the independence assumption underlying conventional meta-analytic models</strong>. For example, the standard fixed- and random-effects models (Hedges &amp; Olkin, 1985; Hedges &amp; Vevea, 1998), often used for ecological meta-analyses (Nakagawa &amp; Santos, 2012), assume independence among the effect sizes and therefore do not account for phylogeny (Chamberlain et al., 2012; Noble et al., 2017). See Cinar et al (2022) for details on the importance of modelling phylogeny in greater detail.</p>
+<p>Adding further to the complexity of multi-level meta-analytic models in comparative biology, these fields often incorporate data from multiple species which share an evolutionary history, described by a phylogeny (Arnqvist &amp; Wooster, 1995; Chamberlain et al., 2012; Gurevitch &amp; Hedges, 1999). As a result, the samples (and the effect sizes obtained from these samples) <strong>are not independent which violates the independence assumption underlying conventional meta-analytic models</strong>. For example, the standard fixed- and random-effects models (Hedges &amp; Olkin, 1985; Hedges &amp; Vevea, 1998), often used for ecological meta-analyses (Nakagawa &amp; Santos, 2012), assume independence among the effect sizes and therefore do not account for phylogeny (Chamberlain et al., 2012; Noble et al., 2017). See <span class="citation">(Cinar et al., 2022)</span> for details on the importance of modelling phylogeny in greater detail.</p>
 <p>In this tutorial, we expand on the multilevel meta-analytic models to account for phylogenetic relatedness.</p>
 </div>
 <div id="simple-multilevel-meta-analytic-model" class="section level2">
@@ -2038,12 +2038,11 @@ e_{i} \sim N(0, \sigma_{e}^2)
 <h2>Example Phylogenetically corrected, Multi-level Meta-analysis</h2>
 <div id="format-raw-data-for-analysis" class="section level3">
 <h3>Format raw data for analysis</h3>
-<p>We will use the dispersal data set (Z-transformed correlation coefficient or Zr) from <a href="https://www.nature.com/articles/s42003-022-03055-y">Wu &amp; Seebacher (2022)</a> from the <a href="https://daniel1noble.github.io/meta-workshop/effect-size">effect size tutorial</a> to demonstrate the following analysis. First, load the the raw data and add the following additional columns, effect size ID (<code>es_ID</code>) and mean centreing of year of publication (<code>year_centre</code>). Then, calculate effect size as <code>Zr</code> and variance as <code>V_Zr</code>.</p>
+<p>We will use the dispersal data set (Z-transformed correlation coefficient or Zr) from <a href="https://www.nature.com/articles/s42003-022-03055-y"><span class="citation">Wu and Seebacher (2022)</span></a> from the <a href="https://daniel1noble.github.io/meta-workshop/effect-size">Effect Size tutorial</a> to demonstrate the following analysis. First, load the the raw data and add the following additional columns, effect size ID (<code>es_ID</code>) and mean centreing of year of publication (<code>year_centre</code>). Then, calculate effect size as <code>Zr</code> and variance as <code>V_Zr</code>.</p>
 <pre class="r"><code>zr_data &lt;- read.csv(&quot;https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/ind_disp_raw_data.csv&quot;) %&gt;%
-  dplyr::select(-dispersal_def) %&gt;% # remove irrelevent columns
+  dplyr::select(-dispersal_def) %&gt;% # remove irrelevant columns
   tibble::rowid_to_column(&quot;es_ID&quot;) %&gt;% # add effect size ID
-  dplyr::mutate(year_centre = year - mean(year),  # mean-centring year of publication
-                species_OTL = stringr::str_replace_all(species_OTL, &quot;_&quot;, &quot; &quot;)) # remove underscore for some species with missing underscore. Some inconsistency when curating the database.
+  dplyr::mutate(species_OTL = stringr::str_replace_all(species_OTL, &quot;_&quot;, &quot; &quot;)) # remove underscore for some species with missing underscore. Some inconsistency when curating the database.
 
 # Calculate Fisher&#39;s r-to-z transformed correlation coefficient (ZCOR) as yi = effect size and vi = sampling variances, where ri = raw correlation coefficients, and ni = sample size.
 zr_data &lt;- metafor::escalc(measure = &quot;ZCOR&quot;, ri = corr_coeff, ni = sample_size, data = zr_data, var.names = c(&quot;Zr&quot;, &quot;V_Zr&quot;))</code></pre>
@@ -2222,7 +2221,7 @@ phylo_cor &lt;- vcv(tree, cor = T)</code></pre>
 </div>
 <div id="run-phylogenetically-corrected-multi-level-meta-analysis-on-overall-effect" class="section level3">
 <h3>Run phylogenetically corrected, multi-level meta-analysis on overall effect</h3>
-<p>Lets say we are interested in the <strong>overall relationship</strong> of physiology and movement (Zr). The following code runs a phylogeneticlly corrected, multi-level meta-analysis via the <code>rma.mv</code> function. Building upon the multi-level meta-analytic model from the <a href="https://daniel1noble.github.io/meta-workshop/multi-level#Building_more_Complex_Multilevel_Meta-analytic_Models">Multi-level Meta-analysis</a> section, we also included random effects (<code>random</code> argument) to account for non-independence such as <code>es_ID</code> (effect size identity), <code>study_ID</code> (unique study identity), <code>species</code> (unique species identity), <code>species_OTL</code> (species relatedness). The <code>R</code> argument allows the correlation matrix (here, <code>phylo_cor</code>) to be incorporated to the model which corresponds to the components specified in the <code>random</code> argument <code>~1 | species_OTL</code>.</p>
+<p>Lets say we are interested in the <strong>overall relationship</strong> of physiology and movement (Zr). The following code runs a phylogeneticlly corrected, multi-level meta-analysis via the <code>rma.mv</code> function. Building upon the multi-level meta-analytic model from the <a href="https://daniel1noble.github.io/meta-workshop/multi-level#Building_more_Complex_Multilevel_Meta-analytic_Models">Multi-level Meta-analysis tutorial</a>, we also included random effects (<code>random</code> argument) to account for non-independence such as <code>es_ID</code> (effect size identity), <code>study_ID</code> (unique study identity), <code>species</code> (unique species identity), <code>species_OTL</code> (species relatedness). The <code>R</code> argument allows the correlation matrix (here, <code>phylo_cor</code>) to be incorporated to the model which corresponds to the components specified in the <code>random</code> argument <code>~1 | species_OTL</code>.</p>
 <p>Note: remember to add underscore to the species OTL because the tree tip names have underscores.</p>
 <pre class="r"><code>overall_model &lt;- metafor::rma.mv(yi = Zr, V = V_Zr, mod = ~1, random = list(~1 |
     study_ID, ~1 | es_ID, ~1 | species, ~1 | species_OTL), R = list(species_OTL = phylo_cor),
@@ -2259,8 +2258,14 @@ summary(overall_model)</code></pre>
 <div id="references" class="section level2">
 <h2>References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Cinar2021" class="csl-entry">
+<strong>Cinar, O., Nakagawa, S. and Viechtbauer, W.</strong> (2022). Phylogenetic multilevel meta-analysis: A simulation study on the importance1of modeling the phylogeny. <em>Methods in Ecology and Evolution</em> <strong>13</strong>, 383–395.
+</div>
 <div id="ref-NakagawaSantos2012" class="csl-entry">
 <strong>Nakagawa, S. and Santos, E. S.</strong> (2012). Methodological issues and advances in biological meta-analysis. <em>Evolutionary Ecology</em> <strong>26</strong>, 1253–1274.
+</div>
+<div id="ref-WuSeebacher2022" class="csl-entry">
+<strong>Wu, N. C. and Seebacher, F.</strong> (2022). Physiology can predict animal activity, exploration, and dispersal. <em>Communications Biology</em> <strong>109</strong>, 1–11.
 </div>
 </div>
 </div>
