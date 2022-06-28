@@ -138,7 +138,7 @@ head(q10_dat %>% mutate(exp_lnRR_Q10 = exp(lnRR_Q10)) %>% select(exp_lnRR_Q10, Q
 
 ![](./figs/pottier.png)
 
-@Pottier2021 developed the acclimation response ratio, ARR. The effect size allows one to investigate variation in the relationship between acclimation temperature and thermal tolerance (i.e. variation in slope). Because heat tolerance is consistently measured in degrees Celsius (`CTmax`) in the studies compiled, the slope between acclimation temperature and heat tolerance can be calculated, which is termed as the acclimation response ratio (`ARR`) in the literature. It can be defined as follows:
+@Pottier2021 used the acclimation response ratio, ARR, to investigate variation in the relationship between acclimation temperature and thermal tolerance (i.e. variation in slope). Because heat tolerance is consistently measured in degrees Celsius (`CTmax`) in the studies compiled, the slope between acclimation temperature and heat tolerance can be calculated, which is termed as the acclimation response ratio (`ARR`) in the literature. It can be defined as follows:
 
 $$
 \text{ARR} = \frac{M_{1} - M_{2}}{T_2 - T_1},
