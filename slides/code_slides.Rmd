@@ -493,3 +493,61 @@ head(q10_dat %>% mutate(exp_lnRR_Q10 = exp(lnRR_Q10)) %>% select(exp_lnRR_Q10, Q
 ```
 
 **For the first row of our data we can see that dive duration when temperatures increase by 10$^{\circ}$C is expected to decrease by ~67% (1-0.33)**.
+
+
+## MLMA
+
+```{r, echo = TRUE}
+# install.packages("pacman") ; uncomment this line if you haven't already installed 'pacman'
+pacman::p_load(metafor, tidyverse)
+
+asr_dat <- read.csv("https://osf.io/qn2af/download")
+```
+
+We'll also need our function for calculating ARR and its sampling variance because these don't exist in any current packages. 
+
+```{r ARRfunc, echo = TRUE}
+#' @title arr
+#' @description Calculates the acclimation response ratio (ARR).  
+#' @param t2_l  Lowest of the two treatment temperatures
+#' @param t1_h  Highest of the two treatment temperatures
+#' @param x1_h  Mean trait value at high temperature
+#' @param x2_l  Mean trait value at low temperature
+#' @param sd1_h Standard deviation of mean trait value at high temperature
+#' @param sd2_l Standard deviation of mean trait value at low temperature
+#' @param n1_h  Sample size at high temperature
+#' @param n2_l  Sample size at low temperature
+
+arr <- function(x1_h, x2_l, sd1_h, sd2_l, n1_h, n2_l, t1_h, t2_l){
+        ARR <- (x1_h - x2_l)/(t1_h - t2_l)
+      V_ARR <- ((1/(t1_h - t2_l))^2*(sd2_l^2/n2_l + sd1_h^2/n1_h))
+return(data.frame(ARR, V_ARR))
+}
+```
+
+## Caluclate ARR
+```{r, tidy=TRUE, echo = TRUE}
+# Calculate the effect sizes
+asr_dat<-asr_dat %>% 
+              mutate(ARR= arr(x1_h = mean_high, x2_l = mean_low, t1_h = acc_temp_high, t2_l = acc_temp_low, 
+                              sd1_h = sd_high, sd2_l = sd_low, n1_h = n_high_adj, n2_l = n_low_adj)[,1], 
+                     V_ARR = arr(x1_h =  mean_high, x2_l = mean_low, t1_h = acc_temp_high, t2_l = acc_temp_low, 
+                           sd1_h = sd_high, sd2_l = sd_low, n1_h = n_high_adj, n2_l = n_low_adj)[,2]) %>% 
+                filter(sex == "female")
+```
+
+## Fit model
+
+```{r, class.source='klippy', echo = TRUE}
+# Multi-level meta-analytic model
+MLMA <- metafor::rma.mv(yi= ARR~ 1, V = V_ARR, 
+                   method="REML",
+                   random=list(~1|species_ID,
+                               ~1|authors,
+                               ~1|es_ID), 
+                   dfs = "contain",
+                   test="t",
+                   data=asr_dat)
+print(MLMA)
+
+```
