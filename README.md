@@ -42,10 +42,10 @@ For a comprehensive guide on meta-analysis starting from a scoping study to writ
     + [Phylogenetic meta-analytic models](https://daniel1noble.github.io/meta-workshop/phylo)
     + [Complex non-independence -- shared controls and traits](https://daniel1noble.github.io/meta-workshop/complex-nonind)
     + [Multi-level metaregression models](https://daniel1noble.github.io/meta-workshop/metaregression)
+* [Interpreting and reporting meta-analytic model results]()
+    <!--+ [Interpreting mean estimates on different scales]()-->
+    + [Reporting heterogeneity -- a critical aspect of meta-analysis]()
 * [Publication bias]()
     + [Testing for publicaton bias]()
     + [Sensitivity analysis to correct for publicaton bias]()
-* [Interpreting and reporting meta-analytic model results]()
-    <!--+ [Interpreting mean estimates on different scales]()-->
-    <!--+ [Reporting heterogeneity -- a critical aspect of meta-analysis]()-->
   
