@@ -34,7 +34,9 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 Ecological and evolutionary meta-analysis more often than not need much more sophisticated multilevel meta-analytic models [@NakagawaSantos2012; @Hadfield2010; @Noble2017] to analyse data than simple [random effect models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random). Biological data from field and lab-based experiments are highly structured -- many studies could be done on the same species or they could be done by the same lab group or student sharing similar methodology [@Noble2017; @NakagawaSantos2012]. In addition, we might have many effect size estimates from a single study because many traits are measured, or many treatments are applied [@Noble2017]. This adds complexity to the data set and also results in special types of non-independence that are somewhat unique to meta-analysis -- especially when using contrast-based effect sizes like Hedges' g, log response ratios, log odds ratios etc [@Noble2017]. 
 
-In the next series of tutorials we'll overview multilevel meta-analytic models and discuss common forms of non-independence and how to deal with these challenges. Here, we'll first focus on simple multilevel meta-analysis models and how to interpret these. We'll then work our way up to including more complex forms of non-independence such as phylogenetic meta-analysis and shared control. Technically, all these sources could be built into a single model but will require a substantial amount of data. Sometimes it will not be possible to deal with all sources of non-independence, in which case it's important to conduct sensitivity analyses to understand how your conclusions and inferences are affected by the analytic decisions made [@Noble2017]. 
+In the past, complex non-independence was often dealt with by: 1) conducting separate meta-analyses on subsets of non-independent data sets, usually using random effect models; 2) taking one or only a subset of effect size estimates from a single study to reduce non-independence; and/or 3) averaging effect size estimates from a single study and modelling the average [@NakagawaSantos2012]. These approaches can be problematic because disposing of useful effect size data will result in a loss of statistical power or even inflated Type I error rates if average effect size estimates were not calculated accounting for non-independence [@Nakagawa2021]. Furthermore, removing effect size estimates from an analysis prevents estimation of biological and methodologically relevant information that can help shape the field [@NakagawaSantos2012; @Nakagawa2021].  
+
+In the next series of tutorials we'll overview multilevel meta-analytic models and discuss common forms of non-independence and how to deal with these challenges. Here, we'll first focus on simple multilevel meta-analysis models and how to interpret these. We'll then work our way up to including more complex forms of non-independence, such as phylogenetic meta-analysis and accounting for shared control. Technically, all these sources could be built into a single model but will require a substantial amount of data. Sometimes it will not be possible to deal with all sources of non-independence, in which case it's important to conduct sensitivity analyses to understand how your conclusions and inferences are affected by the analytic decisions made [@Noble2017]. Strong justification for your choices is always essential.
 
 ## Simple Multilevel Meta-analytic Model
 
@@ -47,18 +49,46 @@ s_{i} \sim N(0, \tau^2)
 $$
 In this model, $y_{i}$ is the *i*th effect size estimate and $m_{i}$ is the sampling error (deviation from $\mu$) for effect size *i*. Given that we have a single effect size estimate from each study we can include $s_{i}$, which is the study specific deviation, and this acts like a "residual" variance estimate in this model. That's because after we remove the known sampling variance there is likely to be "extra" variability among effect sizes at the study level. We can estimate that explicitly, which is what we are doing here. The challenge with having a single effect estimate per study is that the within and between study variances are confounded. In other words, we cannot estimate both. 
 
-More commonly, we can extract many (sometimes a lot) effect size estimates form a single study. In such case, we no longer have a single effect size estimate from a given study but a whole bunch of effects from a single study. These could be effects from different experimental treatments, at different time points or on different traits. These effects are not independent of each other and there is likely a substantial amount of within study variation in addition to the across study variation [@NakagawaSantos2012]. We can now estimate these two sources of variability explicitly turning our model into what is the simplest form of multilevel meta-analytic model: 
+More commonly, we can extract many (sometimes a lot) effect size estimates form a single study. In such case, we no longer have a single effect size estimate from a given study but a whole bunch of effects from a single study. These could be effects from different experimental treatments, at different time points or on different traits. These effects are not independent of each other and there is likely a substantial amount of within study variation in addition to the across study variation [@NakagawaSantos2012]. We can now estimate these two sources of variability explicitly turning our model into what is the simplest form of a multilevel meta-analytic model: 
 
 $$
-y_{i} = \mu + s_{i} + e_{i} + m_{i} \\
+y_{i,j} = \mu + s_{j} + e_{i,j} + m_{i,j} \\
+m_{i,j} \sim N(0, v_{i,j}) \\
+s_{j} \sim N(0, \tau^2) \\
+e_{i,j} \sim N(0, \sigma_{e}^2)
+$$
+
+You'll notice that the notation changes slightly -- $y_{i,j}$ is now the *i* effect size from study *j* and $m_{i,j}$ is effect size *i*'s known sampling variance from study *j*. $s_{j}$ is now the study specific effect, *j*, applied to the *i*th effect size, where *j* = 1,...,$N_{studies}$. We have also now added a random effect ($e_{i,j}$) to the model. $e_{i,j}$ is the effect-size-specific (within study) effect. This is often referred to as a 'residual' effect [@NakagawaSantos2012]. 
+
+## Building more Complex Multilevel Meta-analytic Models
+
+In reality, we may also have lots of studies on a specific set of species. For example, common or economically important species, like Salmon, Trout or lab model organisms like Zebrafish might be over-represented in the data set. This adds an additional level of structure to our data. We can account for species in this model by adding another random effect that captures the similarities between effect size estimates from the same species. As such, we can expand our multilevel model as follows:
+
+$$
+y_{i,j,k} = \mu + s_{j} + spp_{k} + e_{i,j,k} + m_{i,j,k} \\
+m_{i,j,k} \sim N(0, v_{i,j}) \\
+s_{j} \sim N(0, \tau^2) \\
+s_{k} \sim N(0, \sigma_{k}^2) \\
+e_{i,j,k} \sim N(0, \sigma_{e}^2)
+$$
+
+Here, $y_{i,j, k}$ is now the *i*th effect size from study *j* and species *k*. $m_{i,j, k}$ is effect size *i*'s known sampling variance from study *j* and species *k*. $e_{i,j, k}$ is the effect-size-specific (within study) applied to each effect *i* from study *j* and species *k*. $s_{j}$ is still the study specific effect, *j*, applied to the *i*th effect size, where *j* = 1,...,$N_{studies}$, but now $spp_{k}$ is the species specific effect, *k*, applied to the *i*th effect size, where *k* = 1,...,$N_{species}$. 
+
+As you can imagine, the notation can get quite complicated the more levels you add. As such, a simplification of the above model notation that you might read [e.g., @NakagawaSantos2012; @Noble2017] is as follows:
+
+$$
+y_{i} = \mu + s_{j[i]} + spp_{k[i]} + e_{i} + m_{i} \\
 m_{i} \sim N(0, v_{i}) \\
-s_{i} \sim N(0, \tau^2) \\
+s_{j} \sim N(0, \tau^2) \\
+s_{k} \sim N(0, \sigma_{k}^2) \\
 e_{i} \sim N(0, \sigma_{e}^2)
 $$
 
 ## References
 
 <div id="refs"></div>
+
+<br>
 
 ## Session Information
 
