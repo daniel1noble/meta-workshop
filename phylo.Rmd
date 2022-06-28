@@ -1,5 +1,5 @@
 ---
-title: "Phyloegnetic Meta-analysis"
+title: "Phylogenetic Meta-analysis"
 author: Nicholas Wu & Daniel W.A. Noble
 date: '`r Sys.Date()`'
 bibliography: ./bib/refs.bib
@@ -29,11 +29,11 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ```
 
-## Multi-level Meta-analysis
+## Phylogenetic Meta-analysis
 
-Ecological and evolutionary meta-analysis more often than not need much more sophisticated multilevel meta-analytic models [@NakagawaSantos2012; @Hadfield2010; @Noble2017] to analyse data than simple [random effect models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random). Biological data from field and lab-based experiments are highly structured -- many studies could be done on the same species or they could be done by the same lab group or student sharing similar methodology [@Noble2017; @NakagawaSantos2012]. In addition, we might have many effect size estimates from a single study because many traits are measured, or many treatments are applied [@Noble2017]. This adds complexity to the data set and also results in special types of non-independence that are somewhat unique to meta-analysis -- especially when using contrast-based effect sizes like Hedges' g, log response ratios, log odds ratios etc [@Noble2017]. 
+Adding further to the complexity of multi-level meta-analytic models in comparative biology, these fields often incorporate data from multiple species which share an evolutionary history, described by a phylogeny (Arnqvist & Wooster, 1995; Chamberlain et al., 2012; Gurevitch & Hedges, 1999). As a result, the samples (and the effect sizes obtained from these samples) **are not independent which violates the independence assumption underlying conventional meta-analytic models**. For example, the standard fixed- and random-effects models (Hedges & Olkin, 1985; Hedges & Vevea, 1998), often used for ecological meta-analyses (Nakagawa & Santos, 2012), assume independence among the effect sizes and therefore do not account for phylogeny (Chamberlain et al., 2012; Noble et al., 2017). See Cinar et al (2022) for details on the importance of modelling phylogeny in greater detail.
 
-In the next series of tutorials we'll overview multilevel meta-analytic models and discuss common forms of non-independence and how to deal with these challenges. Here, we'll first focus on simple multilevel meta-analysis models and how to interpret these. We'll then work our way up to including more complex forms of non-independence such as phylogenetic meta-analysis and shared control. Technically, all these sources could be built into a single model but will require a substantial amount of data. Sometimes it will not be possible to deal with all sources of non-independence, in which case it's important to conduct sensitivity analyses to understand how your conclusions and inferences are affected by the analytic decisions made [@Noble2017]. 
+In this tutorial, we expand on the multilevel meta-analytic models to account for phylogenetic relatedness.
 
 ## Simple Multilevel Meta-analytic Model
 
@@ -54,6 +54,96 @@ m_{i} \sim N(0, v_{i}) \\
 s_{i} \sim N(0, \tau^2) \\
 e_{i} \sim N(0, \sigma_{e}^2)
 $$
+
+## Example Phylogenetically corrected, Multi-level Meta-analysis
+### Format raw data for analysis
+
+We will use the dispersal data set (Z-transformed correlation coefficient or Zr) from [Wu & Seebacher (2022)](https://www.nature.com/articles/s42003-022-03055-y) from the [effect size tutorial](https://daniel1noble.github.io/meta-workshop/effect-size) to demonstrate the following analysis. First, load the the raw data and add the following additional columns, effect size ID (`es_ID`) and mean centreing of year of publication (`year_centre`). Then, calculate effect size as `Zr` and variance as `V_Zr`.
+
+```{r raw data}
+zr_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/ind_disp_raw_data.csv") %>%
+  dplyr::select(-dispersal_def) %>% # remove irrelevent columns
+  tibble::rowid_to_column("es_ID") %>% # add effect size ID
+  dplyr::mutate(year_centre = year - mean(year),  # mean-centring year of publication
+                species_OTL = stringr::str_replace_all(species_OTL, "_", " ")) # remove underscore for some species with missing underscore. Some inconsistency when curating the database.
+
+# Calculate Fisher's r-to-z transformed correlation coefficient (ZCOR) as yi = effect size and vi = sampling variances, where ri = raw correlation coefficients, and ni = sample size.
+zr_data <- metafor::escalc(measure = "ZCOR", ri = corr_coeff, ni = sample_size, data = zr_data, var.names = c("Zr", "V_Zr"))
+```
+
+### Phylogenetic reconstruction
+
+We will now reconstruct the phylogeny for species extracted in the raw data set. There are different ways to obtain phylogenetic trees. You can extract trees as a `.nex` or `.tre` file from existing phylogeny database or studies with such data available (see https://vertlife.org/data/ for example taxa specific trees), load it to *R* using the `ape` package, and prune (keep only the species you have) the tree to match the data set. See the `drop_tip` function by [Liam Revell](http://blog.phytools.org/2011/03/prune-tree-to-list-of-taxa.html) to prune tree tips to match the data set species name. 
+
+If you are comparing effect sizes from a broad phylogenetic range (e.g. including Prokaryotes or Plantae), you can extract species names from the [Open Tree of Life](https://tree.opentreeoflife.org/opentree/argus/opentree13.4@ott93302) (OTL) data set using the `rotl` *R* package. Tutorials for the `rotl` *R* package can be found here: https://cran.r-project.org/web/packages/rotl/vignettes/rotl.html
+
+For the purpose of this tutorial, we will follow the second method. Notice that we have a separate column in the raw data set called `species_OTL`. This is because to reconstruct the phylogeny, we need the names in the data set to match the OTL data set. The species names described in the paper (especially older papers) may not match the OTL names. Check that the names match before running the following codes or else it will not run successfully. This also applies to any phylogenetic trees extracted.
+
+**Note and IMPORTANT**: Errors in matching names with with the OTL comes in different forms and flavours, but the easiest way to avoid most errors to check that the **names in the raw data match the OTL database** each time you add a new species in. This will address many errors matching names down the track. We have included code to check which names are inconsistent in case you missed some. The remaining errors comes down to formatting which you can see below. As an example with this dataset, I often have to re-add underscore because some names (I noticed 3 species in this dataset) "Gambusia_affinis" without the underscore matches up with "Bambusia affinis" in the OTL database which is clearly a different taxa. I am not sure why this is but I got around it by first removing the underscore before matching the names (see code for raw before), then add it back when matching the names to the tree (which has underscores).
+
+```{r phylo}
+# Load additional packages for phylogenetic reconstruction
+pacman::p_load(rotl, ape)
+
+# Create species list based on OTL names and match with OTL database
+species <- sort(unique(as.character(zr_data$species_OTL))) # generate list of species (as character format)
+taxa    <- rotl::tnrs_match_names(names = species) # match taxonomic names to the OTL
+
+# Check if species list do not match OTL identifier
+taxa[taxa$approximate_match == TRUE,] # none so far
+
+length(unique(zr_data$species_OTL)) # 74 species
+nrow(taxa) # 74 species
+
+# Retrieving phylogenetic relationships among taxa in the form of a trimmed sub-tree
+tree <- rotl::tol_induced_subtree(ott_ids = ott_id(taxa), label_format = "name")
+
+tree_tip_label <- tree$tip.label # extract tree tip names
+species_list   <- unique(stringr::str_replace_all(zr_data$species_OTL, " ", "_")) # extract species name and add underscore to match tree_trip_label
+
+setdiff(tree_tip_label, species_list) # check what names from  raw data not found in tree. 
+# If names do not match tree, then replace name in dataset to match tree
+
+# You can also visually inspect the tree via plot function to check if the species extracted are correct.
+#plot(tree, cex = 0.6, label.offset = 0.1, no.margin = TRUE) # plot tree
+
+set.seed(1) 
+tree <- ape::compute.brlen(tree, method = "Grafen", power = 1) # compute branch lengths
+tree <- ape::multi2di(tree, random = TRUE) # use a randomization approach to deal with polytomies
+
+# Note, an internal node of a phylogenetic tree is described as a polytomy if (i) it is in a rooted tree and is linked to three or more subtrees or (ii) it is in an unrooted tree and is attached to four or more branches which is commonly observed with data extracted from OTL. This is the result of insufficient phylogenetic information such such as divergence time. To resolve polytomies, we use the multi2di function from the ape package. 
+
+# Check tree is ultrametric
+#ape::is.ultrametric(tree) # TRUE
+
+# Create correlation matrix for analysis
+phylo_cor <- vcv(tree, cor = T)
+```
+
+
+### Run phylogenetically corrected, multi-level meta-analysis on overall effect
+
+From the original study aim, the first thing we were interested in is the **overall relationship** of physiology with activity, exploration and dispersal (Zr). The following code runs a phylogeneticlly corrected, multi-level meta-analysis via the `rma.mv` function. We have a "~ -1" in the `mod` argument because we are interested in the effect size of activity, exploration and dispersal, not the overall model. If you are interested in the overall model, run the code with " ~ 1" instead. `disp_trait` (activity, exploration, or dispersal) was our main interest, with the moderator `year_centre` to test for publication bias.
+
+Building upon the multi-level meta-analytic model from the [Multi-level Meta-analysis](https://daniel1noble.github.io/meta-workshop/multi-level#Building_more_Complex_Multilevel_Meta-analytic_Models) section, we also included random effects (`R` argument) to account for non-independence such as  `es_ID` (effect size identity), `study_ID` (unique study identity), `species` (unique species identity), `species_OTL` (species relatedness).
+
+Note: remember to add underscore to the species OTL because the tree tip names have underscores.
+
+```{r analysis}
+overall_model <- metafor::rma.mv(yi = Zr, V = V_Zr, 
+                                        mod    = ~ -1 + disp_trait + year_centre, 
+                                        random = list(~1 | study_ID, ~1 | es_ID, ~1 | species, ~1 | species_OTL),
+                                        R      = list(species_OTL = phylo_cor),
+                                        method = "REML", test = "t",
+                                        data   = zr_data %>%
+                                   dplyr::mutate(species_OTL = stringr::str_replace_all(species_OTL, " ", "_")))
+summary(overall_model)
+```
+
+
+**Interpretation**: We can see from above that the model estimates **a positive relationship between physiology and activity with an overall mean of `r overall_model$b[1,]` with a 95% confidence interval (95% CI) of `r overall_model$ci.lb[1]` to `r overall_model$ci.ub[1]`**. Exploration and dispersal also was positively associated with physiology, but with higher uncertainty (Exploration = **`r overall_model$b[3,]` (95% CI `r overall_model$ci.lb[3]`, `r overall_model$ci.ub[3]`)**, Dispersal = **`r overall_model$b[2,]` (95% CI `r overall_model$ci.lb[2]`, `r overall_model$ci.ub[2]`)**).
+
+In this analysis, we also observe high heterogeneity among our effect size estimates with our Q-test being significant, a very common observation in ecological and evolutionary meta-analysis studies. Some of this heterogeneity may be driven by variation among studies, within studies, among species, and phylogeny as seen by the variance components of the model.
 
 ## References
 
