@@ -58,7 +58,9 @@ $$
 ## Example Phylogenetically corrected, Multi-level Meta-analysis
 ### Format raw data for analysis
 
-We will use the dispersal data set (Z-transformed correlation coefficient or Zr) from [@WuSeebacher2022](https://www.nature.com/articles/s42003-022-03055-y) from the [Effect Size tutorial](https://daniel1noble.github.io/meta-workshop/effect-size) to demonstrate the following analysis. First, load the the raw data and add the following additional columns, effect size ID (`es_ID`) and mean centreing of year of publication (`year_centre`). Then, calculate effect size as `Zr` and variance as `V_Zr`.
+![](./figs/WuSeebacher.png)
+
+We will use the dispersal data set (Z-transformed correlation coefficient or Zr) from [@WuSeebacher2022](https://www.nature.com/articles/s42003-022-03055-y) (see [Effect Size tutorial](https://daniel1noble.github.io/meta-workshop/effect-size) on background and effect size calculation) to demonstrate the following analysis. First, load the the raw data and add the following additional columns, effect size ID (`es_ID`) and mean centreing of year of publication (`year_centre`). Then, calculate effect size as `Zr` and variance as `V_Zr`.
 
 ```{r raw data}
 zr_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/ind_disp_raw_data.csv") %>%
