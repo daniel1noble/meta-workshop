@@ -1,0 +1,108 @@
+---
+title: "Complex Non-independence in Meta-analysis"
+author: Daniel W.A. Noble
+date: '`r Sys.Date()`'
+bibliography: ./bib/refs.bib
+csl: ./bib/the-journal-of-experimental-biology.csl
+output:
+  bookdown::html_document2:
+    css: style.css
+    code_folding: show
+    number_sections: no
+    toc: yes
+    toc_depth: 6
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE, tidy = TRUE)
+options(digits=4)
+```
+
+```{r klippy, echo=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+#install.packages("devtools")
+remotes::install_github("rlesur/klippy")
+klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done', position = 'right', color = "red")
+
+# Load packages
+pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags, vembedr, magick)
+
+```
+
+## Introduction
+
+We have already introduced the power of [multilevel meta-analytic models](https://daniel1noble.github.io/meta-workshop/multi-level) for dealing with non-independence, such as shared species, [phylogeny](https://daniel1noble.github.io/meta-workshop/phylo) and study [@Noble2017; @NakagawaSantos2012; @Hadfield2010], but meta-analyses often contain even more complex forms on non-independence. 
+
+We might have many effect size estimates from a single study because many traits are measured on the *same sample of organisms*, or many treatments are applied and we can create an *effect size with some common control* [@Noble2017]. This adds complexity to the data set and also results in special types of non-independence that are somewhat unique to meta-analysis -- especially when using contrast-based effect sizes like Hedges' g, log response ratios, log odds ratios etc [@Noble2017]. 
+
+In this tutorial, we'll overview some of these unique forms of non-independence discussing some of the ways that they can be dealt with using different approaches. Often there are no simple solutions because information collected to derive effect sizes are often lacking important details that would allow some forms of dependence to be dealt with. Thankfully, these problems have been thought about for some time by many meta-analysts and there are solutions that work reasonably well [@GleserOlkin2009; @Lajeunesse2011; @Pustejovsky2021; @Tipton2013; @Hedges2010; @Hedges2019]. 
+
+## The Many Forms of Dependence in Meta-analysis
+
+Let's briefly overview why non-independence can be an issue and why simple multilevel meta-analytic models do not always deal with the problem sufficiently well. Recall our MLMA model from the [last tutorial](https://daniel1noble.github.io/meta-workshop/multi-level). 
+
+$$
+y_{i} = \mu + s_{j[i]} + spp_{k[i]} + e_{i} + m_{i} \\
+m_{i} \sim N(0, v_{i}) \\
+s_{j} \sim N(0, \tau^2) \\
+spp_{k} \sim N(0, \sigma_{k}^2) \\
+e_{i} \sim N(0, \sigma_{e}^2)
+$$
+
+We hid some important notation to avoid drawing attention to it initially. The notation we neglected to mention is now included below:
+
+$$
+\\
+m_{i} \sim N(0, v_{i}\bf{I}) \\
+s_{j} \sim N(0, \tau^2\bf{I}) \\
+spp_{k} \sim N(0, \sigma_{k}^2\bf{I}) \\
+e_{i} \sim N(0, \sigma_{e}^2\bf{I})
+$$
+What is $\bf{I}$? $\bf{I}$ is called the identity matrix. It is a matrix that has rows and columns equal to the number of effect size values in the data set. The identity matrix contains 1's on the diagonal and 0's in the off-diagonals. For a data set with 3 effect size estimates the identity matrix looks like this:
+
+$$
+\bf{I} = \begin{bmatrix}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+$$
+**What is the significance of multiplying the $\bf{I}$ matrix by the variance for each random effect above?** The short story is that we are making the assumption that each random effect added to a given effect size is drawn from an independent and identical distribution. This seems sensible. All effect size estimates from the same study will have the same 'effect' added to the estimate. This indicates that these effects should be more similar to each other by virtue of them being from the same study (Fig. \@ref(fig:fig1)b from @Noble2017). This does, in some sense, deal with non-independence, but not completely!
+
+```{r, fig1, fig.align='center', fig.width= 15, fig.height=15, fig.cap= "Different forms of non-independence described by Noble et al. 2017. a) Effect size estimates could be correlated as a result of shared evolutionary history; b) could be correlated because they come from the same study with the same types of methodology applied", echo = FALSE}
+img1 <- magick::image_read("./figs/phylo_study.png")
+img1
+```
+
+Our assumption would likely be wrong if, for example, we have effect sizes that are measured on different traits of the same animals that vary in their relationship with each other (i.e., some traits are more strongly correlated than others). Alternatively, if our effect size statistics were collected at different times or spatial locations that vary in the extent to which they are correlated with each other. In fact, species themselves vary to different degrees based on how long ago they shared a common ancestor. This is why we include evolutionary relationships among species in our meta-analytic models! [@Hadfield2010; @Chamberlain2012; @NakagawaSantos2012] (Fig. \@ref(fig:fig1)a from @Noble2017). In these cases, we need to properly model the correlation among effect size values induced by these processes.
+
+But, wait, there's more. In fact, things can get very complicated, as outlined by @Noble2017! (See Fig. \@ref(fig:fig2)). If we have used the same data to calculate multiple effect size values then we are also inducing a correlation among their sampling errors [@GleserOlkin2009; @Noble2017; @Lajeunesse2011]. That could be a serious problem because the inverse sampling errors are what we are using as [weights in our analysis](https://daniel1noble.github.io/meta-workshop/introduction-to-meta). If there are correlations among sampling errors then we need to account for this in our sampling variance matrix. 
+
+
+```{r, fig2, fig.align='center', fig.cap= "Different forms of non-independence described by Noble et al. 2017. Effect sizes could be corrrelated because the effects themselves are correlated to differing degrees (E, F), their samling errors are correlated (D) or a combination of both (C)", echo = FALSE}
+img2 <- magick::image_read("./figs/complex_NI.png")
+img2
+```
+
+## Why do we want to control for non-independence?   
+
+You might be thinking, so what? Yes, we have all these sources of non-independence, but who cares? Why is it important that we seriously consider the dependency? There are a few reasons:
+
+* First, we want to make sure we get the 'weight' matrix correct so that we get a good estimate of the overall meta-analytic mean
+* Second, ignoring the dependency structure will result in much narrower confidence intervals giving us a false impression that we have much greater confidence in the mean estimate than what we actually have.
+* Third, and this relates to point 2 above, it will mess up with our inferential statistics. We are more likely to make Type I errors. Narrower standard errors are going to result in larger test statistics and this in combination with our over-inflated degrees of freedom will tell us our results are significant when in fact they are not.
+
+## References
+
+<div id="refs"></div>
+<br>
+
+## Session Information
+
+```{r sessioninfo, echo = FALSE}
+pander(sessionInfo(), locale = FALSE)
+```
+
+## [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/) {.hide}
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
