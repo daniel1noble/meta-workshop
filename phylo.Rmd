@@ -29,37 +29,48 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ```
 
-## Phylogenetic Meta-analysis
+## Introduction to Phylogenetic Meta-analysis
 
-Adding further to the complexity of multi-level meta-analytic models in comparative biology, these fields often incorporate data from multiple species which share an evolutionary history, described by a phylogeny (Arnqvist & Wooster, 1995; Chamberlain et al., 2012; Gurevitch & Hedges, 1999). As a result, the samples (and the effect sizes obtained from these samples) **are not independent which violates the independence assumption underlying conventional meta-analytic models**. For example, the standard fixed- and random-effects models (Hedges & Olkin, 1985; Hedges & Vevea, 1998), often used for ecological meta-analyses (Nakagawa & Santos, 2012), assume independence among the effect sizes and therefore do not account for phylogeny (Chamberlain et al., 2012; Noble et al., 2017). See [@Cinar2021] for details on the importance of modelling phylogeny in greater detail.
+Meta-analyses in comparative physiology almost always synthesise effects across a multitude of species [@Hadfield2010; @NakagawaSantos2012; @Chamberlain2012]. Species share an evolutionary history which is described by a phylogeny [@Chamberlain2012; @Lajeunesse2009; @Gurevitch1999]. As a result, the samples (and the effect sizes obtained from these samples) **are not independent which violates the independence assumption underlying conventional meta-analytic models**. For example, the standard [fixed- and random-effects models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random) often used for ecological meta-analyses [@NakagawaSantos2012; @Lajeunesse2009], assume independence among the effect sizes and therefore do not account for phylogeny [@Chamberlain2012; @Noble2017]. Including a 'species-level' random effect will not deal with this type of non-independence because the 'effects' are themselves correlated based on the amount of shared evolutionary history between two species (See the [Complex Non-independence Tutorial](https://daniel1noble.github.io/meta-workshop/complex-nonind)). 
 
-In this tutorial, we expand on the multilevel meta-analytic models to account for phylogenetic relatedness.
+Recent simulations by @Cinar2021 emphasise the importance of modelling phylogeny in meta-analytic models. Even when there is little phylogenetic signal in the data it will not compromise the analysis to have a phylogeny included, but it will protect you against Type I errors. In this tutorial, we expand on our [multilevel meta-analytic models](https://daniel1noble.github.io/meta-workshop/multi-level) to account for phylogenetic relatedness. Part of the challenge in controlling for phylogeny in a meta-analysis is that the taxa included are often highly diverse and there is little resolution on the exact phylogenetic relationship among the taxa in question. Having said that, there are tools that will probably do a fairly good job delineating the , showing how we can build a rough phylogeny that can be inc.
 
-## Simple Multilevel Meta-analytic Model
+## Formal Definition of Phylogenetic Meta-analytic Model
 
-[Recall](https://daniel1noble.github.io/meta-workshop/fixed-vs-random) that a random effects model is defined as follows: 
-
-$$
-y_{i} = \mu + s_{i} + m_{i} \\
-m_{i} \sim N(0, v_{i}) \\
-s_{i} \sim N(0, \tau^2)
-$$
-In this model, $y_{i}$ is the *i*th effect size estimate and $m_{i}$ is the sampling error (deviation from $\mu$) for effect size *i*. Given that we have a single effect size estimate from each study we can include $s_{i}$, which is the study specific deviation, and this acts like a "residual" variance estimate in this model. That's because after we remove the known sampling variance there is likely to be "extra" variability among effect sizes at the study level. We can estimate that explicitly, which is what we are doing here. The challenge with having a single effect estimate per study is that the within and between study variances are confounded. In other words, we cannot estimate both. 
-
-More commonly, we can extract many (sometimes a lot) effect size estimates form a single study. In such case, we no longer have a single effect size estimate from a given study but a whole bunch of effects from a single study. These could be effects from different experimental treatments, at different time points or on different traits. These effects are not independent of each other and there is likely a substantial amount of within study variation in addition to the across study variation [@NakagawaSantos2012]. We can now estimate these two sources of variability explicitly turning our model into what is the simplest form of multilevel meta-analytic model: 
+[Recall](https://daniel1noble.github.io/meta-workshop/multi-level) our multilevel meta-analytic model we previously discussed: 
 
 $$
-y_{i} = \mu + s_{i} + e_{i} + m_{i} \\
-m_{i} \sim N(0, v_{i}) \\
-s_{i} \sim N(0, \tau^2) \\
-e_{i} \sim N(0, \sigma_{e}^2)
+y_{i} = \mu + s_{j[i]} + spp_{k[i]} + e_{i} + m_{i} \\
+m_{i} \sim N(0, v_{i}\textbf{I}) \\
+s_{j} \sim N(0, \tau^2\textbf{I}) \\
+s_{k} \sim N(0, \sigma_{k}^2\textbf{I}) \\
+e_{i} \sim N(0, \sigma_{e}^2\textbf{I})
 $$
 
-## Example Phylogenetically corrected, Multi-level Meta-analysis
-### Format raw data for analysis
+Again, $y_{i}$ is the *i*th effect size estimate and $m_{i}$ is the sampling error (deviation from $\mu$) for effect size *i*. $e_{i}$ is the effect-size-specific effect (within study effect) (that's a mouthful!) applied to each effect *i*. $s_{j[i]}$ is the study specific effect, *j*, applied to the *i*th effect size, where *j* = 1,...,$N_{studies}$, $spp_{k[i]}$ is the species specific effect, *k*, applied to the *i*th effect size, where *k* = 1,...,$N_{species}$. As we discussed in the previous tutorial on [non-independence](https://daniel1noble.github.io/meta-workshop/complex-nonind), $\textbf{I}$ denotes the fact that effect size estimates are independently and identically distributed. 
+
+This model accounts for the fact that effect size values from the same study and species are clustered (i.e. non-independent) because they all share the same 'effect' sampled from the same distribution. However, in reality, this doesn't account for the fact that some species effects are more similar to each other than others because of the shared evolutionary history between species [@Hadfield2010; @Lajeunesse2009; @NakagawaSantos2012]. 
+
+To account for shared evolutionary history between species we need to modify the $\textbf{I}$ matrix to model the correlation between 'species effects'. This can be done by estimating a new random phylogenetic effect ($a_{k}$), and replacing the $\textbf{I}$ matrix with an $\textbf{A}$ matrix as follows:
+
+$$
+y_{i} = \mu + s_{j[i]} + spp_{k[i]} + a_{sp[i]}+ e_{i} + m_{i} \\
+m_{i} \sim N(0, v_{i}\textbf{I}) \\
+s_{j} \sim N(0, \tau^2\textbf{I}) \\
+spp_{k} \sim N(0, \sigma_{k}^2\textbf{I}) \\
+a_{k} \sim N(0, \sigma_{a}^2\textbf{A}) \\
+e_{i} \sim N(0, \sigma_{e}^2\textbf{I})
+$$
+
+Here, $a_{k[i]}$ is a phylogenetic effect for the *k* species applied to effect size *i*. These effects are now sampled from a normal distribution (denoted by *N*) with a mean of 0 and $\sigma_{a}^2$ which is the phylogenetic variance. However, now $\textbf{A}$ is a $N_{species}$ by $N_{species}$ correlation matrix of distances between species extracted from a phylogenetic tree, which means that species effects will be correlated (off-diagonals will be non-zero) based on the distance from the root of the tree to the most recent common ancestor [@NakagawaSantos2012; @Hadfield2010; @Noble2017]. 
+
+You will notice that we have *two* species-level random effects in our model. We are 'trying' (and we may not succeed) to distinguish between species-specific effects driven by shared evolutionary history (i.e., $a_{k}$) and non-phylogenetic species-specific effects (i.e., $spp_{k}$), driven by, say, shared ecology. **It may not always be possible to estimate both effects in a single model**. It is worth keeping this in mind as these are data-hungry models and estimating these parameters will require a large sample size. Often, it is necessary to resort to some form of model selection or to use your *a priori* judgement about what species-specific effect is most important. 
+
+## Example of Phylogenetic Multi-level Meta-analysis
 
 ![](./figs/WuSeebacher.png)
 
+### Format raw data for analysis
 We will use the dispersal data set (Z-transformed correlation coefficient or Zr) from [@WuSeebacher2022](https://www.nature.com/articles/s42003-022-03055-y) (see [Effect Size tutorial](https://daniel1noble.github.io/meta-workshop/effect-size) on background and effect size calculation) to demonstrate the following analysis. First, load the the raw data and add the following additional columns, effect size ID (`es_ID`) and mean centreing of year of publication (`year_centre`). Then, calculate effect size as `Zr` and variance as `V_Zr`.
 
 ```{r raw data}
@@ -80,9 +91,9 @@ If you are comparing effect sizes from a broad phylogenetic range (e.g. includin
 
 For the purpose of this tutorial, we will follow the second method. Notice that we have a separate column in the raw data set called `species_OTL`. This is because to reconstruct the phylogeny, we need the names in the data set to match the OTL data set. The species names described in the paper (especially older papers) may not match the OTL names. Check that the names match before running the following codes or else it will not run successfully. This also applies to any phylogenetic trees extracted.
 
-**Note and IMPORTANT**: Errors in matching names with with the OTL comes in different forms and flavours, but the easiest way to avoid most errors to check that the **names in the raw data match the OTL database** each time you add a new species in. This will address many errors matching names down the track. We have included code to check which names are inconsistent in case you missed some. The remaining errors comes down to formatting which you can see below. As an example with this dataset, I often have to re-add underscore because some names (I noticed 3 species in this dataset) "Gambusia_affinis" without the underscore matches up with "Bambusia affinis" in the OTL database which is clearly a different taxa. I am not sure why this is but I got around it by first removing the underscore before matching the names (see code for raw before), then add it back when matching the names to the tree (which has underscores).
+**IMPORTANT NOTE**: Errors in matching names with with the OTL comes in different forms and flavours, but the easiest way to avoid most errors to check that the **names in the raw data match the OTL database** each time you add a new species in. This will address many errors matching names down the track. We have included code to check which names are inconsistent in case you missed some. The remaining errors comes down to formatting which you can see below. As an example with this dataset, I often have to re-add underscore because some names (I noticed 3 species in this dataset) "Gambusia_affinis" without the underscore matches up with "Bambusia affinis" in the OTL database which is clearly a different taxa. I am not sure why this is but I got around it by first removing the underscore before matching the names (see code for raw before), then add it back when matching the names to the tree (which has underscores).
 
-```{r phylo}
+```{r phylo, warning=FALSE, message=FALSE}
 # Load additional packages for phylogenetic reconstruction
 pacman::p_load(rotl, ape)
 
