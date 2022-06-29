@@ -136,7 +136,7 @@ When setting the data up it is important that there is a column indicating which
 Once we have a column indicating what effects share a common control we now want to calculate the covariance between the sampling errors for these effects. To do this, we can monopolize of covariance equations for various effect sizes [many large-sample approximations for these can be found in @GleserOlkin2009; and @Lajeunesse2011]. For the log response ratio, @Lajeunesse2011 provides this equation. We won't go over the details, other than to say that it exists and that some of these formulas are already built in to the `make_VCV_matrix` function in the [`metaAidR`](https://github.com/daniel1noble/metaAidR) package. 
 
 ```{r, echo=TRUE}
-## Calculate the log response ratio
+## Calculate the M matrix
 M <- make_VCV_matrix(data = mass_data, V = "vi", 
                                cluster = "comparison_ID", 
                                m = "control_mean", sd = "control_error", n = "control_N", 
