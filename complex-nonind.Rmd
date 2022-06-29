@@ -31,7 +31,7 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ## Introduction
 
-We have already introduced the power of [multilevel meta-analytic models](https://daniel1noble.github.io/meta-workshop/multi-level) for dealing with non-independence, such as shared species, [phylogeny](https://daniel1noble.github.io/meta-workshop/phylo) and study [@Noble2017; @NakagawaSantos2012; @Hadfield2010], but meta-analyses often contain even more complex forms on non-independence. 
+We have already introduced the power of [multilevel meta-analytic models](https://daniel1noble.github.io/meta-workshop/multi-level) for dealing with non-independence, such as shared species, [phylogeny](https://daniel1noble.github.io/meta-workshop/phylo) and study [@Noble2017; @NakagawaSantos2012; @HadfieldNaka2010], but meta-analyses often contain even more complex forms on non-independence. 
 
 We might have many effect size estimates from a single study because many traits are measured on the *same sample of organisms*, or many treatments are applied and we can create an *effect size with some common control* [@Noble2017]. This adds complexity to the data set and also results in special types of non-independence that are somewhat unique to meta-analysis -- especially when using contrast-based effect sizes like Hedges' g, log response ratios, log odds ratios etc [@Noble2017]. 
 
@@ -76,7 +76,7 @@ img1 <- magick::image_read("./figs/nonIn.png")
 img1
 ```
 
-Our assumption would likely be wrong if, for example, we have effect sizes that are measured on different traits of the same animals that vary in their relationship with each other (i.e., some traits are more strongly correlated than others). Alternatively, if our effect size statistics were collected at different times or spatial locations that vary in the extent to which they are correlated with each other. In fact, species themselves vary to different degrees based on how long ago they shared a common ancestor. This is why we include evolutionary relationships among species in our meta-analytic models! (we'll discuss this in the [phylogeny tutorial](https://daniel1noble.github.io/meta-workshop/phylo) [@Hadfield2010; @Chamberlain2012; @NakagawaSantos2012] (Fig. \@ref(fig:fig1)a from @Noble2017). In these cases, we need to properly model the correlation among effect size values induced by these processes.
+Our assumption would likely be wrong if, for example, we have effect sizes that are measured on different traits of the same animals that vary in their relationship with each other (i.e., some traits are more strongly correlated than others). Alternatively, if our effect size statistics were collected at different times or spatial locations that vary in the extent to which they are correlated with each other. In fact, species themselves vary to different degrees based on how long ago they shared a common ancestor. This is why we include evolutionary relationships among species in our meta-analytic models! (we'll discuss this in the [phylogeny tutorial](https://daniel1noble.github.io/meta-workshop/phylo) [@HadfieldNaka2010; @Chamberlain2012; @NakagawaSantos2012] (Fig. \@ref(fig:fig1)a from @Noble2017). In these cases, we need to properly model the correlation among effect size values induced by these processes.
 
 But, wait, there's more. In fact, things can get very complicated, as outlined by @Noble2017! (See Fig. \@ref(fig:fig1)). If we have used the same data to calculate multiple effect size values then we are also inducing a correlation among their sampling errors [@GleserOlkin2009; @Noble2017; @Lajeunesse2011; @Hedges2019]. That could be a serious problem because the inverse sampling errors are what we are using as [weights in our analysis](https://daniel1noble.github.io/meta-workshop/introduction-to-meta). If there are correlations among sampling errors then we need to account for this in our sampling variance matrix. We can do this but also modifying out sampling error matrix
 
@@ -168,7 +168,7 @@ As you can see in the model, the `V` argument in `metafor` takes the $\textbf{M}
 
 ## Robust Variance Estimation -- a useful tool to deal with unknwon dependency
 
-Sometimes we may not be able to deal with all sources of dependency. There are a lot of unknowns with respect to how effect sizes might be correlated, to what extent they are related and it might vary across studies. A very promising tool are **robust variance estimators** which relax the need to known and understand the dependency in your data. [James Pustejovsky](https://www.jepusto.com) provides a fantastic overview of the problem and how robust variance estimators can help counter, and make it easier to deal with, various sources of non-independence. 
+Sometimes we may not be able to deal with all sources of dependency. There are a lot of unknowns with respect to how effect sizes might be correlated, to what extent they are related and it might vary across studies. A very promising tool are **robust variance estimators** which relax the need to known and understand the dependency in your data. [James Pustejovsky](https://www.jepusto.com) provides a fantastic overview of the problem and how robust variance estimators can help make it easier to deal with various sources of non-independence. 
 
 
 ```{r, james, echo = FALSE, eval = TRUE}
@@ -181,11 +181,18 @@ We can apply robust variance methods to our model above using the `robust` funct
 robust(mlma, cluster = mass_data$paper_no)
 ```
 
-As we can see here, there are really no changes, which isn't too surprising because we have mostly accounted for all the sources of dependence. In simulations we and others have shown [@Nakagawa2021; @Song2021; @Pustejovsky2021; @Tipton2013] RVE's do a very good job.
+As we can see here, there are really no changes, which isn't too surprising because we have mostly accounted for all the sources of dependence. In simulations, we and others have shown RVE's do a very good job dealing with dependency [@Nakagawa2021; @Song2021; @Pustejovsky2021; @Tipton2013] .
 
 ## Conclusions
 
-There are a tonne of different sources of non-independence you might encounter in meta-analysis -- some of these are somewhat unique [@Noble2017]. In the next tutorial we'll talk about another common source -- phylogeny. Unfortunately, we don't have time (or enough examples) to overview the different types and how to deal with them all. In some cases, it may not really matter whether all sources are correctly dealt with in the model, and it can get quite complex such that it may not be possible to deal with them all anyway. Having said that, @Noble2017 recommend: 1) reporting on the different sources of non-independence explicitly and 2) conducting sensitivity analyses that explore the impacts of non-independence on inferences. The use of robust variance estimators shows immense promise in dealing with a multitude of dependency within a data set without having to specify it all explicitly [@Pustejovsky2021; @Tipton2013; @Hedges2010; @Hedges2019; @Nakagawa2021; @Song2021]
+There are a tonne of different sources of non-independence you might encounter in meta-analysis -- some of these are somewhat unique [@Noble2017]. In the next tutorial we'll talk about another common source -- phylogeny. Unfortunately, we don't have time (or enough examples) to overview the different types and how to deal with them all. In some cases, it may not really matter whether all sources are correctly dealt with in the model, and it can get quite complex such that it may not be possible to deal with them all anyway. 
+
+Having said that, @Noble2017 recommend: 
+
+1. reporting on the different sources of non-independence explicitly 
+2. conducting sensitivity analyses to explore the impacts of non-independence on inferences. 
+
+The use of robust variance estimators shows immense promise in dealing with a multitude of dependency within a data set without having to specify it all explicitly [@Pustejovsky2021; @Tipton2013; @Hedges2010; @Hedges2019; @Nakagawa2021; @Song2021].
 
 ## References
 
