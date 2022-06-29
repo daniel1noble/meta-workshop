@@ -16,7 +16,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, cache = FALSE, tidy = TRUE)
-options(digits=4)
+options(digits=3)
 ```
 
 ```{r klippy, echo=FALSE, include=TRUE, message=FALSE, warning=FALSE}
@@ -144,7 +144,7 @@ overall_model <- metafor::rma.mv(yi = Zr, V = V_Zr,
                                         mod    = ~ 1, 
                                         random = list(~1 | study_ID, ~1 | es_ID, ~1 | species, ~1 | species_OTL),
                                         R      = list(species_OTL = phylo_cor),
-                                        method = "REML", test = "t",
+                                        method = "REML", test = "t", dfs = "contain",
                                         data   = zr_data %>%
                                    dplyr::mutate(species_OTL = stringr::str_replace_all(species_OTL, " ", "_")))
 summary(overall_model)

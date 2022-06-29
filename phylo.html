@@ -2117,7 +2117,7 @@ phylo_cor &lt;- vcv(tree, cor = T)</code></pre>
 <p>Note: remember to add underscore to the species OTL because the tree tip names have underscores.</p>
 <pre class="r"><code>overall_model &lt;- metafor::rma.mv(yi = Zr, V = V_Zr, mod = ~1, random = list(~1 |
     study_ID, ~1 | es_ID, ~1 | species, ~1 | species_OTL), R = list(species_OTL = phylo_cor),
-    method = &quot;REML&quot;, test = &quot;t&quot;, data = zr_data %&gt;%
+    method = &quot;REML&quot;, test = &quot;t&quot;, dfs = &quot;contain&quot;, data = zr_data %&gt;%
         dplyr::mutate(species_OTL = stringr::str_replace_all(species_OTL, &quot; &quot;, &quot;_&quot;)))
 summary(overall_model)</code></pre>
 <pre><code>## 
@@ -2139,12 +2139,12 @@ summary(overall_model)</code></pre>
 ## 
 ## Model Results:
 ## 
-## estimate      se    tval   df    pval   ci.lb   ci.ub    ​ 
-##   0.0979  0.0347  2.8202  271  0.0052  0.0296  0.1662  ** 
+## estimate      se    tval  df    pval   ci.lb   ci.ub    ​ 
+##   0.0979  0.0347  2.8202  73  0.0062  0.0287  0.1671  ** 
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p><strong>Interpretation</strong>: We can see from above that the model estimates <strong>a positive relationship</strong> between physiology and movement with <strong>an overall mean of 0.0979 with a 95% confidence interval (95% CI) of 0.0296 to 0.1662</strong>. In this analysis, we also observe high heterogeneity among our effect size estimates with our Q-test being significant, a very common observation in ecological and evolutionary meta-analysis studies. Some of this heterogeneity may be driven by variation among studies, within studies, among species, and phylogeny as seen by the variance components of the model.</p>
+<p><strong>Interpretation</strong>: We can see from above that the model estimates <strong>a positive relationship</strong> between physiology and movement with <strong>an overall mean of 0.098 with a 95% confidence interval (95% CI) of 0.029 to 0.167</strong>. In this analysis, we also observe high heterogeneity among our effect size estimates with our Q-test being significant, a very common observation in ecological and evolutionary meta-analysis studies. Some of this heterogeneity may be driven by variation among studies, within studies, among species, and phylogeny as seen by the variance components of the model.</p>
 </div>
 </div>
 <div id="references" class="section level2">
