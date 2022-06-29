@@ -53,10 +53,10 @@ We hid some important notation to avoid drawing attention to it initially. The n
 
 $$
 \\
-m_{i} \sim N(0, v_{i}\bf{I}) \\
-s_{j} \sim N(0, \tau^2\bf{I}) \\
-spp_{k} \sim N(0, \sigma_{k}^2\bf{I}) \\
-e_{i} \sim N(0, \sigma_{e}^2\bf{I})
+m_{i} \sim N(0, v_{i}\textbf{I}) \\
+s_{j} \sim N(0, \tau^2\textbf{I}) \\
+spp_{k} \sim N(0, \sigma_{k}^2\textbf{I}) \\
+e_{i} \sim N(0, \sigma_{e}^2\textbf{I})
 $$
 What is $\bf{I}$? $\bf{I}$ is called the identity matrix. It is a matrix that has rows and columns equal to the number of effect size values in the data set. The identity matrix contains 1's on the diagonal and 0's in the off-diagonals. For a data set with 3 effect size estimates the identity matrix looks like this:
 
@@ -67,7 +67,9 @@ $$
 0 & 0 & 1
 \end{bmatrix}
 $$
-**What is the significance of multiplying the $\bf{I}$ matrix by the variance for each random effect above?** The short story is that we are making the assumption that each random effect added to a given effect size is drawn from an independent and identical distribution. This seems sensible. All effect size estimates from the same study will have the same 'effect' added to the estimate. This indicates that these effects should be more similar to each other by virtue of them being from the same study (Fig. \@ref(fig:fig1)b from @Noble2017). This does, in some sense, deal with non-independence, but not completely!
+**What is the significance of multiplying the $\bf{I}$ matrix by the variance for each random effect above?** The short story is that we are making the assumption that each random effect added to a given effect size is drawn from an independent and identical distribution. To see why this is the case think about what happens when we multiply $\sigma_{i}^2$ by this matrix. Along the diagonal, we get the exact same variance estimate for every single effect size (or for effect sizes that share a cluster). This tells us that they are sampled from a distribution that has the same mean (0) and variance ($\sigma_{i}^2$) (i.e., are sampled from the same distribution). 
+
+If, however, we multiply the off-diagonals we get zero. The fact that these off-diagonals are 0 tells us straight away that all the random effects being sampled are independent from one another as otherwise the off-diagonals would be non-zero (i.e., would have a co-variance). This seems sensible. All effect size estimates from the same study will have the same 'effect' added to the estimate. This indicates that these effects should be more similar to each other by virtue of them being from the same study (Fig. \@ref(fig:fig1)b from @Noble2017). This does, in some sense, deal with non-independence, but not completely!
 
 ```{r, fig1, fig.align='center', fig.width= 15, fig.height=15, fig.cap= "Different forms of non-independence described by Noble et al. 2017. A) Effect size estimates could be correlated as a result of shared evolutionary history; B) could be correlated because they come from the same study with the same types of methodology applied. Effect sizes could also be corrrelated because the effects themselves are correlated to differing degrees because of spatial or temporal correlations (E, F), their samling errors are correlated (D) or a combination of both (C)", echo = FALSE}
 img1 <- magick::image_read("./figs/nonIn.png")
