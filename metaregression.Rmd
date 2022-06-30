@@ -1,6 +1,6 @@
 ---
-title: "Multi-level Meta-Regression"
-author: Daniel W.A. Noble 
+title: "Multi-level Meta-regression"
+author: Daniel W.A. Noble & Nicholas Wu
 date: '`r Sys.Date()`'
 bibliography: ./bib/refs.bib
 csl: ./bib/the-journal-of-experimental-biology.csl
@@ -12,6 +12,8 @@ output:
     toc: yes
     toc_depth: 6
     toc_float: yes
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -29,7 +31,7 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ```
 
-## Introduction to Multi-level Meta-Regression
+## **Introduction to Multi-level Meta-Regression**
 
 Meta-analysis often reveals substantial heterogeneity among effect estimates included in the analysis [@Senior2016]. While many meta-analysts are interested in 'overall mean effects' we need to couch these effects in context by reporting on their variability and work hard to understand what factors drive effect variability and why [@Noble2022; @Lag2010]. For meta-analyses in comparative physiology, explaining variation in effects should probably be the main goal of every analysis. Sampling variance often explains only a little amount of the total heterogeneity, so it's important that we think hard, *a priori*, about what factors are likely to explain effect size variation. 
 
@@ -39,27 +41,38 @@ While methodological moderators are important biological variables are usually o
 
 Exploring population-level / average changes in effect size magnitude (and direction) as a function of 'moderators' (what are typically called predictors or fixed effects in other literature) is a critical aspects of meta-analysis in ecology and evolution. The models used to test how average effects change as some function of a moderator is called meta-regression. 
 
-## Extending our Multi-level Meta-analytic Model to a Multi-level Meta-regression Model
+## **Extending our Multi-level Meta-analytic Model to a Multi-level Meta-regression Model**
 
+We can extend our multi-level meta-analytic model, which only has an intercept, to include moderators quite easily: 
 
 $$
-y_{i} = \mu + \sum_{i = 1}^{m}\beta_{i}x_{i} +  s_{j[i]} + spp_{k[i]} + e_{i} + m_{i} \\
+y_{i} = \mu + \sum_{i = 1}^{N_{m}}\beta_{m}x_{m} +  s_{j[i]} + spp_{k[i]} + e_{i} + m_{i} \\
 m_{i} \sim N(0, v_{i}) \\
 s_{j} \sim N(0, \tau^2) \\
 s_{k} \sim N(0, \sigma_{k}^2) \\
 e_{i} \sim N(0, \sigma_{e}^2)
 $$
 
-## Phylogenetic Multi-level Meta-regression
+Here, $\beta_{m}$ is the slope (or contrast) for the *m th* moderator (where m = 1, ..., $N_{moderator}$ or $N_{m}$). We can include different types of continuous and categorical moderators in our model. Some of these moderators might control for [nuisance hetereogenity](https://daniel1noble.github.io/meta-workshop/nuis-het), others might be to understand how different experimental designs affect the magnitude and direction of mean effect size and some may simply be biological in nature -- they might compare ectotherms to endotherms, for example.  
 
+## **Phylogenetic Multi-level Meta-regression**
+
+### Introduction
 ![](./figs/WuSeebacher.png)
 
-We'll turn again to the study by @WuSeebacher2022.  We can run the same phylogenetic meta-analysis that we did in the [Phylogenetic meta-analytic models tutorial](https://daniel1noble.github.io/meta-workshop/phylo), but this time we can include moderators or predictors that we think will explain some variation in effects. 
+We'll turn again to the study by @WuSeebacher2020.  We can run the same phylogenetic meta-analysis that we did in the [Phylogenetic meta-analytic models tutorial](https://daniel1noble.github.io/meta-workshop/phylo), but this time we can include moderators or predictors that we think will explain some variation in effects. From the original study aim, the first thing @WuSeebacher2020 were interested in is the relationship of physiology with activity, exploration and dispersal (Zr). In addition to the random effects  --  `es_ID` (effect size identity), `study_ID`(unique study identity), `species`(unique species identity), and `species_OTL`(phylogenetic relatedness), they were also interested in comparing whether the correlation (or Zr) differences depending on whether the behavioural trait of interest was activity, exploration or dispersal. As such, a phylogenetic meta-regression model was fit with a moderator `disp_trait` (activity, exploration, or dispersal) to explicitly test whether Zr varied across these effect types.
 
+### Load data and phylogeny
 
+We'll start again by loading the raw data and reconstructing the phylogenetic tree, which will be used to control for shared evollutionary history. The other random effects are already in the dataset.
 
-```{r raw data, message=FALSE, warning=FALSE}
-pacman::p_load(rotl, ape)
+```{r raw data, message=FALSE, warning=FALSE, results='hide'}
+# Load packages
+pacman::p_load(rotl, ape, tidyverse, devtools, R.rsp)
+
+# Download the orchaRd package
+devtools::install_github("daniel1noble/orchaRd", force = TRUE, build_vignettes = TRUE)
+library(orchaRd)
 
 zr_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/ind_disp_raw_data.csv") %>%
   dplyr::select(-dispersal_def) %>% # remove irrelevant columns
@@ -86,34 +99,55 @@ tree <- ape::multi2di(tree, random = TRUE) # use a randomization approach to dea
 phylo_cor <- vcv(tree, cor = T)
 ```
 
-From the original study aim, the first thing we were interested in is the relationship of physiology with activity, exploration and dispersal (Zr). The following code runs a phylogeneticlly corrected, multi-level meta-analysis via the `rma.mv` function. We have a “~ -1” in the `mod` argument because we are interested in the effect size of activity, exploration and dispersal, not the overall model. If you are interested in the overall model, run the code with ” ~ 1” instead. `disp_trait` (activity, exploration, or dispersal) was our main interest, with the moderator `Zr_sei` (effect size standard error) and `year_centre` (mean centering of year) to test for time-lag and publication bias [@Nakagawa2021b].
+### Fit the Phylogenetic Meta-regression Model
 
-Building upon the multi-level meta-analytic model from the [Multi-level Meta-analysis](https://daniel1noble.github.io/meta-workshop/multi-level#Building_more_Complex_Multilevel_Meta-analytic_Models) section, we also included random effects (`random` argument) to account for non-independence such as `es_ID` (effect size identity), `study_ID`(unique study identity), `species`(unique species identity), `species_OTL`(species relatedness). The `R` argument allows the correlation matrix (here, `phylo_cor`) to be incorporated to the model which corresponds to the components specified in the `random` argument `~1 | species_OTL`.
+We can now fit our multi-level meta-regression model including the `disp_trait` moderator:
 
-Note: remember to add underscore to the species OTL because the tree tip names have underscores.
+**Note**: Remember to add an underscore to the species OTL because the tree tip names have underscores and these need to match exactly.
 
-```{r analysis}
+```{r analysis, echo=TRUE}
 overall_model <- metafor::rma.mv(yi = Zr, V = V_Zr, 
-                                        mod    = ~ -1 + disp_trait + Zr_sei + year_centre, 
+                                        mod    = ~ -1 + disp_trait, 
                                         random = list(~1 | study_ID, ~1 | es_ID, ~1 | species, ~1 | species_OTL),
                                         R      = list(species_OTL = phylo_cor),
-                                        method = "REML", test = "t",
+                                        method = "REML", test = "t", dfs = "contain",
                                         data   = zr_data %>%
                                    dplyr::mutate(species_OTL = stringr::str_replace_all(species_OTL, " ", "_")))
 summary(overall_model)
 ```
 
-**Interpretation**: We can see from above that the model estimates **a positive relationship** between physiology and activity with **an overall mean of `r overall_model$b[1,]` with a 95% confidence interval (95% CI) of `r overall_model$ci.lb[1]` to `r overall_model$ci.ub[1]`**. Exploration and dispersal was also, on average, positively associated with physiology, but exploration had higher level of uncertainty (Exploration = `r overall_model$b[3,]` [95% CI `r overall_model$ci.lb[3]`, `r overall_model$ci.ub[3]`], Dispersal = `r overall_model$b[2,]`, [95% CI `r overall_model$ci.lb[2]`, `r overall_model$ci.ub[2]`]). 
+**Interpretation**: We can see from above that the model estimates **a positive relationship** between physiology and activity with **an overall mean of `r overall_model$b[1,]` with a 95% confidence interval (95% CI) of `r overall_model$ci.lb[1]` to `r overall_model$ci.ub[1]`**. Exploration and dispersal was also, on average, positively associated with physiology, but exploration had higher level of uncertainty (Exploration = `r overall_model$b[3,]` [95% CI `r overall_model$ci.lb[3]`, `r overall_model$ci.ub[3]`], Dispersal = `r overall_model$b[2,]`, [95% CI `r overall_model$ci.lb[2]`, `r overall_model$ci.ub[2]`]). Heterogeneity remained high in this analysis based on the Q-test. 
 
-There was no evidence of the influence of small sample size bias (`r overall_model$b[4,]` [95% CI `r overall_model$ci.lb[4]`, `r overall_model$ci.ub[4]`]) and time-lag (`r overall_model$b[5,]` [95% CI `r overall_model$ci.lb[5]`, `r overall_model$ci.ub[5]`]). Heterogeneity remained high in this analysis based on the Q-test. 
+### Contrasts between Trait Levels
 
-## References
+You might have noticed that we suppressed the intercept in this model (i.e., `-1`). This is very typical in meta-analysis because we are interested in the overall mean effect size in each of the three levels of the moderator. However, you may instead want to explicitly compare whether there are significant differences in *Zr* between categories. To estimate these contrasts you can add the intercept back into the model and the resulting parameters are now contrasts between the intercept (in this case `Activity`) and `Dispersal` and `Exploration`.
+
+```{r analysis2, echo=TRUE}
+overall_model <- metafor::rma.mv(yi = Zr, V = V_Zr, 
+                                        mod    = ~ disp_trait, 
+                                        random = list(~1 | study_ID, ~1 | es_ID, ~1 | species, ~1 | species_OTL),
+                                        R      = list(species_OTL = phylo_cor),
+                                        method = "REML", test = "t", dfs = "contain",
+                                        data   = zr_data %>%
+                                   dplyr::mutate(species_OTL = stringr::str_replace_all(species_OTL, " ", "_")))
+summary(overall_model)
+```
+
+**Interpretation**: We can see that the model coefficients have changed. The `intrcpt` now takes on the mean Zr for `Activity`. In other words, this is the mean *Zr* for the correlations between physiology and activity. As such, this is the same value and all the inferential statistics are testing the same null hypothesis -- that the mean effect size, *Zr*, differs significantly from zero, which it does. `disp_traitDispersal` and `disp_traitExploration` are not contrasts, or differences, between `Activity` and the mean for `Dispersal` and `Exploration`. They are now testing the null hypothesis that the difference between *Activity and Dispersal* (i.e., `disp_traitDispersal`) and *Activity and Exploration* (i.e., `disp_traitExploration`) are different from zero. We can see that Z-transformed correlations (*Zr*) between physiology and activity do not differ significantly from correlations between *Activity and Dispersal* and *Activity and Exploration*
+
+We can also visually depict the differences in *r* between these groups using an orchard plot [@Nakagawa2021c] after back-transforming from *Zr*: 
+
+```{r orchard, echo=TRUE, fig.align='center', fig.cap= "Orchard plot of mean correlation coefficient between physiology and activity, dispersal and exploration. k indicates the number of effect sizes (studies in brackets). Thick black bars are 95% confidence intervals and the thin (`twigs`) are 95% prediction intervals"}
+orchaRd::orchard_plot(overall_model, group = "study_ID", mod = "disp_trait", data = zr_data, xlab = "Correlation Coefficient (r)", transfm = "tanh", angle = 45)
+```
+
+## **References**
 
 <div id="refs"></div>
 
 <br>
 
-## Session Information
+## **Session Information**
 
 ```{r sessioninfo, echo = FALSE}
 pander(sessionInfo(), locale = FALSE)
