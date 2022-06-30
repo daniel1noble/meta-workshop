@@ -27,7 +27,7 @@ remotes::install_github("rlesur/klippy")
 klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done', position = 'right', color = "red")
 ```
 
-# Introduction
+## **Introduction**
 
 In the [previous tutorial](https://daniel1noble.github.io/meta-workshop/effect-size) we over-viewed a few of the common effect size statistics likely to be used in comparative physiology. However, studies can vary in ways that can make the interpretation of these statistics challenging.  
 
@@ -35,9 +35,9 @@ Nuisance heterogeneity -- factors causing variation in effects that are blatantl
 
 There are a few different ways to deal with nuisance heterogeneity. The most common approach is to simply include a moderator in a meta-regression model that controls for the temperature difference between treatments [@Noble2022]. You can re-scale this continuous moderator (center the variable on the mean so '0' equates to the average difference) so that intercepts can be interpreted more easily [@Noble2022]. Alternatively, we can 'correct' our effect sizes to account for the nuisance variable. In this tutorial, we'll overview the latter approach as it can simplify modelling.
 
-# Effect Sizes Corrected for Nuisance Heterogenity
+## **Effect Sizes Corrected for Nuisance Heterogeneity**
 
-### Temperature Coefficient, $Q_{10}$
+### **Temperature Coefficient, $Q_{10}$**
 One common and well known effect size that is used in comparative physiology is the temperature coefficient, $Q_{10}$. As [discussed](https://daniel1noble.github.io/meta-workshop/effect-size), effect sizes need to be: 1) comparable across studies and 2) we need to know, or be able to approximate, the sampling variance in order to make use of meta-analytic models. While $Q_{10}$ satisfies 1) we do now know what the sampling variance should be for this effect size. @Noble2022 fixes that issue by deriving it's sampling variance. 
 
 To begin, recall that $Q_{10}$, is defined as: 
@@ -134,7 +134,7 @@ head(q10_dat %>% mutate(exp_lnRR_Q10 = exp(lnRR_Q10)) %>% select(exp_lnRR_Q10, Q
 **Interpretation**: Now that we have our $lnRR_{Q_{10}}$ effect size estimates which we back-transformed how do we interpret them? Given these are simply $Q_{10}$'s we can interpret these normally. **For the first row of our data we can see that dive duration when temperatures increase by 10$^{\circ}$C is expected to decrease by ~67% (1-0.33)**. In other words, the dive duration 10$^{\circ}$C above the first temperature is 33% of the rate 10$^{\circ}$C lower. 
 
 
-### Acclimation Response Ratio, ARR
+### **Acclimation Response Ratio, ARR**
 
 ![](./figs/pottier.png)
 
@@ -198,19 +198,19 @@ head(asr_dat %>% select(ARR, V_ARR))
 
 **Interpretation**: If we look at the first row of data, **we can see that for each degree increase in acclimation temperature, the heat tolerance of the animals included in this data set increases by `r asr_dat[1,"ARR"]`$^{\circ}$C**. 
 
-# References
+## **References**
 
 <div id="refs"></div>
 
 <br>
 
-# Session Information
+## **Session Information**
 
 ```{r sessioninfo, echo = FALSE, tidy=TRUE}
 # Here, we'll create some R code
 pander::pander(sessionInfo(), locale = FALSE)
 ```
 
-# [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/) {.hide}
+## [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/) {.hide}
 
 <div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
