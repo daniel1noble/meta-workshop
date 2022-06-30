@@ -32,7 +32,7 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ## **What's the difference between fixed and random effects meta-analysis?**
 
-If you're familiar with the meta-analysis literature you will have heard of 'fixed' and 'random' effect meta-analysis. Understanding the differences between these two models is fundamentally important to understanding meta-analysis more generally. Also, once you understand the difference you'll realise why fixed-effect meta-analyses are not something we should normally apply in ecology and evolution. The assumptions are not too sensible when we are talking about highly variable meta-analytic data taken from many, many species. In fact, even a random effects meta-analysis is not going to cut it in most cases (more on that later). 
+If you're familiar with the meta-analysis literature you will have heard of 'fixed' and 'random' effect meta-analysis [@Borenstein2009; @NakagawaSantos2012; @Koricheva2013; @Gurevitch2018; @Nakagawa2017; @Gurevitch1999]. Understanding the differences between these two models is fundamentally important to understanding meta-analysis more generally. Also, once you understand the difference you'll realise why fixed-effect meta-analyses are not something we should normally apply in ecology and evolution. The assumptions are not too sensible when we are talking about highly variable meta-analytic data taken from many, many species. In fact, even a random effects meta-analysis is not going to cut it in most cases (more on that later). 
 
 Despite the limitations, these models have an important place in the meta-analytic literature. They are also excellent stepping stones to understanding the assumptions inherent to meta-analytic models and how we can build these models more appropriately for our kind of data. 
 
@@ -281,6 +281,7 @@ Hopefully now you have a better understanding of the differences between fixed a
 ## **References**
 
 <div id="refs"></div>
+<br>
 
 ## **Session Information**
 
