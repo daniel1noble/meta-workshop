@@ -44,8 +44,8 @@ For a comprehensive guide on meta-analysis starting from a scoping study to writ
     + [Multi-level meta-regression models](https://daniel1noble.github.io/meta-workshop/metaregression)
 * [Interpreting and reporting meta-analytic model results]()
     <!--+ [Interpreting mean estimates on different scales]()-->
-    + [Reporting heterogeneity -- a critical aspect of meta-analysis]()
+    + [Reporting heterogeneity -- a critical aspect of meta-analysis](https://daniel1noble.github.io/meta-workshop/het)
 * [Publication bias]()
-    + [Testing for publicaton bias]()
+    + [Testing for publicaton bias](https://daniel1noble.github.io/meta-workshop/pubias1)
     + [Sensitivity analysis to correct for publicaton bias]()
   

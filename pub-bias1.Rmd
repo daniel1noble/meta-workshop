@@ -49,6 +49,9 @@ We're going to have a look at a meta-analysis by @Arnold2021 that explores the r
 ### Download the Data
 
 ```{r rawdata, message=FALSE, warning=FALSE}
+# Packages
+pacman::p_load(tidyverse, metafor)
+
 # Download the data. Exclude NA in r and sample size columns
 arnold_data <- read.csv("https://raw.githubusercontent.com/pieterarnold/fitness-rmr-meta/main/MR_Fitness_Data_revised.csv")
 
@@ -66,14 +69,21 @@ arnold_data_endo <- arnold_data %>%
 
 ### Funnel Asymmetry -- raw data
 
-Funnel plots are by far the most common visual tool for assessing the possibility of publication bias [@Nakagawa2021b]. Just like any exploratory analysis, these are just visual tools. Let's have a look at a funnel plot of the data. Funnel plots all plot the the effect size (x-axis) against some form of sampling variance or precision (y-axis). If no publication bias exists then we would expect the funnel to look fairly asymmetrical, and funnel shaped (hence why it's called a funnel plot!). 
+Funnel plots are by far the most common visual tool for assessing the possibility of publication bias [@Nakagawa2021b]. Just like any exploratory analysis, these are just visual tools. Let's have a look at a funnel plot of the data. Funnel plots plot the the effect size (x-axis) against some form of sampling variance or precision (y-axis). 
 
-```{r funnel, echo=TRUE}
+If no publication bias exists then we would expect the plot to look fairly symmetrical and funnel shaped (hence why it's called a funnel plot!). The reason why the shape is a funnel is because the sampling variance is expected to decrease (or the precision increase) when the sample size, and thus power, increases. These 'high-powered' studies are at the top of the 'funnel' in the narrow-necked region, so to say. In contrast, as the power of studies decrease, and therefore their sampling variance increase, we expect the spread of effect sizes to also increase simply because the process of sampling when we have small sample sizes results in greater variability of effects and effects that are large in magnitude by chance alone. 
+
+```{r funnel, echo=TRUE, fig.align='center', fig.cap= "Funnel plot depicting the correlation between metabolism and fitness as a function of precision (1 / SE). The dotted lines are the theoretical 95% sampling variance intervals - the interval with which we expect effect size estimates to fall within if only sampling variance drives differences in effects." }
 
 # Lets make a funnel plot to visualize the data in relation to the precision, inverse sampling standard error, 
 metafor::funnel(x = arnold_data_endo$Zr, vi = arnold_data_endo$Zr_v, yaxis = "seinv", digits = 2, las = 1, xlab = "Correlation Coefficient (r)", atransf=tanh)
 ```
 
+We can see from Fig. \@ref(fig:funnel) above the typical funnel shape. You will notice that most effects lie in the positive correlation space -- in other words there is a strong positive correlation between BMR and fitness. However, we also find some studies that show the opposite pattern. We expect that based on sampling theory alone, and indeed many of these effects fall close to the dotted sampling error intervals.
+
+**But, what do we expect if publication bias were present?** Well, we expect under a file-drawer situation (i.e., where researchers stash away poorer quality studies showing opposite effects in their desk drawers) that studies with low power (i.e., low precision, wide standard errors, and small sample sizes) will go unpublished. This should be particularly true for studies that show the opposite to what we might predict by theory -- specifically, negative correlations from studies with small sample sizes / low precision. This is one factor that can drive what we call funnel asymmetry, showing a bunch of missing effect sizes in the bottom left corner of the funnel. 
+
+If we look at Fig. \@ref(fig:funnel) we do see some hint of this scenario. There is a noticeable blank space in the bottom left corner with negative correlations  based on very small sample sizes that are generally small to moderate in magnitude going unpublished. But, interestingly, we also see that if the magnitude of correlation is large enough in the negative direction even with small sample sizes these can get published. We can only speculate as to why or if this is even a real signature of publication bias. However, this might suggest that if folks estimate large enough correlations and these are in the opposite direction to what one might expect these arguably 'surprising' results are more likely to be published than if the correlation is weak and in the opposite direction. 
 
 ### Funnel Asymmetry -- residuals
 ## **References**
