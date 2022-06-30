@@ -30,7 +30,7 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 # To use mathjaxr 
 ```
 
-## What's the difference between fixed and random effects meta-analysis?
+## **What's the difference between fixed and random effects meta-analysis?**
 
 If you're familiar with the meta-analysis literature you will have heard of 'fixed' and 'random' effect meta-analysis. Understanding the differences between these two models is fundamentally important to understanding meta-analysis more generally. Also, once you understand the difference you'll realise why fixed-effect meta-analyses are not something we should normally apply in ecology and evolution. The assumptions are not too sensible when we are talking about highly variable meta-analytic data taken from many, many species. In fact, even a random effects meta-analysis is not going to cut it in most cases (more on that later). 
 
@@ -90,9 +90,9 @@ We can get a look at what these two datasets we simulated above look like (Figur
   
 ```
 
-We notice a few important differences here. In the RE dataset the variance across the studies is a lot larger compared to the FE dataset. This is what we would expect because we have added in a between study variance. Now, let’s use a common meta-analysis package, *metafor*, to analyse these datasets.
+We notice a few important differences here. In the RE data set the variance across the studies is a lot larger compared to the FE data set. This is what we would expect because we have added in a between study variance. Now, let’s use a common meta-analysis package, *metafor*, to analyse these data sets.
 
-## Fixed Effect Meta-Analysis
+## **Fixed Effect Meta-Analysis**
 
 What is a fixed effect meta-analysis anyway? If it wasn't clear from the above simulated data lets be more formal. We simulated data according to the following model, a fixed effects meta-analytic model:
 
@@ -159,7 +159,7 @@ se_mean_meta <- m$se
 
 
 
-## Random Effect Meta-Analysis
+## **Random Effect Meta-Analysis**
 Now lets turn to the formal definition of a random effects meta-analysis. It looks at the outset as being very similar to our fixed effect model, but with a critically important addition:
 $$
 y_{i} = \mu + s_{i} + m_{i} \\
@@ -241,7 +241,7 @@ se_mean_meta <- m$se
     table1
 ```
 
-## Different optimizers give different answers
+## **Different optimizers give different answers**
 
 For those of you who were paying close attention you would have noticed that the numbers from our `metafor` models don't actually match up (Table \@ref(tab:table1)). Well spotted! 
 
@@ -275,14 +275,14 @@ se_mean_meta <- m$se
     table2
 ```
 
-## Conclusions
+## **Conclusions**
 Hopefully now you have a better understanding of the differences between fixed and random-effect meta-analysis. It should also be clear that meta-analytic models can be easily understood in detail but that results can vary depending on what assumptions and optimizers we are using to obtained pooled results. It's also comforting to know that we can do our own analysis by hand! 
 
-## References
+## **References**
 
 <div id="refs"></div>
 
-## Session Information
+## **Session Information**
 
 ```{r sessioninfo, echo = FALSE}
 pander(sessionInfo(), locale = FALSE)

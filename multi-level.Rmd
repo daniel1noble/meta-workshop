@@ -30,7 +30,7 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 # To use mathjaxr 
 ```
 
-## Introduction to Multi-level Meta-analysis
+## **Introduction to Multi-level Meta-analysis**
 
 Ecological and evolutionary meta-analysis more often than not need much more sophisticated multilevel meta-analytic models [@NakagawaSantos2012; @Hadfield2010; @Noble2017] compared with [random effect models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random) to analyse data. Biological data from field and lab-based experiments are highly structured -- many studies could be done on the same species or they could be done by the same lab group or student sharing similar methodology [@Noble2017; @NakagawaSantos2012]. In addition, we might have many effect size estimates from a single study because many traits are measured, or many treatments are applied [@Noble2017]. This adds complexity to the data set and also results in special types of non-independence that are somewhat unique to meta-analysis -- especially when using contrast-based effect sizes like Hedges' g, log response ratios, log odds ratios etc [@Noble2017]. 
 
@@ -38,7 +38,7 @@ In the past, complex non-independence was often dealt with by: 1) conducting sep
 
 In the next series of tutorials we'll overview multilevel meta-analytic models and discuss common forms of non-independence and how to deal with these challenges. Here, we'll first focus on simple multilevel meta-analysis models and how to interpret these. We'll then work our way up to including more complex forms of non-independence, such as phylogenetic meta-analysis and accounting for shared control. Technically, all these sources could be built into a single model but will require a substantial amount of data. Sometimes it will not be possible to deal with all sources of non-independence, in which case it's important to conduct sensitivity analyses to understand how your conclusions and inferences are affected by the analytic decisions made [@Noble2017]. Strong justification for your choices is always essential.
 
-## Simple Multilevel Meta-analytic Model
+## **Simple Multilevel Meta-analytic Model**
 
 [Recall](https://daniel1noble.github.io/meta-workshop/fixed-vs-random) that a random effects model is defined as follows: 
 
@@ -60,7 +60,7 @@ $$
 
 You'll notice that the notation changes slightly -- $y_{i,j}$ is now the *i* effect size from study *j* and $m_{i,j}$ is effect size *i*'s known sampling variance from study *j*. $s_{j}$ is now the study specific effect, *j*, applied to the *i*th effect size, where *j* = 1,...,$N_{studies}$. We have also now added a random effect ($e_{i,j}$) to the model. $e_{i,j}$ is the effect-size-specific (within study) effect. This is often referred to as a 'residual' effect [@NakagawaSantos2012] and is used to estimate a residual variance. 
 
-## Building more Complex Multilevel Meta-analytic Models
+## **Building more Complex Multilevel Meta-analytic Models**
 
 In reality, we may also have lots of studies on a specific set of species. For example, common or economically important species, like Salmon, Trout or lab model organisms like Zebrafish might be over-represented in the data set. This adds an additional level of structure to our data. We can account for species in this model by adding another random effect that captures the similarities between effect size estimates from the same species. As such, we can expand our multilevel model as follows:
 
@@ -84,7 +84,7 @@ s_{k} \sim N(0, \sigma_{k}^2) \\
 e_{i} \sim N(0, \sigma_{e}^2)
 $$
 
-## Fitting a Multi-level Meta-analytic Model
+## **Fitting a Multi-level Meta-analytic Model**
 
 ![](./figs/pottier.png)
 
@@ -165,13 +165,13 @@ print(MLMA)
 
 We can also see that there's a significant amount of heterogeneity among our effect size estimates with our *Q*-test being significant. Some of this heterogeneity seems to be driven by variation among studies, within studies and among species as judged by the variance components of the model. We'll probe how to dissect and discuss this heterogeneity in later tutorials. 
 
-## References
+## **References**
 
 <div id="refs"></div>
 
 <br>
 
-## Session Information
+## **Session Information**
 
 ```{r sessioninfo, echo = FALSE}
 pander(sessionInfo(), locale = FALSE)

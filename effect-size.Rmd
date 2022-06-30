@@ -29,7 +29,7 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 # To use mathjaxr you need to run equatags::mathjax_install()
 ```
 
-## Introduction
+## **Introduction**
 
 Meta-analysis quantitatively aggregates effect size data collected from existing research. The effect size one uses for a study question needs to be chosen carefully. Each make certain assumptions about the underlying data. It's important to be weary of these assumptions and identify when something might have gone wrong. 
 
@@ -43,7 +43,7 @@ By the end of this tutorial, we hope that you will feel comfortable:
 2. Interpreting the meaning of different effect size statistics
 3. Transforming effect size estimates back to their original scales when needed
 
-## Common Effect Sizes
+## **Common Effect Sizes**
 
 What is an effect size? The answer to this question depends on what kind of study one wishes to synthesise. For example, an effect size could be a contrast between experimental treatments. We might extract mean differences from experiments manipulating, say, bisphenol-A (BPA) and looking at the effect of BPA on aquatic ectotherm phenotype relative to some control [@WuSeebacher2020]. Alternatively, the effect of interest might be the magnitude and direction of a correlation between two observed variables, such as metabolism and behaviour [@Holtman2016]. At times, we might even just be interested in analysing the mean or variance itself. 
 
@@ -124,7 +124,7 @@ FitFlextableToPage(tablea, pgwidth = 8)
 
 We'll use `metafor` to demonstrate how to calculate commonly used effect size estimates in the field of comparative physiology, including Z-transformed correlation coefficients (Zr), log response ratios and Hedge's g. 
 
-## Setting up
+## **Setting up**
 
 To start, well need to load some packages and data. The data is all stored on GitHub. It's downloaded directly from the web. You won't need to have these on hand. We'll first load the packages that we need.
 
@@ -135,13 +135,13 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 # To use mathjaxr you need to run equatags::mathjax_install()
 ```
 
-## Correlation between physiology and movement patterns: Z-transformed Correlation Coefficient (Zr)
+## **Correlation between physiology and movement patterns: Z-transformed Correlation Coefficient (Zr)**
 
 ![](./figs/WuSeebacher.png)
 
 **Background**: Physiology is expected to drive movement, including short-term activity, exploration of unfamiliar environments, and larger scale dispersal which can influence species distributions in an environmentally sensitive manner. To test whether there is a relationship between physiology and movement pattern (separated as activity, exploration, and dispersal), we extracted data from the literature on common physiological traits measured (e.g., metabolic rate, hormone levels, body condition) with either activity, exploration, and dispersal at the individual level. As we are interested in relationships at the individual level, we extracted correlation data in the form of [correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) and sample size.
 
-For complete detail on the study aim and design, please see [@WuSeebacher2022](https://doi.org/10.1038/s42003-022-03055-y)
+For complete detail on the study aim and design, please see [@WuSeebacher2020](https://doi.org/10.1038/s42003-022-03055-y)
 
 Download the data. The following code illustrates how to calculate the Fisher z-transformed effect size (Zr) and sampling variance (V_Zr) from correlation coefficients (ri) and sample size (ni) using 10 rows of data from the main dataset.
 
@@ -167,13 +167,13 @@ zr_data %>% select(corr_coeff, r)
 
 The correlation coefficient itself is a unit less measure that captures both the strength and direction of relationship between two variables. The raw correlation coefficient ranges from -1 to 1. If a correlation is positive it indicates that, as the value of one variable increases so to does the value of the second variable. The magnitude of the value indicates how strong they co-vary. For example, a correlation of 1 indicates that variable 1 perfectly co-varies with variable 2.
 
-## Difference in physiology between populations from range core and edge: Log response ratio (lnRR)
+## **Difference in physiology between populations from range core and edge: Log response ratio (lnRR)**
 
 **Background**: If movement relied on physiological capacities, it may be expected that the variation in physiological characteristics introduces differences in the tendency to move among individuals of the same populations. Such individual differences can have consequences for gene flow and genetic diversification within a species. Individuals with a greater tendency to move may have particular physiological characteristics, leading to core-edge differences. Populations at the range edge is therefore hypothesised to have different physiological phenotype than populations from the core range. 
 
 To compare differences in the physiological characteristics between individuals from an established range core to their expanding range edge we collected data from studies that reported physiological response from the range core (core) and range edge (front) in the form of mean, sample size, and variance (SD, SE, or 95% CI). This information is used to calculate the log response ratio (lnRR).
 
-For complete detail on the study aim and design, please see [@WuSeebacher2022](https://doi.org/10.1038/s42003-022-03055-y)
+For complete detail on the study aim and design, please see [@WuSeebacher2020](https://doi.org/10.1038/s42003-022-03055-y)
 
 Download the data. The following code illustrates how to calculate the log response ratio (yi) and sampling variance (vi) from the mean (mi), sample size (ni) and standard deviation (sdi) from the edge population (1), and core population (2) using 10 row of data from the main dataset.
 
@@ -213,9 +213,9 @@ with(ratio_data, mean_front[1])
 
 Hopefully this is useful to interpret the meaning of the effect size data at the level of individual observations. The same principles will apply (for the most part) when converting back to the original scale from the mean estimates from meta-analytic models. 
 
-## Cohen's d and Hedges g -- Visualising Their Meaning
+## **Cohen's d and Hedges g -- Visualising Their Meaning**
 
-We could also use [@WuSeebacher2022](https://doi.org/10.1038/s42003-022-03055-y)'s data to calculate Hedge's g. Hedge's g is very similar to Cohen's d, but it has a small sample correction. This can also be done with `metafor::escalc()` by setting measure to "SMD".  We can use the same data here as all the summary statistics that are needed for calculating lnRR are the same as Hedge's g. We can calculate as follows. 
+We could also use [@WuSeebacher2020](https://doi.org/10.1038/s42003-022-03055-y)'s data to calculate Hedge's g. Hedge's g is very similar to Cohen's d, but it has a small sample correction. This can also be done with `metafor::escalc()` by setting measure to "SMD".  We can use the same data here as all the summary statistics that are needed for calculating lnRR are the same as Hedge's g. We can calculate as follows. 
 
 ```{r hedges}
 # Calculate hedges g as yi = effect size and vi = sampling variances, where m1i = mean of edge population, n1i = sample size of edge population, sd1i = standard deviation of edge population, m2i = mean of core population, n2i = sample size of core population, sd2i = standard deviation of core population.
@@ -228,13 +228,13 @@ hedge_data
 
 Visualising and interpreting Hedge's g can be slightly less intuitive compared to log response ratios. There's a great [online resource](https://rpsychologist.com/cohend/) by Kristoffer Magnusson with some visuals that can help you decipher the meaning of Cohen's d effects, which is the same as Hedge's g. 
 
-## References
+## **References**
 
 <div id="refs"></div>
 
 <br>
 
-## Session Information
+## **Session Information**
 
 ```{r sessioninfo, echo = FALSE, tidy=TRUE}
 # Here, we'll create some R code

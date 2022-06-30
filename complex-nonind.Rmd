@@ -29,7 +29,7 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ```
 
-## Introduction
+## **Introduction**
 
 We have already introduced the power of [multilevel meta-analytic models](https://daniel1noble.github.io/meta-workshop/multi-level) for dealing with non-independence, such as shared species, [phylogeny](https://daniel1noble.github.io/meta-workshop/phylo) and study [@Noble2017; @NakagawaSantos2012; @HadfieldNaka2010], but meta-analyses often contain even more complex forms on non-independence. 
 
@@ -37,7 +37,7 @@ We might have many effect size estimates from a single study because many traits
 
 In this tutorial, we'll overview some of these unique forms of non-independence discussing some of the ways that they can be dealt with using different approaches. Often there are no simple solutions because information collected to derive effect sizes are often lacking important details that would allow some forms of dependence to be dealt with. Thankfully, these problems have been thought about for some time by many meta-analysts and there are solutions that work reasonably well [@GleserOlkin2009; @Lajeunesse2011; @Pustejovsky2021; @Tipton2013; @Hedges2010; @Hedges2019]. 
 
-## The Many Forms of Dependence in Meta-analysis
+## **The Many Forms of Dependence in Meta-analysis**
 
 Let's briefly overview why non-independence can be an issue and why simple multilevel meta-analytic models do not always deal with the problem sufficiently well. Recall our MLMA model from the [last tutorial](https://daniel1noble.github.io/meta-workshop/multi-level). 
 
@@ -87,7 +87,7 @@ $$
 The new sampling variance matrix, $\textbf{M}$, now has the sampling variances along the diagonal, which we know because we can calculate these. But, how do we now know what the covariance between the sampling errors are to be put in the off-diagonals of this $\textbf{M}$ matrix? Luckily there are some approximations for us that we can use to construct the entire $\textbf{M}$ sampling (co)variance matrix [@GleserOlkin2009; @Lajeunesse2011; @Hedges2019]. 
 
 
-## Why do we want to control for non-independence?   
+## **Why do we want to control for non-independence?**   
 
 You might be thinking, so what? Yes, we have all these sources of non-independence, but who cares? Why is it important that we seriously consider the dependency? There are a few reasons:
 
@@ -95,7 +95,7 @@ You might be thinking, so what? Yes, we have all these sources of non-independen
 * Second, ignoring the dependency structure will result in much narrower confidence intervals giving us a false impression that we have much greater confidence in the mean estimate than what we actually have.
 * Third, and this relates to point 2 above, it will mess up with our inferential statistics. We are more likely to make Type I errors. Narrower standard errors are going to result in larger test statistics and this in combination with our over-inflated degrees of freedom will tell us our results are significant when in fact they are not.
 
-## Example of Dealing with Shared Controls
+## **Example of Dealing with Shared Controls**
 ### Introduction
 ![](./figs/raynal.png)
 
@@ -166,7 +166,7 @@ As you can see in the model, the `V` argument in `metafor` takes the $\textbf{M}
 
 * **Interpretation**: In essence, what this model is telling us is that there is, on average, a  `r (1 - predict(mlma, transf = exp)$pred)*100`% decrease in mass in the fluctuating temperature treatment compared to the control treatment, which is a pretty trivial difference! We can also see that the 95% confidence intervals are wide and overlap zero indicating that the estimate does not differ significantly from a zero (as indicated by the null hypothesis). Having said that, there is a lot of heterogeneity in effects across species and studies included in the analysis suggesting that it might really depend on the study.
 
-## Robust Variance Estimation -- a useful tool to deal with unknwon dependency
+## **Robust Variance Estimation -- a useful tool to deal with unknown dependency**
 
 Sometimes we may not be able to deal with all sources of dependency. There are a lot of unknowns with respect to how effect sizes might be correlated, to what extent they are related and it might vary across studies. A very promising tool are **robust variance estimators** which relax the need to known and understand the dependency in your data. [James Pustejovsky](https://www.jepusto.com) provides a fantastic overview of the problem and how robust variance estimators can help make it easier to deal with various sources of non-independence. 
 
@@ -183,7 +183,7 @@ robust(mlma, cluster = mass_data$paper_no)
 
 As we can see here, there are really no changes, which isn't too surprising because we have mostly accounted for all the sources of dependence. In simulations, we and others have shown RVE's do a very good job dealing with dependency [@Nakagawa2021; @Song2021; @Pustejovsky2021; @Tipton2013] .
 
-## Conclusions
+## **Conclusions**
 
 There are a tonne of different sources of non-independence you might encounter in meta-analysis -- some of these are somewhat unique [@Noble2017]. In the next tutorial we'll talk about another common source -- phylogeny. Unfortunately, we don't have time (or enough examples) to overview the different types and how to deal with them all. In some cases, it may not really matter whether all sources are correctly dealt with in the model, and it can get quite complex such that it may not be possible to deal with them all anyway. 
 
@@ -194,12 +194,12 @@ Having said that, @Noble2017 recommend:
 
 The use of robust variance estimators shows immense promise in dealing with a multitude of dependency within a data set without having to specify it all explicitly [@Pustejovsky2021; @Tipton2013; @Hedges2010; @Hedges2019; @Nakagawa2021; @Song2021].
 
-## References
+## **References**
 
 <div id="refs"></div>
 <br>
 
-## Session Information
+## **Session Information**
 
 ```{r sessioninfo, echo = FALSE}
 pander(sessionInfo(), locale = FALSE)
