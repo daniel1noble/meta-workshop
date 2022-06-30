@@ -1,6 +1,6 @@
 ---
-title: "Phylogenetic Meta-analysis"
-author: Nicholas Wu & Daniel W.A. Noble
+title: "Publication Bias in Meta-analysis"
+author: Daniel W.A. Noble
 date: '`r Sys.Date()`'
 bibliography: ./bib/refs.bib
 csl: ./bib/the-journal-of-experimental-biology.csl
@@ -29,11 +29,9 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ```
 
-## Introduction to Phylogenetic Meta-analysis
+## Introduction to Publicatoon Bias in Meta-analysis
 
-Meta-analyses in comparative physiology almost always synthesise effects across a multitude of species [@Hadfield2010; @NakagawaSantos2012; @Chamberlain2012]. Species share an evolutionary history which is described by a phylogeny [@Chamberlain2012; @Lajeunesse2009; @Gurevitch1999]. As a result, the samples (and the effect sizes obtained from these samples) **are not independent which violates the independence assumption underlying conventional meta-analytic models**. For example, the standard [fixed- and random-effects models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random) often used for ecological meta-analyses [@NakagawaSantos2012; @Lajeunesse2009], assume independence among the effect sizes and therefore do not account for phylogeny [@Chamberlain2012; @Noble2017]. Including a 'species-level' random effect will not deal with this type of non-independence because the 'effects' are themselves correlated based on the amount of shared evolutionary history between two species (See the [Complex Non-independence Tutorial](https://daniel1noble.github.io/meta-workshop/complex-nonind)). 
-
-Recent simulations by @Cinar2021 emphasise the importance of modelling phylogeny in meta-analytic models. Even when there is little phylogenetic signal in the data it will not compromise the analysis to have a phylogeny included, but it will **protect you against Type I errors**. In this tutorial, we expand on our [multilevel meta-analytic models](https://daniel1noble.github.io/meta-workshop/multi-level) to account for phylogenetic relatedness. Part of the challenge in controlling for phylogeny in a meta-analysis is that the taxa included are often highly diverse and there is little resolution on the exact phylogenetic relationship among the taxa in question. Having said that, there are tools that will probably do a fairly good job delineating the, showing how we can build a rough phylogeny that can be included.
+Note, we have now included additional moderators `Zr_sei` and `year_centre` in the raw data. The magnitude of the overall effect can be exaggerated because statistically non-significant effect sizes are less likely to be published, especially when they are based on small sample sizes (here as standard error `Zr_sei`; [@Nakagawa2021b](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.13724)). Time-lag bias occurs when larger or statistically significant effects are published more quickly than smaller or non-statistically significant effects, and can manifest as a decline in the magnitude of the overall effect over time (i.e. a decline effect; [@Clements2022](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3001511)). To test this, we standardise the publication year as `year_centre` (i.e. set the mean value of year as 0).
 
 ## Formal Definition of Phylogenetic Meta-analytic Model
 
@@ -71,7 +69,7 @@ You will notice that we have *two* species-level random effects in our model. We
 ![](./figs/WuSeebacher.png)
 
 ### Format raw data for analysis
-We will use the dispersal data set (Z-transformed correlation coefficient or Zr) from [@WuSeebacher2020](https://www.nature.com/articles/s42003-022-03055-y) (see [Effect Size tutorial](https://daniel1noble.github.io/meta-workshop/effect-size) on background and effect size calculation) to demonstrate the following analysis. First, load the the raw data and add the following additional column effect size ID (`es_ID`). Then, calculate effect size as `Zr` and sampling variance as `V_Zr`.
+We will use the dispersal data set (Z-transformed correlation coefficient or Zr) from [@WuSeebacher2022](https://www.nature.com/articles/s42003-022-03055-y) (see [Effect Size tutorial](https://daniel1noble.github.io/meta-workshop/effect-size) on background and effect size calculation) to demonstrate the following analysis. First, load the the raw data and add the following additional column effect size ID (`es_ID`). Then, calculate effect size as `Zr` and sampling variance as `V_Zr`.
 
 ```{r raw data}
 zr_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/ind_disp_raw_data.csv") %>%
