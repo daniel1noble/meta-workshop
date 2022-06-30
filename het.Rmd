@@ -71,6 +71,10 @@ $$
 
 Note that this formula does not include $\sigma^2_{m}$ as sampling error variance is assumed to be known in meta-analysis, as explained above. 
 
+
+### Prediction Intervals
+
+Prediction intervals are probably the best, most intuitive way to report heterogeneity of meta-analytic results. Predictions intervals tell us how much we can expect a given effect size to vary across studies. More specifically, it tells us rather intuitively, if we were to go out and conduct another study or experiment what is the range of effect size estimates we are expected to observe 95% of the time from that new study. 
 ## **References**
 
 <div id="refs"></div>
