@@ -29,13 +29,13 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ```
 
-## Introduction to Phylogenetic Meta-analysis
+## **Introduction to Phylogenetic Meta-analysis**
 
 Meta-analyses in comparative physiology almost always synthesise effects across a multitude of species [@Hadfield2010; @NakagawaSantos2012; @Chamberlain2012]. Species share an evolutionary history which is described by a phylogeny [@Chamberlain2012; @Lajeunesse2009; @Gurevitch1999]. As a result, the samples (and the effect sizes obtained from these samples) **are not independent which violates the independence assumption underlying conventional meta-analytic models**. For example, the standard [fixed- and random-effects models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random) often used for ecological meta-analyses [@NakagawaSantos2012; @Lajeunesse2009], assume independence among the effect sizes and therefore do not account for phylogeny [@Chamberlain2012; @Noble2017]. Including a 'species-level' random effect will not deal with this type of non-independence because the 'effects' are themselves correlated based on the amount of shared evolutionary history between two species (See the [Complex Non-independence Tutorial](https://daniel1noble.github.io/meta-workshop/complex-nonind)). 
 
 Recent simulations by @Cinar2021 emphasise the importance of modelling phylogeny in meta-analytic models. Even when there is little phylogenetic signal in the data it will not compromise the analysis to have a phylogeny included, but it will **protect you against Type I errors**. In this tutorial, we expand on our [multilevel meta-analytic models](https://daniel1noble.github.io/meta-workshop/multi-level) to account for phylogenetic relatedness. Part of the challenge in controlling for phylogeny in a meta-analysis is that the taxa included are often highly diverse and there is little resolution on the exact phylogenetic relationship among the taxa in question. Having said that, there are tools that will probably do a fairly good job delineating the, showing how we can build a rough phylogeny that can be included.
 
-## Formal Definition of Phylogenetic Meta-analytic Model
+## **Formal Definition of Phylogenetic Meta-analytic Model**
 
 [Recall](https://daniel1noble.github.io/meta-workshop/multi-level) our multilevel meta-analytic model we previously discussed: 
 
@@ -66,7 +66,7 @@ Here, $a_{k[i]}$ is a phylogenetic effect for the *k* species applied to effect 
 
 You will notice that we have *two* species-level random effects in our model. We are 'trying' (and we may not succeed) to distinguish between species-specific effects driven by shared evolutionary history (i.e., $a_{k}$) and non-phylogenetic species-specific effects (i.e., $spp_{k}$), driven by, say, shared ecology. **It may not always be possible to estimate both effects in a single model**. It is worth keeping this in mind as these are data-hungry models and estimating these parameters will require a large sample size. Often, it is necessary to resort to some form of model selection or to use your *a priori* judgement about what species-specific effect is most important. 
 
-## Example of Phylogenetic Multi-level Meta-analysis
+## **Example of Phylogenetic Multi-level Meta-analysis**
 
 ![](./figs/WuSeebacher.png)
 
@@ -153,11 +153,11 @@ summary(overall_model)
 
 **Interpretation**: We can see from above that the model estimates **a positive relationship** between physiology and movement with **an overall mean of `r overall_model$b[1,]` with a 95% confidence interval (95% CI) of `r overall_model$ci.lb[1]` to `r overall_model$ci.ub[1]`**. In this analysis, we also observe high heterogeneity among our effect size estimates with our Q-test being significant, a very common observation in ecological and evolutionary meta-analysis studies. Some of this heterogeneity may be driven by variation among studies, within studies, among species, and phylogeny as seen by the variance components of the model.
 
-## References
+## **References**
 
 <div id="refs"></div>
 
-## Session Information
+## **Session Information**
 
 ```{r sessioninfo, echo = FALSE}
 pander(sessionInfo(), locale = FALSE)
