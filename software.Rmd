@@ -87,3 +87,7 @@ embed_url("https://www.youtube.com/watch?v=2Q8TzgRSACM") %>% use_align("center")
 ```{r, echo=FALSE}
 embed_url("https://www.youtube.com/watch?v=tiL-gZgN9Qk") %>% use_align("center")
 ```
+
+# [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/) {.hide}
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
