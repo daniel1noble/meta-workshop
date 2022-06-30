@@ -46,6 +46,6 @@ For a comprehensive guide on meta-analysis starting from a scoping study to writ
     <!--+ [Interpreting mean estimates on different scales]()-->
     + [Reporting heterogeneity -- a critical aspect of meta-analysis](https://daniel1noble.github.io/meta-workshop/het)
 * [Publication bias]()
-    + [Testing for publicaton bias](https://daniel1noble.github.io/meta-workshop/pub-bias1)
+    + [Visualising publicaton bias](https://daniel1noble.github.io/meta-workshop/pub-bias1)
     + [Sensitivity analysis to correct for publicaton bias]()
   
