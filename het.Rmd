@@ -1,0 +1,87 @@
+---
+title: "Heterogeneity in Meta-analysis"
+author: Daniel W.A. Noble
+date: '`r Sys.Date()`'
+bibliography: ./bib/refs.bib
+csl: ./bib/the-journal-of-experimental-biology.csl
+output:
+  bookdown::html_document2:
+    css: style.css
+    code_folding: show
+    number_sections: no
+    toc: yes
+    toc_depth: 6
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE, tidy = TRUE)
+options(digits=3)
+```
+
+```{r klippy, echo=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+#install.packages("devtools")
+remotes::install_github("rlesur/klippy")
+klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done', position = 'right', color = "red")
+
+# Load packages
+pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags, vembedr, magick)
+
+```
+
+## **Introduction to Heterogeneity in Meta-analysis**
+
+In physiology, ecology and evolution, we deal with many different populations, species, experimental designs etc. As such, we're not just interested in understanding 'what the overall effect' actually is (in fact, we may not even care in many cases), but we are mainly focused on attempting to understand what factors (e.g., biological, methodological) explain variation in effects [@Noble2022; @Lag2010; @Gurevitch2018]. Understanding and quantifying how much variability in effects exist, whether this is more than what we expect by chance, and what factors explain variation is a primary goal of meta-analysis. 
+
+Meta-analytic mean estimates need to be interpreted in the context of how much variation in effects exist within and across studies. As such, reporting upon measures of variability, or what is referred to as 'heterogeneity' in meta-analysis, is essential to meta-analysis and should never be ignored (even though it often is unfortunately) [@ODea2021; @NakagawaSantos2012; @Borenstein2019; @Nakagawa2017; @Gurevitch2018]. 
+
+There are a number of important metrics of heterogeneity that are commonly used and reported upon in the meta-analytic literature [@NakagawaSantos2012; @Borenstein2019; @Nakagawa2017]. We'll overview in this tutorial how to calculate many of the common types and what they mean with respect to interpreting the meta-analytic mean. Understanding the consistency of results across studies tells one a great deal about how likely an effect is going to be picked up in future studies and whether we can make broad general conclusions. 
+
+## **Measures of Heterogeneity**
+
+### $I_{total}^2$
+
+$I_{total}^2$ as follows (if using a multilevel meta-analytic model as we describe above):
+
+$$ 
+\begin{equation} 
+I^2_{total} = \frac{\sigma^2_{study} + \sigma^2_{phylogeny} + \sigma^2_{species} + \sigma^2_{residual}}{\sigma^2_{study} + \sigma^2_{phylogeny} + \sigma^2_{species} + \sigma^2_{residual} +\sigma^2_{m}} \
+(\#eq:itot)
+\end{equation} 
+$$
+
+where $\sigma^2_{total} = \sigma^2_{study} + \sigma^2_{phylogeny} + \sigma^2_{species} + \sigma^2_{residual} +\sigma^2_{m}$ is the total effect size variance and $\sigma^2_{m}$ is the 'typical' sampling error variance calculated as:
+
+$$
+\begin{equation} 
+\sigma_{m}^2 = \sum w_{i}\left( k-1\right) / \left[ \left( \sum w_{i}\right)^2  + \sum w_{i}^2\right] \
+(\#eq:w)
+\end{equation} 
+$$
+
+where *k* is the number of studies and the weights, $w_{i} = \frac{1}{v_{i}}$, can be calculated using the inverse of the sampling variance ($v_{i}$) for each effect size, *i*.
+
+
+$$
+\begin{equation} 
+R^2_{marginal} = \frac{\sigma^2_{fixed}}{\sigma^2_{fixed} + \sigma^2_{study} + \sigma^2_{phylogeny} + \sigma^2_{species} + \sigma^2_{residual}} \
+(\#eq:r2)
+\end{equation} 
+$$
+
+Note that this formula does not include $\sigma^2_{m}$ as sampling error variance is assumed to be known in meta-analysis, as explained above. 
+
+## **References**
+
+<div id="refs"></div>
+<br> 
+
+## **Session Information**
+
+```{r sessioninfo, echo = FALSE}
+pander(sessionInfo(), locale = FALSE)
+```
+
+## [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/) {.hide}
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
