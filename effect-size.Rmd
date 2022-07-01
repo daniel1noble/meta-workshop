@@ -141,7 +141,7 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 **Background**: Physiology is expected to drive movement, including short-term activity, exploration of unfamiliar environments, and larger scale dispersal which can influence species distributions in an environmentally sensitive manner. To test whether there is a relationship between physiology and movement pattern (separated as activity, exploration, and dispersal), we extracted data from the literature on common physiological traits measured (e.g., metabolic rate, hormone levels, body condition) with either activity, exploration, and dispersal at the individual level. As we are interested in relationships at the individual level, we extracted correlation data in the form of [correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) and sample size.
 
-For complete detail on the study aim and design, please see [@WuSeebacher2020](https://doi.org/10.1038/s42003-022-03055-y)
+For complete detail on the study aim and design, please see [@WuSeebacher2022](https://doi.org/10.1038/s42003-022-03055-y)
 
 Download the data. The following code illustrates how to calculate the Fisher z-transformed effect size (Zr) and sampling variance (V_Zr) from correlation coefficients (ri) and sample size (ni) using 10 rows of data from the main dataset.
 
@@ -173,7 +173,7 @@ The correlation coefficient itself is a unit less measure that captures both the
 
 To compare differences in the physiological characteristics between individuals from an established range core to their expanding range edge we collected data from studies that reported physiological response from the range core (core) and range edge (front) in the form of mean, sample size, and variance (SD, SE, or 95% CI). This information is used to calculate the log response ratio (lnRR).
 
-For complete detail on the study aim and design, please see [@WuSeebacher2020](https://doi.org/10.1038/s42003-022-03055-y)
+For complete detail on the study aim and design, please see [@WuSeebacher2022](https://doi.org/10.1038/s42003-022-03055-y)
 
 Download the data. The following code illustrates how to calculate the log response ratio (yi) and sampling variance (vi) from the mean (mi), sample size (ni) and standard deviation (sdi) from the edge population (1), and core population (2) using 10 row of data from the main dataset.
 
@@ -215,7 +215,7 @@ Hopefully this is useful to interpret the meaning of the effect size data at the
 
 ## **Cohen's d and Hedges g -- Visualising Their Meaning**
 
-We could also use [@WuSeebacher2020](https://doi.org/10.1038/s42003-022-03055-y)'s data to calculate Hedge's g. Hedge's g is very similar to Cohen's d, but it has a small sample correction. This can also be done with `metafor::escalc()` by setting measure to "SMD".  We can use the same data here as all the summary statistics that are needed for calculating lnRR are the same as Hedge's g. We can calculate as follows. 
+We could also use [@WuSeebacher2022](https://doi.org/10.1038/s42003-022-03055-y)'s data to calculate Hedge's g. Hedge's g is very similar to Cohen's d, but it has a small sample correction. This can also be done with `metafor::escalc()` by setting measure to "SMD".  We can use the same data here as all the summary statistics that are needed for calculating lnRR are the same as Hedge's g. We can calculate as follows. 
 
 ```{r hedges}
 # Calculate hedges g as yi = effect size and vi = sampling variances, where m1i = mean of edge population, n1i = sample size of edge population, sd1i = standard deviation of edge population, m2i = mean of core population, n2i = sample size of core population, sd2i = standard deviation of core population.
