@@ -111,7 +111,16 @@ Now that we understand the fixed effect model, both from formal statistical nota
     metafor::rma(yi = es, vi = Ves, method = "FE", data = dataFE)
 ```
 
-So this suggests that the average estimate is 2.07 and it has a standard error of 0.1. It also provides us with a Q statistic, which measures the amount of heterogeneity among effect sizes. If Q is large and the p-value is small then it suggests substantial heterogeneity among effect sizes beyond what we would expect if these effects were generated from a common underlying distribution. This is a major assumption of fixed effect meta-analyses and in this case is supported. This is a good thing because we specifically generated these data under the assumption that they are from the same distribution. We can see this if we look at how we generated the data: `rnorm(length(Ves), 2, sqrt(Ves))`. This draws random effect sizes from a normal distribution with a variance (`sqrt(Ves)`) for each effect size that is only defined by its sampling variability.
+
+#### How to interpret the model output? {.tabset .tabset-fade .tabset-pills} 
+
+##### Task {.tabset .tabset-fade .tabset-pills} 
+**What do the model results and Q values (under Test for Heterogeneity) mean?** 
+
+##### Answer {.tabset .tabset-fade .tabset-pills} 
+So this suggests that the average estimate is **2.07** and it has a standard error of **0.1**. 
+
+It also provides us with a Q statistic, which measures the amount of heterogeneity among effect sizes. **If Q is large and the p-value is small then it suggests substantial heterogeneity among effect sizes** beyond what we would expect if these effects were generated from a common underlying distribution. This is a major assumption of fixed effect meta-analyses and in this case is supported. This is a good thing because we specifically generated these data under the assumption that they are from the same distribution. We can see this if we look at how we generated the data: `rnorm(length(Ves), 2, sqrt(Ves))`. This draws random effect sizes from a normal distribution with a variance (`sqrt(Ves)`) for each effect size that is only defined by its sampling variability.
 
 ### Fixed effect meta-analysis by hand!
 What is the model above doing though? and what is the logic behind the calculations? The best way to understand this is to hand calculate these values. Basically the effect sizes are being weighted by their sampling error variance when deriving the pooled estimate and it’s variance. Let’s calculate this by hand and see what’s happening:
@@ -183,7 +192,14 @@ Now lets move on to a more complicated situation, a random effect meta-analysis 
 metafor::rma(yi = esRE, vi = Ves, method="REML", data = dataRE)
 ```
 
-What happened here? What does all this mumbo jumbo actually mean?! As we predicted, our Q has jumped up a lot! Why is this so? That’s because we added in extra variability to the mix because each effect size is to come from a distribution of true effect sizes. Because they can all have their own mean they can differ substantially from the other effect sizes and this results in more variance (i.e. heterogeneity) being added to our data over all.
+
+#### What happened here? What does all this mumbo jumbo actually mean?! As we predicted, our Q has jumped up a lot! Why is this so? {.tabset .tabset-fade .tabset-pills} 
+
+##### Task {.tabset .tabset-fade .tabset-pills} 
+**What does it mean when the Q increased in our random effect model vs our fixed effect model?** 
+
+##### Answer {.tabset .tabset-fade .tabset-pills} 
+That’s because we added in extra variability to the mix because **each effect size is to come from a distribution of true effect sizes**. Because they can all have their own mean they can differ substantially from the other effect sizes and this results in more variance (i.e. heterogeneity) being added to our data over all.
 
 ### Random effect meta-analysis by hand!
 Now lets see if we can reproduce these results. We need to remember that we need to add in the between study variance to our weighting of effect sizes for this model. To do this, we need to estimate how much heterogeneity we have between studies above what we would expect from sampling variability. This can be estimated by calculating the $\tau^2$ statistic, which is the variance in the ‘true’ effect sizes. To calculate this we need to calculate Q using our weights, which are the same because we know these to be true.
