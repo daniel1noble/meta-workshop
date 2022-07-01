@@ -11,7 +11,7 @@
 
 <meta name="author" content="Nicholas Wu &amp; Daniel W.A. Noble" />
 
-<meta name="date" content="2022-06-30" />
+<meta name="date" content="2022-07-01" />
 
 <title>Phylogenetic Meta-analysis</title>
 
@@ -2003,7 +2003,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Phylogenetic Meta-analysis</h1>
 <h4 class="author">Nicholas Wu &amp; Daniel W.A. Noble</h4>
-<h4 class="date">2022-06-30</h4>
+<h4 class="date">2022-07-01</h4>
 
 </div>
 
@@ -2060,7 +2060,15 @@ zr_data &lt;- metafor::escalc(measure = &quot;ZCOR&quot;, ri = corr_coeff, ni = 
 <p>We will now reconstruct the phylogeny for species extracted in the raw data set. There are different ways to obtain phylogenetic trees. You can extract trees as a <code>.nex</code> or <code>.tre</code> file from existing phylogeny database or studies with such data available (see <a href="https://vertlife.org/data/" class="uri">https://vertlife.org/data/</a> for example taxa specific trees), load it to <em>R</em> using the <code>ape</code> package, and prune (keep only the species you have) the tree to match the data set. See the <code>drop_tip</code> function by <a href="http://blog.phytools.org/2011/03/prune-tree-to-list-of-taxa.html">Liam Revell</a> to prune tree tips to match the data set species name.</p>
 <p>If you are comparing effect sizes from a broad phylogenetic range (e.g. including Prokaryotes or Plantae), you can extract species names from the <a href="https://tree.opentreeoflife.org/opentree/argus/opentree13.4@ott93302">Open Tree of Life</a> (OTL) data set using the <code>rotl</code> <em>R</em> package. Tutorials for the <code>rotl</code> <em>R</em> package can be found here: <a href="https://cran.r-project.org/web/packages/rotl/vignettes/rotl.html" class="uri">https://cran.r-project.org/web/packages/rotl/vignettes/rotl.html</a></p>
 <p>For the purpose of this tutorial, we will follow the second method. Notice that we have a separate column in the raw data set called <code>species_OTL</code>. This is because to reconstruct the phylogeny, we need the names in the data set to match the OTL data set. The species names described in the paper (especially older papers) may not match the OTL names. Check that the names match before running the following codes or else it will not run successfully. This also applies to any phylogenetic trees extracted.</p>
-<p><strong>IMPORTANT NOTE</strong>: Errors in matching names with the OTL comes in different forms and flavours, but the easiest way to avoid most errors to check that the <strong>names in the raw data match the OTL database</strong> each time you add a new species in. This will address many errors matching names down the track. We have included code to check which names are inconsistent in case you missed some. The remaining errors comes down to formatting which you can see below. As an example with this dataset, I often have to re-add underscore between the Genus and species name because some names (I noticed 3 species in this dataset) “Gambusia_affinis” without the underscore matches up with “Bambusia affinis” in the OTL database which is clearly a different taxa. I am not sure why this is but I got around it by first removing the underscore before matching the names (see code for raw before), then add it back when matching the names to the tree (which has underscores).</p>
+<div id="important-note" class="section level4 tabset tabset-fade tabset-pills">
+<h4>IMPORTANT NOTE</h4>
+<div id="errors-in-matching-names" class="section level5 tabset tabset-fade tabset-pills">
+<h5>Errors in matching names</h5>
+<p>What to do if errors occur when matching names in phylogeny with data set?</p>
+</div>
+<div id="suggestions" class="section level5 tabset tabset-fade tabset-pills">
+<h5>Suggestions</h5>
+<p>Errors in matching names with the OTL comes in different forms and flavours, but the easiest way to avoid most errors to check that the <strong>names in the raw data match the OTL database</strong> each time you add a new species in. This will address many errors matching names down the track. We have included code to check which names are inconsistent in case you missed some. The remaining errors comes down to formatting which you can see below. As an example with this dataset, I often have to re-add underscore between the Genus and species name because some names (I noticed 3 species in this dataset) “Gambusia_affinis” without the underscore matches up with “Bambusia affinis” in the OTL database which is clearly a different taxa. I am not sure why this is but I got around it by first removing the underscore before matching the names (see code for raw before), then add it back when matching the names to the tree (which has underscores).</p>
 <pre class="r"><code># Load additional packages for phylogenetic reconstruction
 pacman::p_load(rotl, ape)
 
@@ -2111,6 +2119,8 @@ tree &lt;- ape::multi2di(tree, random = TRUE)  # use a randomization approach to
 # Create correlation matrix for analysis
 phylo_cor &lt;- vcv(tree, cor = T)</code></pre>
 </div>
+</div>
+</div>
 <div id="run-phylogenetically-corrected-multi-level-meta-analysis-on-overall-effect" class="section level3">
 <h3>Run phylogenetically corrected, multi-level meta-analysis on overall effect</h3>
 <p>Lets say we are interested in the <strong>overall relationship</strong> of physiology and movement (Zr). The following code runs a phylogeneticlly corrected, multi-level meta-analysis via the <code>rma.mv</code> function. Building upon the multi-level meta-analytic model from the <a href="https://daniel1noble.github.io/meta-workshop/multi-level#Building_more_Complex_Multilevel_Meta-analytic_Models">Multi-level Meta-analysis tutorial</a>, we also included random effects (<code>random</code> argument) to account for non-independence such as <code>es_ID</code> (effect size identity), <code>study_ID</code> (unique study identity), <code>species</code> (unique species identity), <code>species_OTL</code> (species relatedness). The <code>R</code> argument allows the correlation matrix (here, <code>phylo_cor</code>) to be incorporated to the model which corresponds to the components specified in the <code>random</code> argument <code>~1 | species_OTL</code>.</p>
@@ -2144,7 +2154,17 @@ summary(overall_model)</code></pre>
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p><strong>Interpretation</strong>: We can see from above that the model estimates <strong>a positive relationship</strong> between physiology and movement with <strong>an overall mean of 0.098 with a 95% confidence interval (95% CI) of 0.029 to 0.167</strong>. In this analysis, we also observe high heterogeneity among our effect size estimates with our Q-test being significant, a very common observation in ecological and evolutionary meta-analysis studies. Some of this heterogeneity may be driven by variation among studies, within studies, among species, and phylogeny as seen by the variance components of the model.</p>
+<div id="what-does-the-model-output-tell-us" class="section level4 tabset tabset-fade tabset-pills">
+<h4>What does the model output tell us?</h4>
+<div id="task" class="section level5 tabset tabset-fade tabset-pills">
+<h5>Task</h5>
+<p><strong>Is there an overall positive or negative relationship between physiology and movement?</strong></p>
+</div>
+<div id="answer" class="section level5 tabset tabset-fade tabset-pills">
+<h5>Answer</h5>
+<p>We can see from above that the model estimates <strong>a positive relationship</strong> between physiology and movement with <strong>an overall mean of 0.098 with a 95% confidence interval (95% CI) of 0.029 to 0.167</strong>. In this analysis, we also observe high heterogeneity among our effect size estimates with our Q-test being significant, a very common observation in ecological and evolutionary meta-analysis studies. Some of this heterogeneity may be driven by variation among studies, within studies, among species, and phylogeny as seen by the variance components of the model.</p>
+</div>
+</div>
 </div>
 </div>
 <div id="references" class="section level2">
@@ -2178,14 +2198,14 @@ summary(overall_model)</code></pre>
 </div>
 <div id="session-information" class="section level2">
 <h2><strong>Session Information</strong></h2>
-<p><strong>R version 4.2.0 (2022-04-22)</strong></p>
+<p><strong>R version 4.2.1 (2022-06-23)</strong></p>
 <p><strong>Platform:</strong> aarch64-apple-darwin20 (64-bit)</p>
 <p><strong>attached base packages:</strong>
 <em>stats</em>, <em>graphics</em>, <em>grDevices</em>, <em>utils</em>, <em>datasets</em>, <em>methods</em> and <em>base</em></p>
 <p><strong>other attached packages:</strong>
-<em>ape(v.5.6-2)</em>, <em>rotl(v.3.0.12)</em>, <em>magick(v.2.7.3)</em>, <em>vembedr(v.0.1.5)</em>, <em>equatags(v.0.1.1)</em>, <em>mathjaxr(v.1.6-0)</em>, <em>pander(v.0.6.5)</em>, <em>orchaRd(v.2.0)</em>, <em>forcats(v.0.5.1)</em>, <em>stringr(v.1.4.0)</em>, <em>dplyr(v.1.0.9)</em>, <em>purrr(v.0.3.4)</em>, <em>readr(v.2.1.2)</em>, <em>tidyr(v.1.2.0)</em>, <em>tibble(v.3.1.7)</em>, <em>ggplot2(v.3.3.6)</em>, <em>tidyverse(v.1.3.1)</em>, <em>flextable(v.0.7.1)</em>, <em>metafor(v.3.4-0)</em>, <em>metadat(v.1.2-0)</em> and <em>Matrix(v.1.4-1)</em></p>
+<em>ape(v.5.6-2)</em>, <em>rotl(v.3.0.12)</em>, <em>magick(v.2.7.3)</em>, <em>vembedr(v.0.1.5)</em>, <em>equatags(v.0.2.0)</em>, <em>mathjaxr(v.1.6-0)</em>, <em>pander(v.0.6.5)</em>, <em>orchaRd(v.2.0)</em>, <em>forcats(v.0.5.1)</em>, <em>stringr(v.1.4.0)</em>, <em>dplyr(v.1.0.9)</em>, <em>purrr(v.0.3.4)</em>, <em>readr(v.2.1.2)</em>, <em>tidyr(v.1.2.0)</em>, <em>tibble(v.3.1.7)</em>, <em>ggplot2(v.3.3.6)</em>, <em>tidyverse(v.1.3.1)</em>, <em>flextable(v.0.7.2)</em>, <em>metafor(v.3.4-0)</em>, <em>metadat(v.1.2-0)</em> and <em>Matrix(v.1.4-1)</em></p>
 <p><strong>loaded via a namespace (and not attached):</strong>
-<em>nlme(v.3.1-157)</em>, <em>fs(v.1.5.2)</em>, <em>lubridate(v.1.8.0)</em>, <em>progress(v.1.2.2)</em>, <em>httr(v.1.4.3)</em>, <em>tools(v.4.2.0)</em>, <em>backports(v.1.4.1)</em>, <em>bslib(v.0.3.1)</em>, <em>utf8(v.1.2.2)</em>, <em>R6(v.2.5.1)</em>, <em>DBI(v.1.1.3)</em>, <em>colorspace(v.2.0-3)</em>, <em>withr(v.2.5.0)</em>, <em>prettyunits(v.1.1.1)</em>, <em>tidyselect(v.1.1.2)</em>, <em>curl(v.4.3.2)</em>, <em>compiler(v.4.2.0)</em>, <em>cli(v.3.3.0)</em>, <em>rvest(v.1.0.2)</em>, <em>formatR(v.1.12)</em>, <em>pacman(v.0.5.1)</em>, <em>xml2(v.1.3.3)</em>, <em>officer(v.0.4.2)</em>, <em>bookdown(v.0.26)</em>, <em>sass(v.0.4.1)</em>, <em>scales(v.1.2.0)</em>, <em>systemfonts(v.1.0.4)</em>, <em>digest(v.0.6.29)</em>, <em>rmarkdown(v.2.14)</em>, <em>rentrez(v.1.2.3)</em>, <em>base64enc(v.0.1-3)</em>, <em>pkgconfig(v.2.0.3)</em>, <em>htmltools(v.0.5.2)</em>, <em>dbplyr(v.2.2.1)</em>, <em>fastmap(v.1.1.0)</em>, <em>rlang(v.1.0.3)</em>, <em>readxl(v.1.4.0)</em>, <em>rstudioapi(v.0.13)</em>, <em>jquerylib(v.0.1.4)</em>, <em>generics(v.0.1.2)</em>, <em>jsonlite(v.1.8.0)</em>, <em>zip(v.2.2.0)</em>, <em>magrittr(v.2.0.3)</em>, <em>Rcpp(v.1.0.8.3)</em>, <em>munsell(v.0.5.0)</em>, <em>fansi(v.1.0.3)</em>, <em>gdtools(v.0.2.4)</em>, <em>lifecycle(v.1.0.1)</em>, <em>stringi(v.1.7.6)</em>, <em>yaml(v.2.3.5)</em>, <em>grid(v.4.2.0)</em>, <em>parallel(v.4.2.0)</em>, <em>crayon(v.1.5.1)</em>, <em>rncl(v.0.8.6)</em>, <em>lattice(v.0.20-45)</em>, <em>haven(v.2.5.0)</em>, <em>hms(v.1.1.1)</em>, <em>knitr(v.1.39)</em>, <em>klippy(v.0.0.0.9500)</em>, <em>pillar(v.1.7.0)</em>, <em>uuid(v.1.1-0)</em>, <em>XML(v.3.99-0.10)</em>, <em>reprex(v.2.0.1)</em>, <em>xslt(v.1.4.3)</em>, <em>glue(v.1.6.2)</em>, <em>evaluate(v.0.15)</em>, <em>data.table(v.1.14.2)</em>, <em>remotes(v.2.4.2)</em>, <em>modelr(v.0.1.8)</em>, <em>vctrs(v.0.4.1)</em>, <em>tzdb(v.0.3.0)</em>, <em>cellranger(v.1.1.0)</em>, <em>gtable(v.0.3.0)</em>, <em>assertthat(v.0.2.1)</em>, <em>locatexec(v.0.1.1)</em>, <em>xfun(v.0.31)</em>, <em>broom(v.0.8.0)</em> and <em>ellipsis(v.0.3.2)</em></p>
+<em>nlme(v.3.1-157)</em>, <em>fs(v.1.5.2)</em>, <em>lubridate(v.1.8.0)</em>, <em>progress(v.1.2.2)</em>, <em>httr(v.1.4.3)</em>, <em>tools(v.4.2.1)</em>, <em>backports(v.1.4.1)</em>, <em>bslib(v.0.3.1)</em>, <em>utf8(v.1.2.2)</em>, <em>R6(v.2.5.1)</em>, <em>DBI(v.1.1.3)</em>, <em>colorspace(v.2.0-3)</em>, <em>withr(v.2.5.0)</em>, <em>prettyunits(v.1.1.1)</em>, <em>tidyselect(v.1.1.2)</em>, <em>curl(v.4.3.2)</em>, <em>compiler(v.4.2.1)</em>, <em>cli(v.3.3.0)</em>, <em>rvest(v.1.0.2)</em>, <em>formatR(v.1.12)</em>, <em>pacman(v.0.5.1)</em>, <em>xml2(v.1.3.3)</em>, <em>officer(v.0.4.3)</em>, <em>bookdown(v.0.27)</em>, <em>sass(v.0.4.1)</em>, <em>scales(v.1.2.0)</em>, <em>systemfonts(v.1.0.4)</em>, <em>digest(v.0.6.29)</em>, <em>rmarkdown(v.2.14)</em>, <em>rentrez(v.1.2.3)</em>, <em>katex(v.1.4.0)</em>, <em>base64enc(v.0.1-3)</em>, <em>pkgconfig(v.2.0.3)</em>, <em>htmltools(v.0.5.2)</em>, <em>dbplyr(v.2.2.1)</em>, <em>fastmap(v.1.1.0)</em>, <em>rlang(v.1.0.3)</em>, <em>readxl(v.1.4.0)</em>, <em>rstudioapi(v.0.13)</em>, <em>jquerylib(v.0.1.4)</em>, <em>generics(v.0.1.2)</em>, <em>jsonlite(v.1.8.0)</em>, <em>zip(v.2.2.0)</em>, <em>magrittr(v.2.0.3)</em>, <em>Rcpp(v.1.0.8.3)</em>, <em>munsell(v.0.5.0)</em>, <em>fansi(v.1.0.3)</em>, <em>gdtools(v.0.2.4)</em>, <em>lifecycle(v.1.0.1)</em>, <em>stringi(v.1.7.6)</em>, <em>yaml(v.2.3.5)</em>, <em>grid(v.4.2.1)</em>, <em>parallel(v.4.2.1)</em>, <em>crayon(v.1.5.1)</em>, <em>rncl(v.0.8.6)</em>, <em>lattice(v.0.20-45)</em>, <em>haven(v.2.5.0)</em>, <em>hms(v.1.1.1)</em>, <em>knitr(v.1.39)</em>, <em>klippy(v.0.0.0.9500)</em>, <em>pillar(v.1.7.0)</em>, <em>uuid(v.1.1-0)</em>, <em>XML(v.3.99-0.10)</em>, <em>reprex(v.2.0.1)</em>, <em>xslt(v.1.4.3)</em>, <em>glue(v.1.6.2)</em>, <em>evaluate(v.0.15)</em>, <em>V8(v.4.2.0)</em>, <em>data.table(v.1.14.2)</em>, <em>remotes(v.2.4.2)</em>, <em>modelr(v.0.1.8)</em>, <em>vctrs(v.0.4.1)</em>, <em>tzdb(v.0.3.0)</em>, <em>cellranger(v.1.1.0)</em>, <em>gtable(v.0.3.0)</em>, <em>assertthat(v.0.2.1)</em>, <em>xfun(v.0.31)</em>, <em>broom(v.0.8.0)</em> and <em>ellipsis(v.0.3.2)</em></p>
 </div>
 <div id="back-to-table-of-contents" class="section level2 hide">
 <h2><a href="https://daniel1noble.github.io/meta-workshop/">Back to Table of Contents</a></h2>

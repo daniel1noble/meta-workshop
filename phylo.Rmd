@@ -91,7 +91,15 @@ If you are comparing effect sizes from a broad phylogenetic range (e.g. includin
 
 For the purpose of this tutorial, we will follow the second method. Notice that we have a separate column in the raw data set called `species_OTL`. This is because to reconstruct the phylogeny, we need the names in the data set to match the OTL data set. The species names described in the paper (especially older papers) may not match the OTL names. Check that the names match before running the following codes or else it will not run successfully. This also applies to any phylogenetic trees extracted.
 
-**IMPORTANT NOTE**: Errors in matching names with the OTL comes in different forms and flavours, but the easiest way to avoid most errors to check that the **names in the raw data match the OTL database** each time you add a new species in. This will address many errors matching names down the track. We have included code to check which names are inconsistent in case you missed some. The remaining errors comes down to formatting which you can see below. As an example with this dataset, I often have to re-add underscore between the Genus and species name because some names (I noticed 3 species in this dataset) "Gambusia_affinis" without the underscore matches up with "Bambusia affinis" in the OTL database which is clearly a different taxa. I am not sure why this is but I got around it by first removing the underscore before matching the names (see code for raw before), then add it back when matching the names to the tree (which has underscores).
+#### IMPORTANT NOTE {.tabset .tabset-fade .tabset-pills} 
+
+##### Errors in matching names {.tabset .tabset-fade .tabset-pills} 
+
+What to do if errors occur when matching names in phylogeny with data set?
+
+##### Suggestions {.tabset .tabset-fade .tabset-pills} 
+
+Errors in matching names with the OTL comes in different forms and flavours, but the easiest way to avoid most errors to check that the **names in the raw data match the OTL database** each time you add a new species in. This will address many errors matching names down the track. We have included code to check which names are inconsistent in case you missed some. The remaining errors comes down to formatting which you can see below. As an example with this dataset, I often have to re-add underscore between the Genus and species name because some names (I noticed 3 species in this dataset) "Gambusia_affinis" without the underscore matches up with "Bambusia affinis" in the OTL database which is clearly a different taxa. I am not sure why this is but I got around it by first removing the underscore before matching the names (see code for raw before), then add it back when matching the names to the tree (which has underscores).
 
 ```{r phylo, warning=FALSE, message=FALSE}
 # Load additional packages for phylogenetic reconstruction
@@ -150,8 +158,15 @@ overall_model <- metafor::rma.mv(yi = Zr, V = V_Zr,
 summary(overall_model)
 ```
 
+#### What does the model output tell us? {.tabset .tabset-fade .tabset-pills} 
 
-**Interpretation**: We can see from above that the model estimates **a positive relationship** between physiology and movement with **an overall mean of `r overall_model$b[1,]` with a 95% confidence interval (95% CI) of `r overall_model$ci.lb[1]` to `r overall_model$ci.ub[1]`**. In this analysis, we also observe high heterogeneity among our effect size estimates with our Q-test being significant, a very common observation in ecological and evolutionary meta-analysis studies. Some of this heterogeneity may be driven by variation among studies, within studies, among species, and phylogeny as seen by the variance components of the model.
+##### Task {.tabset .tabset-fade .tabset-pills} 
+
+**Is there an overall positive or negative relationship between physiology and movement?** 
+
+##### Answer {.tabset .tabset-fade .tabset-pills} 
+
+We can see from above that the model estimates **a positive relationship** between physiology and movement with **an overall mean of `r overall_model$b[1,]` with a 95% confidence interval (95% CI) of `r overall_model$ci.lb[1]` to `r overall_model$ci.ub[1]`**. In this analysis, we also observe high heterogeneity among our effect size estimates with our Q-test being significant, a very common observation in ecological and evolutionary meta-analysis studies. Some of this heterogeneity may be driven by variation among studies, within studies, among species, and phylogeny as seen by the variance components of the model.
 
 ## **References**
 
