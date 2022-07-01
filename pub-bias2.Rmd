@@ -1,0 +1,158 @@
+---
+title: "Publication Bias in Meta-analysis: Analytical Approaches"
+author: Daniel W.A. Noble
+date: '`r Sys.Date()`'
+bibliography: ./bib/refs.bib
+csl: ./bib/the-journal-of-experimental-biology.csl
+output:
+  bookdown::html_document2:
+    css: style.css
+    code_folding: show
+    number_sections: no
+    toc: yes
+    toc_depth: 6
+    toc_float: yes
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE, tidy = TRUE)
+options(digits=3)
+```
+
+```{r klippy, echo=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+#install.packages("devtools")
+remotes::install_github("rlesur/klippy")
+klippy::klippy(tooltip_message = 'Click to Copy Code', tooltip_success = 'Done', position = 'right', color = "red")
+
+# Load packages
+pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatags, vembedr, magick)
+
+```
+
+## **Analytical Approaches for Assessment of Publication Bias in Meta-analysis**
+
+In the [last tutorial](https://daniel1noble.github.io/meta-workshop/pub-bias1) we talked about one of the most common visual tools for assessing whether publication bias might be present, funnel plots [@Jennions2013; @Nakagawa2021b; @Rothstein2005]. However, how do we know for sure if publication bias is actually going to be a problem? Do we have less subjective tools that can both quantitatively test and correct for the possibility of publication bias? The short answer is, we do! The caveat being here that these are still not definitive proof for publication bias and we must keep that in mind. Any results from publication bias tests should be interpreted with caution and viewed as a sensitivity analysis [@Noble2017; @Koricheva2013] because we will never truly know how many missing effect sizes actually exist.
+
+In this tutorial, we'll overview some ways we can attempt to understand whether publication bias is present using multilevel meta regression to quantitatively assess in a more objective way whether it's present. We can also use these statistical tools to attempt to  'correct' for it. 
+
+## **Visually Assessing Publication Bias**
+### Introduction
+
+![](./figs/arnold.png)
+
+We're now going to expand upon the meta-analysis by @Arnold2021 to explore more rigorously whether publication bias is present, and if so, try and re-interpret effects as if such bias did not actually exist. 
+
+### Download the Data
+
+```{r rawdata, message=FALSE, warning=FALSE}
+# Packages
+pacman::p_load(tidyverse, metafor, orchaRd)
+
+# Download the data. Exclude NA in r and sample size columns
+arnold_data <- read.csv("https://raw.githubusercontent.com/pieterarnold/fitness-rmr-meta/main/MR_Fitness_Data_revised.csv")
+
+# Exclude some NA's in sample size and r
+arnold_data <- arnold_data[complete.cases(arnold_data$n.rep) & complete.cases(arnold_data$r),]
+
+# Calculate the effect size, ZCOR
+arnold_data <- metafor::escalc(measure = "ZCOR", ri = r, ni = n.rep, data = arnold_data, var.names = c("Zr", "Zr_v"))
+
+# Lets subset to endotherms for demonstration purposes
+arnold_data_endo <- arnold_data %>% 
+               mutate(endos = ifelse(Class %in% c("Mammalia", "Aves"), "endo", "ecto")) %>% 
+               filter(endos == "endo" & Zr <= 3) # Note that one sample that was an extreme outlier was removed in the paper.
+
+# Add in observation-level (residual) 
+arnold_data_endo$obs <- 1:dim(arnold_data_endo)[1]
+```
+
+### Meta-regression Approaches to Publication Bias 
+
+@Nakagawa2021b [building off of work by @Stanley2012; @Stanley2014] outline a method for testing and accounting for publication bias using multilevel meta-regression approaches. Here, we include sampling standard error (SE) (and variance -- V) directly as a moderator in our meta-regression model. We can test explicitly test whether sampling SE and V significantly explain variation in our effect size. To be more explicit, we can adjust our multilevel meta-regression model as follows:
+
+$$
+y_{i} = \mu + \beta_{se}se +  s_{j[i]} + spp_{k[i]} + e_{i} + m_{i} \\
+m_{i} \sim N(0, v_{i}) \\
+s_{j} \sim N(0, \tau^2) \\
+spp_{k} \sim N(0, \sigma_{k}^2) \\
+e_{i} \sim N(0, \sigma_{e}^2)
+$$
+
+Of course, we could also include a suite of other moderators in our analysis to also account for more heterogeneity like we have shown in [past tutorials](https://daniel1noble.github.io/meta-workshop/metaregression):
+
+$$
+y_{i} = \mu + \sum_{i = 1}^{N_{m}}\beta_{m}x_{m} + \beta_{se}se +  s_{j[i]} + spp_{k[i]} + e_{i} + m_{i} \\
+$$
+Here, $\beta_{m}$ is the slope (or contrast) for the $m^{th}$ moderator (where m = 1, ..., $N_{moderator}$ or $N_{m}$). Of course, $\beta_{se}se$ can be included in this term, but for clarity we separate it out to be clear SE or V is included as a moderator in addition to other moderators. @Stanley2012 and @Stanley2014 have shown that when $\mu$ in a model that estimates $\beta_{se}$ is significant than the intercept (in this case, $\mu$) provides the best estimate of an adjusted meta-analytic that accounts for the possibility of publication bias [@Nakagawa2021b] [see correction for original paper @Nakagawa2022cor]. However, @Stanley2012 and @Stanley2014 have shown that when $\mu$ is significant than including SE is best replaced with the sampling variance (i.e., $SE^2$) instead because the intercept using SE is downwardly biased. 
+
+As such, @Nakagawa2021b recommend a two step approach. First fitting a model with SE. If the intercept of that model is significant than re-fitting the model using V (or $SE^2$) as this will give us a better estimate of the adjusted mean effect size.
+
+#### Why does including sampling variance in the model adjust the overall meta-analytic mean?  {.tabset .tabset-fade .tabset-pills} 
+
+##### Task! {.tabset .tabset-fade .tabset-pills}
+**Think about how the intercept, $\mu$, changes its meaning when a continuous moderator, such as $se$, is included in the model. When estimating $\beta_{se}$ explicitly how do we now interpret the intercept or meta-analytic mean?**
+
+<br>
+
+##### Answer! {.tabset .tabset-fade .tabset-pills}
+The reason why the intercept ($\mu$) is an adjusted meta-analytic mean is because when we include a continuous moderator the intercept itself takes on a different meaning. For example, if we fit the multilevel meta-regression model using SE than the intercept estimated in that model is the overall meta-analytic mean when the SE is zero. Or, in other words, when there is **no** sampling variability or uncertainty around the estimate. We can see that this is true by setting SE = 0 in the equation:
+
+$$
+y_{i} = \mu + \beta_{se}*0  =
+\mu  \\
+$$
+
+<br>
+
+### Fitting a Multi-level Meta-Regression model to Test and Correct for Publication bias
+
+Let's now apply the methods proposed above to @Arnold2021's data. To simplify, we are just going to remove other moderators and only fit SE and/ or V. This just simplifies the interpretation of the intercept, but we could always include the fitness trait type moderator in these models as well. 
+
+```{r, echo = TRUE}
+# Including sampling standard error as moderator
+metareg_se <- rma.mv(yi = Zr, V = Zr_v, mods = ~ sqrt(Zr_v), data = arnold_data_endo, random = list(~1|Ref, ~1|obs))
+summary(metareg_se)
+```
+
+We'll also fit the model with sampling variance for good measure, but given that the `intrcpt` is not significant we can interpret the first model.
+
+```{r V, echo=TRUE}
+# Including sampling variance as moderator
+metareg_v <- rma.mv(yi = Zr, V = Zr_v, mods = ~ Zr_v, data = arnold_data_endo, random = list(~1|Ref, ~1|obs))
+summary(metareg_v)
+```
+
+#### Interpreting the results  {.tabset .tabset-fade .tabset-pills} 
+
+##### Task! {.tabset .tabset-fade .tabset-pills}
+**Is there evidence for publication bias? If so, what is the adjusted meta-analytic mean estimate?**
+
+<br>
+
+##### Answer! {.tabset .tabset-fade .tabset-pills}
+
+Yes, there is evidence for publication bias because the slope estimate for `sqrt(Zr)` or the sampling standard error is significant. Given that the `intrcpt` is not significant we can interpret the model using SE instead of V. We can see from this model that the adjusted `Zr` when there is *no* uncertainty is `r metareg_se$b[1]`with a 95% confidence interval that overlaps zero (i.e., 95% CI = `r metareg_se$ci.lb[1]` to `r metareg_se$ci.ub[1]`). In other words, if no uncertainty around estimates exists, or we have a very high powered set of studies than we would expect the correlation to be, on average, `r tanh(metareg_se$b[1])`. 
+<br>
+
+
+## **Conclusions**
+
+Hopefully it is clear now how we can more objectively test, and correct, for the possibility of publication bias. Again, these should be viewed cautiously and used only as a sensitivity analysis. An important point that we did not mention is that, we need to use different moderators depending on the type of effect size being used in the meta-analysis. Zr is rather straight forward, but @Nakagawa2021 discuss the challenges in using standardised mean differences and log response ratio when fitting models with SE and V. They recommend instead using the `effective sample size` in meta-regression models. 
+
+## **References**
+
+<div id="refs"></div>
+<br> 
+
+## **Session Information**
+
+```{r sessioninfo, echo = FALSE}
+pander(sessionInfo(), locale = FALSE)
+```
+
+## [Back to Table of Contents](https://daniel1noble.github.io/meta-workshop/) {.hide}
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
