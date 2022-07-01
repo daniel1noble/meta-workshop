@@ -71,7 +71,7 @@ You will notice that we have *two* species-level random effects in our model. We
 ![](./figs/WuSeebacher.png)
 
 ### Format raw data for analysis
-We will use the dispersal data set (Z-transformed correlation coefficient or Zr) from [@WuSeebacher2020](https://www.nature.com/articles/s42003-022-03055-y) (see [Effect Size tutorial](https://daniel1noble.github.io/meta-workshop/effect-size) on background and effect size calculation) to demonstrate the following analysis. First, load the the raw data and add the following additional column effect size ID (`es_ID`). Then, calculate effect size as `Zr` and sampling variance as `V_Zr`.
+We will use the dispersal data set (Z-transformed correlation coefficient or Zr) from [@WuSeebacher2022](https://www.nature.com/articles/s42003-022-03055-y) (see [Effect Size tutorial](https://daniel1noble.github.io/meta-workshop/effect-size) on background and effect size calculation) to demonstrate the following analysis. First, load the the raw data and add the following additional column effect size ID (`es_ID`). Then, calculate effect size as `Zr` and sampling variance as `V_Zr`.
 
 ```{r raw data}
 zr_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/ind_disp_raw_data.csv") %>%
