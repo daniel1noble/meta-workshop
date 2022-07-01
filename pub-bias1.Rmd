@@ -16,6 +16,7 @@ editor_options:
   chunk_output_type: console
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, cache = FALSE, tidy = TRUE)
 options(digits=3)
@@ -35,7 +36,7 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 Meta-analyst's have worked hard to develop tools that can be used to try and understand different forms of publication practices and biases within the scientific literature. Such biases can occur if studies reporting non-significant or opposite results to what is predicted are not found in systematic searches ['i.e., the 'file-drawer' problem; @Jennions2013]. Alternatively, biases could result from selective reporting or 'p-hacking'. 
 
-Visual and quantitative tools have been developed try and identify and 'correct' for such biases on meta-analytic results [@Jennions2013; @Nakagawa2021b; @Rothstein2005]. Having said that, aside from working hard to try and incorporate 'gray literature' (unpublished theses, government reports, etc.) and working hard to include work done in non-English speaking languages, there is little one can truly due to counteract publication biases beyond a few simple tools. We cannot know for certain what isn't published in many cases or how a sample of existing work on a topic might be biased. Nonetheless, exploring the possibility of publication bias and its possible effects on conclusions is a core component of meta-analysis [@ODea2021]. 
+Visual and quantitative tools have been developed try and identify and 'correct' for such biases on meta-analytic results [@Jennions2013; @Nakagawa2021b; @Rothstein2005]. Having said that, aside from working hard to try and incorporate 'gray literature' (unpublished theses, government reports, etc.) and working hard to include work done in non-English speaking languages, there is little one can truly due to counteract publication biases beyond a few simple tools (which all have limitations in themselves). We cannot know for certain what isn't published in many cases or how a sample of existing work on a topic might be biased. Nonetheless, exploring the possibility of publication bias and its possible effects on conclusions is a core component of meta-analysis [@ODea2021]. 
 
 In this tutorial, we'll overview some ways we can attempt to understand whether publication bias is present or not using visual tools. In the next tutorial, we will cover some analytical approaches that might be used as a sensitivity analysis to explicitly test whether publication bias is present and attempt to to estimate how this changes the effect size if it didn't exist. Of course, often we will never know whether such biases exist and high heterogeneity can result in apparent publication bias when non exist. The goal here is to formally play a thought experiment: if publication bias were to exist what form would it be expected to take and how would our conclusions change if we were to have access to all available studies regardless of significance or power?
 
@@ -50,7 +51,7 @@ We're going to have a look at a meta-analysis by @Arnold2021 that explores the r
 
 ```{r rawdata, message=FALSE, warning=FALSE}
 # Packages
-pacman::p_load(tidyverse, metafor)
+pacman::p_load(tidyverse, metafor, orchaRd)
 
 # Download the data. Exclude NA in r and sample size columns
 arnold_data <- read.csv("https://raw.githubusercontent.com/pieterarnold/fitness-rmr-meta/main/MR_Fitness_Data_revised.csv")
@@ -65,13 +66,16 @@ arnold_data <- metafor::escalc(measure = "ZCOR", ri = r, ni = n.rep, data = arno
 arnold_data_endo <- arnold_data %>% 
                mutate(endos = ifelse(Class %in% c("Mammalia", "Aves"), "endo", "ecto")) %>% 
                filter(endos == "endo" & Zr <= 3) # Note that one sample that was an extreme outlier was removed in the paper.
+
+# Add in observation-level (residual) 
+arnold_data_endo$obs <- 1:dim(arnold_data_endo)[1]
 ```
 
 ### Contour-enhanced Funnel Plots 
 
-Funnel plots are by far the most common visual tool for assessing the possibility of publication bias [@Nakagawa2021b]. Just like any exploratory analysis, these are just visual tools. Let's have a look at a funnel plot of the data. Funnel plots plot the the effect size (x-axis) against some form of sampling variance or precision (y-axis). 
+Funnel plots are by far the most common visual tool for assessing the possibility of publication bias [@Nakagawa2021b]. Just like any exploratory analysis, these are just visual tools. Let's have a look at a funnel plot of the data. Funnel plots plot the the effect size (x-axis) against some form of uncertainty around the effect size, such as sampling variance or precision (y-axis). 
 
-If no publication bias exists then we would expect the plot to look fairly symmetrical and funnel shaped (hence why it's called a funnel plot!). The reason why the shape is a funnel is because the sampling variance is expected to decrease (or the precision increase) when the sample size, and thus power, increases. These 'high-powered' studies are at the top of the 'funnel' in the narrow-necked region, so to say because we expect them to fluctuate very little in effect size based on sampling processes. In contrast, as the power of studies decrease, and therefore their sampling variance increase, we expect the spread of effect sizes to also increase simply because the process of sampling when we have small sample sizes results in greater variability of effects and effects that are large in magnitude by chance alone. 
+If no publication bias exists then we would expect the plot to look fairly symmetrical and funnel shaped (hence why it's called a funnel plot!). The reason why the shape is a funnel is because the sampling variance is expected to decrease (or the precision increase) when the sample size, and thus power, increases. These 'high-powered' studies are at the top of the 'funnel' in the narrow-necked region, so to say, because we expect the effect size form these studies to fluctuate very little based on sampling process. In contrast, as the power of studies decrease, and therefore their sampling variance increases, we expect the spread of effect sizes to increase simply because small sample sizes results in greater variability of effects and effects that are larger in magnitude (by chance alone). 
 
 ```{r funnel, echo=TRUE, fig.align='center', fig.cap= "Funnel plot depicting the correlation between metabolism and fitness as a function of precision (1 / SE). The dotted lines are the theoretical 95% sampling variance intervals - the interval with which we expect effect size estimates to fall within if only sampling variance drives differences in effects. Shaded regions represent the p-value of studies. The white region indicates studies where the p-value is between 0.1 and 1; dark gray where the p-value of studies is between 0.05 and 0.1 and the lighter gray regions where the p-value of studies is significant." }
 
@@ -81,11 +85,50 @@ metafor::funnel(x = arnold_data_endo$Zr, vi = arnold_data_endo$Zr_v, yaxis = "se
 
 We can see from Fig. \@ref(fig:funnel) above the typical funnel shape. You will notice that most effects lie in the positive correlation space -- in other words there is a strong positive correlation between BMR and fitness. However, we also find some studies that show the opposite pattern. We expect that based on sampling theory alone, and indeed many of these effects fall close to the dotted sampling error intervals. Studies in the light grey regions are studies where the p-value was significant. 
 
-**But, what do we expect if publication bias were present?** Well, we expect under a file-drawer situation (i.e., where researchers stash away poorer quality studies showing opposite effects in their desk drawers) that studies with low power  (i.e., low precision, wide standard errors, and small sample sizes) and non-significant correlations will go unpublished. This should be particularly true for studies that show the opposite to what we might predict by theory -- specifically, negative correlations from studies with small sample sizes / low precision that are not significant. This is one factor that can drive what we call funnel asymmetry, showing a bunch of missing effect sizes in the bottom left corner of the funnel. 
+#### What do we expect if publication bias were present? {.tabset .tabset-fade .tabset-pills} 
 
-If we look at Fig. \@ref(fig:funnel) we do see some hint of this scenario. There is a noticeable blank space in the bottom left corner with negative correlations  based on very small sample sizes that are generally small to moderate in magnitude going unpublished. The contour-enhanced funnel plot also tells us that these are studies that failed to find a significant correlation. But, interestingly, we also see that if the magnitude of correlation is large enough in the negative direction even with small sample sizes these can get published, but for teh most part these are significant at 0.05. We can only speculate as to why or if this is even a real signature of publication bias. However, this might suggest that if folks estimate large enough correlations and these are in the opposite direction to what one might expect these arguably 'surprising' results are more likely to be published than if the correlation is weak and in the opposite direction. 
+##### Task! {.tabset .tabset-fade .tabset-pills}
+**Think about what you would expect the funnel plot to look like and why.**
 
-### Funnel Asymmetry -- residuals
+<br>
+
+##### Answer! {.tabset .tabset-fade .tabset-pills}
+*We might expect under a file-drawer situation (i.e., where researchers stash away poorer quality studies showing opposite effects in their desk drawers) that studies with low power  (i.e., low precision, wide standard errors, and small sample sizes) and non-significant correlations will go unpublished. This should be particularly true for studies that show the opposite to what we might predict by theory -- specifically, negative correlations from studies with small sample sizes / low precision that are not significant. This is one factor that can drive what we call funnel asymmetry, showing a bunch of missing effect sizes in the bottom left corner of the funnel.*
+
+<br>
+
+##### Interpreting our Funnel Plot {.tabset .tabset-fade .tabset-pills}
+If we look at Fig. \@ref(fig:funnel) we do see some hint of this scenario. There is a noticeable blank space in the bottom left corner with negative correlations  based on very small sample sizes that are generally small to moderate in magnitude going unpublished. The contour-enhanced funnel plot also tells us that these are studies that failed to find a significant correlation. But, interestingly, we also see that if the magnitude of correlation is large enough in the negative direction even with small sample sizes these can get published, but for the most part these are significant at 0.05. We can only speculate as to why or if this is even a real signature of publication bias. However, this might suggest that if folks estimate large enough correlations and these are in the opposite direction to what one might expect these arguably 'surprising' results are more likely to be published than if the correlation is weak and in the opposite direction. 
+
+<br>
+
+### Funnel Plot with Meta-analytic Residuals
+
+Visually identifying publication bias in funnel plots can be extremely challenging. That's because high amounts of heterogeneity, artefacts, data irregularities (mistakes, fraud) and simply just chance can just as easily result in apparent funnel asymmetry [@Nakagawa2021b]. In fact, publication bias can even be present without any asymmetry at all! [see @Alfredo2018]. Given that heterogeneity is very high in ecological and evolutionary meta-analyses [see @Senior2016], we should try to attempt to correct for this (as best as we can anyway) to determine if patterns in the funnel plot remain. We can achieve this to some extent by plotting a funnel plot of meta-analytic residuals, taken from a full multi-level meta-regression model that explicitly accounts for as much heterogeneity as possible. 
+
+```{r, echo = TRUE}
+# Fitness type
+metareg <- rma.mv(yi = Zr, V = Zr_v, mods = ~ FitnessClassification, data = arnold_data_endo, random = list(~1|Ref, ~1|obs))
+summary(metareg)
+```
+
+We can have a look at how much variation this model explains by calculating marginal ($R_{marginal}^2$) and conditional ($R_{conditional}^2$) $R^2$. 
+
+```{r, echo=TRUE}
+# How much variation? 
+orchaRd::r2_ml(metareg)*100
+```
+
+#### What is the difference between marginal and conditional $R^2$? {.tabset .tabset-fade .tabset-pills} 
+
+##### Task! {.tabset .tabset-fade .tabset-pills} 
+
+Interpret the meaning of both values output from our $R^2$ calculations 
+
+##### Answer! {.tabset .tabset-fade .tabset-pills} 
+
+From the output above we can see that the fixed effects or moderator explains `r orchaRd::r2_ml(metareg)[1]*100`% of the variation in Zr estimates (as indicated by $R_{marginal}^2$), while when we consider both the fixed and random effects than the model explains `r orchaRd::r2_ml(metareg)[2]*100`% of the variation in Zr estimates (as indicated by $R_{conditional}^2$). 
+
 ## **References**
 
 <div id="refs"></div>
