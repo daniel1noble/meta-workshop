@@ -2086,8 +2086,8 @@ y_{i} = \mu + \beta_{se}*0  =
 <h3>Fitting a Multi-level Meta-Regression model to Test and Correct for Publication bias</h3>
 <p>Let’s now apply the methods proposed above to <span class="citation">Arnold et al. (2021)</span>’s data. To simplify, we are just going to remove other moderators and only fit SE and/ or V. This just simplifies the interpretation of the intercept, but we could always include the fitness trait type moderator in these models as well.</p>
 <pre class="r"><code># Including sampling standard error as moderator
-metareg_se &lt;- rma.mv(yi = Zr, V = Zr_v, mods = ~sqrt(Zr_v), data = arnold_data_endo,
-    random = list(~1 | Ref, ~1 | obs))
+metareg_se &lt;- rma.mv(yi = Zr, V = Zr_v, mods = ~sqrt(Zr_v), test = &quot;t&quot;, dfs = &quot;contain&quot;,
+    data = arnold_data_endo, random = list(~1 | Ref, ~1 | obs))
 summary(metareg_se)</code></pre>
 <pre><code>## 
 ## Multivariate Meta-Analysis Model (k = 209; method: REML)
@@ -2105,20 +2105,20 @@ summary(metareg_se)</code></pre>
 ## QE(df = 207) = 844.4496, p-val &lt; .0001
 ## 
 ## Test of Moderators (coefficient 2):
-## QM(df = 1) = 14.3314, p-val = 0.0002
+## F(df1 = 1, df2 = 207) = 14.3314, p-val = 0.0002
 ## 
 ## Model Results:
 ## 
-##             estimate      se     zval    pval    ci.lb   ci.ub     ​ 
-## intrcpt      -0.0668  0.0727  -0.9184  0.3584  -0.2093  0.0757      
-## sqrt(Zr_v)    1.3908  0.3674   3.7857  0.0002   0.6707  2.1109  *** 
+##             estimate      se     tval   df    pval    ci.lb   ci.ub     ​ 
+## intrcpt      -0.0668  0.0727  -0.9184   60  0.3621  -0.2122  0.0787      
+## sqrt(Zr_v)    1.3908  0.3674   3.7857  207  0.0002   0.6665  2.1151  *** 
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>We’ll also fit the model with sampling variance for good measure, but given that the <code>intrcpt</code> is not significant we can interpret the first model.</p>
 <pre class="r"><code># Including sampling variance as moderator
-metareg_v &lt;- rma.mv(yi = Zr, V = Zr_v, mods = ~Zr_v, data = arnold_data_endo, random = list(~1 |
-    Ref, ~1 | obs))
+metareg_v &lt;- rma.mv(yi = Zr, V = Zr_v, mods = ~Zr_v, test = &quot;t&quot;, dfs = &quot;contain&quot;,
+    data = arnold_data_endo, random = list(~1 | Ref, ~1 | obs))
 summary(metareg_v)</code></pre>
 <pre><code>## 
 ## Multivariate Meta-Analysis Model (k = 209; method: REML)
@@ -2136,13 +2136,13 @@ summary(metareg_v)</code></pre>
 ## QE(df = 207) = 840.6907, p-val &lt; .0001
 ## 
 ## Test of Moderators (coefficient 2):
-## QM(df = 1) = 18.7982, p-val &lt; .0001
+## F(df1 = 1, df2 = 207) = 18.7982, p-val &lt; .0001
 ## 
 ## Model Results:
 ## 
-##          estimate      se    zval    pval    ci.lb   ci.ub     ​ 
-## intrcpt    0.0469  0.0467  1.0028  0.3160  -0.0447  0.1384      
-## Zr_v       3.0051  0.6931  4.3357  &lt;.0001   1.6467  4.3636  *** 
+##          estimate      se    tval   df    pval    ci.lb   ci.ub     ​ 
+## intrcpt    0.0469  0.0467  1.0028   60  0.3200  -0.0466  0.1403      
+## Zr_v       3.0051  0.6931  4.3357  207  &lt;.0001   1.6387  4.3716  *** 
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
@@ -2155,7 +2155,7 @@ summary(metareg_v)</code></pre>
 </div>
 <div id="answer-1" class="section level5 tabset tabset-fade tabset-pills">
 <h5>Answer!</h5>
-<p>Yes, there is evidence for publication bias because the slope estimate for <code>sqrt(Zr)</code> or the sampling standard error is significant. Given that the <code>intrcpt</code> is not significant we can interpret the model using SE instead of V. We can see from this model that the adjusted <code>Zr</code> when there is <em>no</em> uncertainty is -0.067with a 95% confidence interval that overlaps zero (i.e., 95% CI = -0.209 to 0.076). In other words, if no uncertainty around estimates exists, or we have a very high powered set of studies than we would expect the correlation to be, on average, -0.067.
+<p>Yes, there is evidence for publication bias because the slope estimate for <code>sqrt(Zr)</code> or the sampling standard error is significant. Given that the <code>intrcpt</code> is not significant we can interpret the model using SE instead of V. We can see from this model that the adjusted <code>Zr</code> when there is <em>no</em> uncertainty is -0.067with a 95% confidence interval that overlaps zero (i.e., 95% CI = -0.212 to 0.079). In other words, if no uncertainty around estimates exists, or we have a very high powered set of studies than we would expect the correlation to be, on average, -0.067.
 <br></p>
 </div>
 </div>

@@ -113,7 +113,7 @@ Let's now apply the methods proposed above to @Arnold2021's data. To simplify, w
 
 ```{r, echo = TRUE}
 # Including sampling standard error as moderator
-metareg_se <- rma.mv(yi = Zr, V = Zr_v, mods = ~ sqrt(Zr_v), data = arnold_data_endo, random = list(~1|Ref, ~1|obs))
+metareg_se <- rma.mv(yi = Zr, V = Zr_v, mods = ~ sqrt(Zr_v), test = "t", dfs = "contain", data = arnold_data_endo, random = list(~1|Ref, ~1|obs))
 summary(metareg_se)
 ```
 
@@ -121,7 +121,7 @@ We'll also fit the model with sampling variance for good measure, but given that
 
 ```{r V, echo=TRUE}
 # Including sampling variance as moderator
-metareg_v <- rma.mv(yi = Zr, V = Zr_v, mods = ~ Zr_v, data = arnold_data_endo, random = list(~1|Ref, ~1|obs))
+metareg_v <- rma.mv(yi = Zr, V = Zr_v, mods = ~ Zr_v, test = "t", dfs = "contain", data = arnold_data_endo, random = list(~1|Ref, ~1|obs))
 summary(metareg_v)
 ```
 
