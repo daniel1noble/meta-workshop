@@ -73,7 +73,7 @@ arnold_data_endo$obs <- 1:dim(arnold_data_endo)[1]
 
 ### Contour-enhanced Funnel Plots 
 
-Funnel plots are by far the most common visual tool for assessing the possibility of publication bias [@Nakagawa2021b]. Just like any exploratory analysis, these are just visual tools. Let's have a look at a funnel plot of the data. Funnel plots plot the the effect size (x-axis) against some form of uncertainty around the effect size, such as sampling variance or precision (y-axis). 
+Funnel plots are by far the most common visual tool for assessing the possibility of publication bias [@Nakagawa2021b]. Just like any exploratory analysis, these are just visual tools. Let's have a look at a funnel plot of the data. Funnel plots plot the the effect size (x-axis) against some form of uncertainty around the effect size, such as sampling variance or precision (y-axis). While we acknowledge that many other types of plots exist to explore the possibility for publication bias [@Jennions2013; @Nakagawa2021b; @Rothstein2005], we will only cover this more common type. 
 
 If no publication bias exists then we would expect the plot to look fairly symmetrical and funnel shaped (hence why it's called a funnel plot!). The reason why the shape is a funnel is because the sampling variance is expected to decrease (or the precision increase) when the sample size, and thus power, increases. These 'high-powered' studies are at the top of the 'funnel' in the narrow-necked region, so to say, because we expect the effect size form these studies to fluctuate very little based on sampling process. In contrast, as the power of studies decrease, and therefore their sampling variance increases, we expect the spread of effect sizes to increase simply because small sample sizes results in greater variability of effects and effects that are larger in magnitude (by chance alone). 
 
@@ -159,7 +159,7 @@ metafor::funnel(x = resid_cond, vi = vi_resid_cond, yaxis = "seinv", digits = 2,
 ```
 
 
-#### How do our conclusions about the possibility change by plotting residuals? {.tabset .tabset-fade .tabset-pills} 
+#### How do our conclusions about the possibility of publication bias change by plotting residuals? {.tabset .tabset-fade .tabset-pills} 
 
 ##### Task! {.tabset .tabset-fade .tabset-pills} 
 
