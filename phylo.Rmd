@@ -74,6 +74,10 @@ You will notice that we have *two* species-level random effects in our model. We
 We will use the dispersal data set (Z-transformed correlation coefficient or Zr) from [@WuSeebacher2022](https://www.nature.com/articles/s42003-022-03055-y) (see [Effect Size tutorial](https://daniel1noble.github.io/meta-workshop/effect-size) on background and effect size calculation) to demonstrate the following analysis. First, load the the raw data and add the following additional column effect size ID (`es_ID`). Then, calculate effect size as `Zr` and sampling variance as `V_Zr`.
 
 ```{r raw data}
+## Load packages
+# install.packages("pacman")
+pacman::p_load(tidyverse, metafor, ape, phytools)
+
 zr_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/ind_disp_raw_data.csv") %>%
   dplyr::select(-dispersal_def) %>% # remove irrelevant columns
   tibble::rowid_to_column("es_ID") %>% # add effect size ID
@@ -101,6 +105,8 @@ What to do if errors occur when matching names in phylogeny with data set?
 
 Errors in matching names with the OTL comes in different forms and flavours, but the easiest way to avoid most errors to check that the **names in the raw data match the OTL database** each time you add a new species in. This will address many errors matching names down the track. We have included code to check which names are inconsistent in case you missed some. The remaining errors comes down to formatting which you can see below. As an example with this dataset, I often have to re-add underscore between the Genus and species name because some names (I noticed 3 species in this dataset) "Gambusia_affinis" without the underscore matches up with "Bambusia affinis" in the OTL database which is clearly a different taxa. I am not sure why this is but I got around it by first removing the underscore before matching the names (see code for raw before), then add it back when matching the names to the tree (which has underscores).
 
+
+### Build the tree and create correlation matrix
 ```{r phylo, warning=FALSE, message=FALSE}
 # Load additional packages for phylogenetic reconstruction
 pacman::p_load(rotl, ape)
@@ -140,7 +146,11 @@ tree <- ape::multi2di(tree, random = TRUE) # use a randomization approach to dea
 phylo_cor <- vcv(tree, cor = T)
 ```
 
+We can also have a look at the final tree:
 
+```{r, tree, echo=TRUE, fig.align='center', fig.cap= "Phylogenetic tree generated for species in the Wu & Seebacher (2022) dataset."}
+plot(tree, type = "phylogram", cex = 0.3)
+```
 ### Run phylogenetically corrected, multi-level meta-analysis on overall effect
 
 Lets say we are interested in the **overall relationship** of physiology and movement (Zr). The following code runs a phylogeneticlly corrected, multi-level meta-analysis via the `rma.mv` function. Building upon the multi-level meta-analytic model from the [Multi-level Meta-analysis tutorial](https://daniel1noble.github.io/meta-workshop/multi-level#Building_more_Complex_Multilevel_Meta-analytic_Models), we also included random effects (`random` argument) to account for non-independence such as  `es_ID` (effect size identity), `study_ID` (unique study identity), `species` (unique species identity), `species_OTL` (species relatedness). The `R` argument allows the correlation matrix (here, `phylo_cor`) to be incorporated to the model which corresponds to the components specified in the `random` argument `~1 | species_OTL`.
@@ -171,6 +181,7 @@ We can see from above that the model estimates **a positive relationship** betwe
 ## **References**
 
 <div id="refs"></div>
+<br> 
 
 ## **Session Information**
 
