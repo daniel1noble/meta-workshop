@@ -164,7 +164,13 @@ summary(mlma)
 
 As you can see in the model, the `V` argument in `metafor` takes the $\textbf{M}$ matrix directly. This will account for the shared-control usage in the data. This model is a little different than the one actually fit in @Raynal2022 because it does not include phylogeny, but it gives us essentially the same result. 
 
-* **Interpretation**: In essence, what this model is telling us is that there is, on average, a  `r (1 - predict(mlma, transf = exp)$pred)*100`% decrease in mass in the fluctuating temperature treatment compared to the control treatment, which is a pretty trivial difference! We can also see that the 95% confidence intervals are wide and overlap zero indicating that the estimate does not differ significantly from a zero (as indicated by the null hypothesis). Having said that, there is a lot of heterogeneity in effects across species and studies included in the analysis suggesting that it might really depend on the study.
+#### What does the model output tell us? {.tabset .tabset-fade .tabset-pills} 
+
+##### Task {.tabset .tabset-fade .tabset-pills} 
+**What is the overall mean estimate and variance, and what does it mean in the context of fluctuating temperature on body mass?** 
+
+##### Answer {.tabset .tabset-fade .tabset-pills} 
+In essence, what this model is telling us is that there is, on average, a  **`r (1 - predict(mlma, transf = exp)$pred)*100`%** decrease in mass in the fluctuating temperature treatment compared to the control treatment, which is a pretty trivial difference! We can also see that the **95% confidence intervals are wide and overlap zero indicating that the estimate does not differ significantly from a zero** (as indicated by the null hypothesis). Having said that, there is a lot of heterogeneity in effects across species and studies included in the analysis suggesting that it might really depend on the study.
 
 ## **Robust Variance Estimation -- a useful tool to deal with unknown dependency**
 
