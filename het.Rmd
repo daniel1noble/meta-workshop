@@ -176,11 +176,13 @@ orchaRd::i2_ml(MLMA, data = asr_dat, boot = 1000)
 
 ```
 
+Here, we can now see that $I_{total}^2$ has a fairly narrow 95% confidence interval of ~ 0.97 to 0.99.
+
 ### Prediction Intervals
 
-Prediction intervals are probably the best, most intuitive way to report heterogeneity of meta-analytic results [@Borenstein2019; @Noble2022; @Nakagawa2021c]. Predictions intervals tell us how much we can expect a given effect size to vary across studies. More specifically, if we were to go out and conduct another study or experiment they tell us what the range of effect size estimates we are expected to observe 95% of the time from that new study [@Borenstein2019; @Noble2022; @Nakagawa2021c]. 
+Prediction intervals (PI) are probably the best and most intuitive way to report heterogeneity of meta-analytic results [@Borenstein2019; @Noble2022; @Nakagawa2021c]. Predictions intervals tell us how much we can expect a given effect size to vary across studies. More specifically, if we were to go out and conduct another study or experiment they tell us what the range of effect size estimates we are expected to observe 95% of the time from that new study [@Borenstein2019; @Noble2022; @Nakagawa2021c]. 
 
-Prediction intervals can be calculated in a similar way to confidence intervals but instead of just using the standard error, like we do with confidence interval construction we add in the extra random effect variance estimates. For our model above, PI's can be calculated as follows:
+Prediction intervals can be calculated in a similar way to confidence intervals but instead of just using the standard error, like we do with confidence interval construction we add in the extra random effect variance estimates. For our model above, PI can be calculated as follows:
 
 $$ 
 \begin{equation} 
@@ -194,7 +196,6 @@ We can get these quite easily using the `predict` function in `metafor`:
 ```{r pis, echo=TRUE}
 # Calculate the prediction intervals
 predict(MLMA)
-
 ```
 
 #### Interpreting Predcition Intervals {.tabset .tabset-fade .tabset-pills}
@@ -207,13 +208,44 @@ predict(MLMA)
 
 ##### Answer! {.tabset .tabset-fade .tabset-pills}
 
+Our 95% prediction intervals are wide. Effect sizes (ARR) we are expected to get range from `r predict(MLMA)[[5]]` to `r predict(MLMA)[[6]]`, suggesting a lot of inconsistency between studies. 
+
 <br>
 
 ### *Q*-tests: Inferential Tests to Determine Excess Heterogeneity 
 
+So far we've talked about important heterogeneity statistics that describe, and quantify, the proportion of variability ($I^2$) or the expected range of plausible effect size values which incorporate all the variance estimates (PI). But, how do we know that the heterogeneity in the data is greater than what we would expect by chance? It seems obvious that, if the $I_{total}^2$ is really high (i.e., >85%) there's a lot of variability in effects within and across studies. While these statistics are probably sufficient, *Q* tests can also be useful to more formally be able to make an inferential statement about whether heterogeneity is significantly greater than chance. 
+
+We have already encountered how to calculate the *Q*-statistic when discussing [fixed and random effects](https://daniel1noble.github.io/meta-workshop/fixed-vs-random) models. We can use the *Q* statistic now to compare this against a $\chi^2$-distribution to calculate a p-value. [Wolfgang's documentation](https://wviechtb.github.io/metafor/reference/rma.mv.html) (`?rma.mv`) describes what the *Q*-test means:
+
+> Cochran's 𝑄-test, which tests whether the variability in the observed effect sizes or outcomes is larger than one would expect based on sampling variability (and the given covariances among the sampling errors) alone. A significant test suggests that the true effects/outcomes are heterogeneous. 
+
+<br> 
+We don't need to do anything special to get this test. In fact, this is automatically done by `metafor`:
+
+```{r, q, echo=TRUE}
+print(MLMA)
+```
+
+#### Describing the *Q*-test  {.tabset .tabset-fade .tabset-pills} 
+
+##### Task! {.tabset .tabset-fade .tabset-pills} 
+
+**How would you describe in a paper the *Q*-test from the `metafor` model above?**
+
+<br>
+
+##### Answer! {.tabset .tabset-fade .tabset-pills} 
+
+Of course, there are a multitude of ways that we could describe this test in words, but one way to describe it in your results section might be as follows:
+
+> The overall mean ARR across ectotherms was `r MLMA$b` and differed significantly from zero (95% CI: `r MLMA$ci.lb` to `r MLMA$ci.ub`, df = `r MLMA$ddf`, t = `r MLMA$b / MLMA$se`, p < 0.001). However, there was significant residual heterogeneity (*Q* = `r MLMA$QE`, df = `r dim(MLMA$data)[1]-1`, p < 0.001) even after accounting for a number of random effects with estimates expected to range from `r predict(MLMA)[[5]]` to `r predict(MLMA)[[6]]` (95% Prediction Interval).
+
+<br>
+
 ### Proportion of Variation Explained by the Model: $R^2_{marginal}$ and $R^2_{conditional}$
 
-Often we also want to quantify how much variation is explained by our moderators and random effects in our multilevel meta-regression model [@Nakagawa2017ab; @NakagawaSchielzeth2013]. This is often done using $R^2$. We can calculate different $R^2$ values depending on whether we ignore or include random effects in the numerator. If only the variation explained by moderators is included in the numerator than we call this $R_{marginal}^2$, which is defined as:
+You will probably have noticed that $I^2$ looks awfully familiar. It looks a lot like the way we might calculate $R^2$ described by @NakagawaSchielzeth2013. Well, you would be correct! Often we also want to quantify how much variation is explained by our moderators and random effects in our multilevel meta-regression model [@Nakagawa2017ab; @NakagawaSchielzeth2013]. This is done using $R^2$. We can calculate different $R^2$ values depending on whether we ignore or include random effects in the numerator. If only the variation explained by moderators is included in the numerator than we call this $R_{marginal}^2$, which is defined as:
 
 $$
 \begin{equation} 
@@ -222,7 +254,11 @@ R^2_{marginal} = \frac{\sigma^2_{fixed}}{\sigma^2_{fixed} + \sigma^2_{study} + \
 \end{equation} 
 $$
 
-Note that this formula does not include $\sigma^2_{m}$ as sampling error variance is assumed to be known in meta-analysis. 
+Note that this formula does not include $\sigma^2_{m}$ as sampling error variance is assumed to be known in meta-analysis. We won't go into the details on how to calculate and interpret these because we'll cover this in a later tutorial on [publication bias](https://daniel1noble.github.io/meta-workshop/pub-bias1). Suffice it to say that this is a useful statistic from describing how much variation your moderators or model explain.
+
+## **Conclusion**
+
+Hopefully it's clear from this tutorial why explicitly estimating and reporting upon heterogeneity is so critically important in meta-analysis. Of course, some of these measures are only possible if we known the total sampling variance, which is not possible if one doesn't use a weighted meta-analytic model. While all heterogeneity measures are useful, we agree with @Borenstein2019 and @Nakagawa2021c that prediction intervals are probably the best to present given they are a very intuitive interpretation of heterogeneity. 
 
 ## **References**
 
