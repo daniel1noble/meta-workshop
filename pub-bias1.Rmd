@@ -168,6 +168,10 @@ metafor::funnel(x = resid_cond, vi = vi_resid_cond, yaxis = "seinv", digits = 2,
 ##### Answer! {.tabset .tabset-fade .tabset-pills} 
 
 Maybe. Even after accounting for factors that explain (or estimate) heterogeneity in the data we still see areas of the funnel plot that appear to be missing effect size estimates, notably for the marginal residuals we still see the missing effects on the left side. However, when looking at the conditional (taking into account fixed and random effects) we see that there is a gap yet when precision is low, but we are still seeing some effect size estimates being published with very low precision, which is not really what we might expect from publication bias.
+<br> 
+
+## **Conclusions**
+While funnel plots can be useful they do have clear limitations. @Nakagawa2021c overview the many assumption being made, particularly when using residuals, and how non-independence of sampling errors can cause problems. In the next section, we'll overview some more sophisticated, less subjective, ways to assess and correct for publication bias.
 
 ## **References**
 
