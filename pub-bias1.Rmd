@@ -104,7 +104,7 @@ If we look at Fig. \@ref(fig:funnel) we do see some hint of this scenario. There
 
 ### Funnel Plot with Meta-analytic Residuals
 
-Visually identifying publication bias in funnel plots can be extremely challenging. That's because high amounts of heterogeneity, artefacts, data irregularities (mistakes, fraud) and simply just chance can just as easily result in apparent funnel asymmetry [@Nakagawa2021b]. In fact, publication bias can even be present without any asymmetry at all! [see @Alfredo2018]. Given that heterogeneity is very high in ecological and evolutionary meta-analyses [see @Senior2016], we should try to attempt to correct for this (as best as we can anyway) to determine if patterns in the funnel plot remain. We can achieve this to some extent by plotting a funnel plot of meta-analytic residuals, taken from a full multi-level meta-regression model that explicitly accounts for as much heterogeneity as possible. 
+Visually identifying publication bias in funnel plots can be extremely challenging. That's because high amounts of heterogeneity, artefacts, data irregularities (mistakes, fraud) and simply just chance can just as easily result in apparent funnel asymmetry [@Nakagawa2021b]. In fact, publication bias can even be present without any asymmetry at all! [see @Alfredo2018]. Given that heterogeneity is very high in ecological and evolutionary meta-analyses [see @Senior2016], we should try to attempt to correct for this (as best as we can anyway) to determine if patterns in the funnel plot remain. We can achieve this to some extent by plotting a funnel plot of meta-analytic residuals, taken from a full multi-level meta-regression model that explicitly accounts for as much heterogeneity as possible. @Nakagawa2021b provide a [thorough supplement](https://itchyshin.github.io/publication_bias/#Appendix_extra:_Figure’s_R_code) that walks through different publication bias methods, how to apply them and also plotting different types of funnel plots.
 
 ```{r, echo = TRUE}
 # Fitness type
@@ -123,11 +123,51 @@ orchaRd::r2_ml(metareg)*100
 
 ##### Task! {.tabset .tabset-fade .tabset-pills} 
 
-Interpret the meaning of both values output from our $R^2$ calculations 
+**Interpret the meaning of both values output from our $R^2$ calculations** 
 
 ##### Answer! {.tabset .tabset-fade .tabset-pills} 
 
-From the output above we can see that the fixed effects or moderator explains `r orchaRd::r2_ml(metareg)[1]*100`% of the variation in Zr estimates (as indicated by $R_{marginal}^2$), while when we consider both the fixed and random effects than the model explains `r orchaRd::r2_ml(metareg)[2]*100`% of the variation in Zr estimates (as indicated by $R_{conditional}^2$). 
+From the output above we can see that the fixed effects or moderator explains `r orchaRd::r2_ml(metareg)[1]*100`% of the variation in Zr estimates (as indicated by $R_{marginal}^2$), while when we consider both the fixed and random effects than the model explains `r orchaRd::r2_ml(metareg)[2]*100`% of the variation in Zr estimates (as indicated by $R_{conditional}^2$). Interestingly, we still have a significant amount of residual heterogeneity that we cannot explain ($QE$ = `r metareg$QE`, p = `r metareg$QEp`). 
+
+#### Funnel Plot with Residuals
+
+Now that we have a full model estimated, we can extract the residuals from this model and re-make our funnel plot using the residuals. 
+
+
+```{r funnelresid, echo=TRUE, fig.align='center', fig.cap= "Funnel plot of meta-analytic residuals against precision (1 / SE). The dotted lines are the theoretical 95% sampling variance intervals - the interval with which we expect effect size estimates to fall within if only sampling variance drives differences in effects. Shaded regions represent the p-value of studies. The white region indicates studies where the p-value is between 0.1 and 1; dark gray where the p-value of studies is between 0.05 and 0.1 and the lighter gray regions where the p-value of studies is significant." }
+# Extract residuals based on the fixed effect predictions (marginal) and the fixed and random effect (conditional)
+resid_marg <- arnold_data_endo$Zr - predict(metareg)[[1]]     # Calculates the residuals based on fixed effects only
+ vi_residm <- arnold_data_endo$Zr_v + predict(metareg)[[2]]^2 # Adds prediction errors
+ 
+# Conditional requires random effect blups for study (Ref) and effect size obs
+ blups <- ranef(metareg)  # extracts blups for each random effect. Stored as a list.
+
+ study_ef <- blups$Ref[[1]][match(arnold_data_endo$Ref, row.names(blups$Ref))] # This code will expand each random effect for study out to match the study ID across the entire dataset
+study_vi <- (blups$Ref[[2]][match(arnold_data_endo$Ref, row.names(blups$Ref))])^2
+
+effect_effect <- blups$obs[[1]]
+    vi_effect <- blups$obs[[1]]^2
+
+ # Now we have everything we need to calculate residuals
+     resid_cond <- arnold_data_endo$Zr - (predict(metareg)[[1]] + study_ef + effect_effect)
+  vi_resid_cond <- vi_residm + study_vi + vi_effect
+
+# Lets make a funnel plot to visualize the data in relation to the precision, inverse sampling standard error, 
+par(mfrow = c(1,2))
+metafor::funnel(x = resid_marg, vi = vi_residm, yaxis = "seinv", digits = 2, level = c(0.1, 0.05, 0.01), shade = c("white", "gray55", "gray 75"), las = 1, xlab = "Meta-analytic Residuals (marginal)", legend = FALSE)
+metafor::funnel(x = resid_cond, vi = vi_resid_cond, yaxis = "seinv", digits = 2, level = c(0.1, 0.05, 0.01), shade = c("white", "gray55", "gray 75"), las = 1, xlab = "Meta-analytic Residuals (conditional)", legend = FALSE)
+```
+
+
+#### How do our conclusions about the possibility change by plotting residuals? {.tabset .tabset-fade .tabset-pills} 
+
+##### Task! {.tabset .tabset-fade .tabset-pills} 
+
+**After looking at the new funnel plots (Fig. \@ref(fig:funnelresid)) that account for varying amounts of heterogeneity in the model would you say our conclusions about publication bias being present or not change at all? If not, why not?** 
+
+##### Answer! {.tabset .tabset-fade .tabset-pills} 
+
+Maybe. Even after accounting for factors that explain (or estimate) heterogeneity in the data we still see areas of the funnel plot that appear to be missing effect size estimates, notably for the marginal residuals we still see the missing effects on the left side. However, when looking at the conditional (taking into account fixed and random effects) we see that there is a gap yet when precision is low, but we are still seeing some effect size estimates being published with very low precision, which is not really what we might expect from publication bias.
 
 ## **References**
 
