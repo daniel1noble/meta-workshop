@@ -68,7 +68,7 @@ $$
 y_{i,j,k} = \mu + s_{j} + spp_{k} + e_{i,j,k} + m_{i,j,k} \\
 m_{i,j,k} \sim N(0, v_{i,j}) \\
 s_{j} \sim N(0, \tau^2) \\
-s_{k} \sim N(0, \sigma_{k}^2) \\
+spp_{k} \sim N(0, \sigma_{k}^2) \\
 e_{i,j,k} \sim N(0, \sigma_{e}^2)
 $$
 
@@ -80,7 +80,7 @@ $$
 y_{i} = \mu + s_{j[i]} + spp_{k[i]} + e_{i} + m_{i} \\
 m_{i} \sim N(0, v_{i}) \\
 s_{j} \sim N(0, \tau^2) \\
-s_{k} \sim N(0, \sigma_{k}^2) \\
+spp_{k} \sim N(0, \sigma_{k}^2) \\
 e_{i} \sim N(0, \sigma_{e}^2)
 $$
 

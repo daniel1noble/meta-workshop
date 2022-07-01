@@ -2043,7 +2043,7 @@ e_{i,j} \sim N(0, \sigma_{e}^2)
 y_{i,j,k} = \mu + s_{j} + spp_{k} + e_{i,j,k} + m_{i,j,k} \\
 m_{i,j,k} \sim N(0, v_{i,j}) \\
 s_{j} \sim N(0, \tau^2) \\
-s_{k} \sim N(0, \sigma_{k}^2) \\
+spp_{k} \sim N(0, \sigma_{k}^2) \\
 e_{i,j,k} \sim N(0, \sigma_{e}^2)
 \]</span></p>
 <p>Here, <span class="math inline">\(y_{i,j, k}\)</span> is now the <em>i</em>th effect size from study <em>j</em> and species <em>k</em>. <span class="math inline">\(m_{i,j, k}\)</span> is effect size <em>i</em>’s known sampling variance from study <em>j</em> and species <em>k</em>. <span class="math inline">\(e_{i,j, k}\)</span> is the effect-size-specific (within study) applied to each effect <em>i</em> from study <em>j</em> and species <em>k</em>. <span class="math inline">\(s_{j}\)</span> is still the study specific effect, <em>j</em>, applied to the <em>i</em>th effect size, where <em>j</em> = 1,…,<span class="math inline">\(N_{studies}\)</span>, but now <span class="math inline">\(spp_{k}\)</span> is the species specific effect, <em>k</em>, applied to the <em>i</em>th effect size, where <em>k</em> = 1,…,<span class="math inline">\(N_{species}\)</span>.</p>
@@ -2052,7 +2052,7 @@ e_{i,j,k} \sim N(0, \sigma_{e}^2)
 y_{i} = \mu + s_{j[i]} + spp_{k[i]} + e_{i} + m_{i} \\
 m_{i} \sim N(0, v_{i}) \\
 s_{j} \sim N(0, \tau^2) \\
-s_{k} \sim N(0, \sigma_{k}^2) \\
+spp_{k} \sim N(0, \sigma_{k}^2) \\
 e_{i} \sim N(0, \sigma_{e}^2)
 \]</span></p>
 </div>
@@ -2173,14 +2173,14 @@ print(MLMA)</code></pre>
 </div>
 <div id="session-information" class="section level2">
 <h2><strong>Session Information</strong></h2>
-<p><strong>R version 4.2.1 (2022-06-23)</strong></p>
+<p><strong>R version 4.2.0 (2022-04-22)</strong></p>
 <p><strong>Platform:</strong> aarch64-apple-darwin20 (64-bit)</p>
 <p><strong>attached base packages:</strong>
 <em>stats</em>, <em>graphics</em>, <em>grDevices</em>, <em>utils</em>, <em>datasets</em>, <em>methods</em> and <em>base</em></p>
 <p><strong>other attached packages:</strong>
-<em>magick(v.2.7.3)</em>, <em>vembedr(v.0.1.5)</em>, <em>equatags(v.0.2.0)</em>, <em>mathjaxr(v.1.6-0)</em>, <em>pander(v.0.6.5)</em>, <em>orchaRd(v.2.0)</em>, <em>forcats(v.0.5.1)</em>, <em>stringr(v.1.4.0)</em>, <em>dplyr(v.1.0.9)</em>, <em>purrr(v.0.3.4)</em>, <em>readr(v.2.1.2)</em>, <em>tidyr(v.1.2.0)</em>, <em>tibble(v.3.1.7)</em>, <em>ggplot2(v.3.3.6)</em>, <em>tidyverse(v.1.3.1)</em>, <em>flextable(v.0.7.2)</em>, <em>metafor(v.3.4-0)</em>, <em>metadat(v.1.2-0)</em> and <em>Matrix(v.1.4-1)</em></p>
+<em>magick(v.2.7.3)</em>, <em>vembedr(v.0.1.5)</em>, <em>equatags(v.0.1.1)</em>, <em>mathjaxr(v.1.6-0)</em>, <em>pander(v.0.6.5)</em>, <em>orchaRd(v.2.0)</em>, <em>forcats(v.0.5.1)</em>, <em>stringr(v.1.4.0)</em>, <em>dplyr(v.1.0.9)</em>, <em>purrr(v.0.3.4)</em>, <em>readr(v.2.1.2)</em>, <em>tidyr(v.1.2.0)</em>, <em>tibble(v.3.1.7)</em>, <em>ggplot2(v.3.3.6)</em>, <em>tidyverse(v.1.3.1)</em>, <em>flextable(v.0.7.1)</em>, <em>metafor(v.3.4-0)</em>, <em>metadat(v.1.2-0)</em> and <em>Matrix(v.1.4-1)</em></p>
 <p><strong>loaded via a namespace (and not attached):</strong>
-<em>nlme(v.3.1-157)</em>, <em>fs(v.1.5.2)</em>, <em>lubridate(v.1.8.0)</em>, <em>httr(v.1.4.3)</em>, <em>tools(v.4.2.1)</em>, <em>backports(v.1.4.1)</em>, <em>bslib(v.0.3.1)</em>, <em>utf8(v.1.2.2)</em>, <em>R6(v.2.5.1)</em>, <em>DBI(v.1.1.3)</em>, <em>colorspace(v.2.0-3)</em>, <em>withr(v.2.5.0)</em>, <em>tidyselect(v.1.1.2)</em>, <em>curl(v.4.3.2)</em>, <em>compiler(v.4.2.1)</em>, <em>cli(v.3.3.0)</em>, <em>rvest(v.1.0.2)</em>, <em>formatR(v.1.12)</em>, <em>pacman(v.0.5.1)</em>, <em>xml2(v.1.3.3)</em>, <em>officer(v.0.4.3)</em>, <em>bookdown(v.0.27)</em>, <em>sass(v.0.4.1)</em>, <em>scales(v.1.2.0)</em>, <em>systemfonts(v.1.0.4)</em>, <em>digest(v.0.6.29)</em>, <em>rmarkdown(v.2.14)</em>, <em>katex(v.1.4.0)</em>, <em>base64enc(v.0.1-3)</em>, <em>pkgconfig(v.2.0.3)</em>, <em>htmltools(v.0.5.2)</em>, <em>dbplyr(v.2.2.1)</em>, <em>fastmap(v.1.1.0)</em>, <em>rlang(v.1.0.3)</em>, <em>readxl(v.1.4.0)</em>, <em>rstudioapi(v.0.13)</em>, <em>jquerylib(v.0.1.4)</em>, <em>generics(v.0.1.2)</em>, <em>jsonlite(v.1.8.0)</em>, <em>zip(v.2.2.0)</em>, <em>magrittr(v.2.0.3)</em>, <em>Rcpp(v.1.0.8.3)</em>, <em>munsell(v.0.5.0)</em>, <em>fansi(v.1.0.3)</em>, <em>gdtools(v.0.2.4)</em>, <em>lifecycle(v.1.0.1)</em>, <em>stringi(v.1.7.6)</em>, <em>yaml(v.2.3.5)</em>, <em>grid(v.4.2.1)</em>, <em>crayon(v.1.5.1)</em>, <em>lattice(v.0.20-45)</em>, <em>haven(v.2.5.0)</em>, <em>hms(v.1.1.1)</em>, <em>knitr(v.1.39)</em>, <em>klippy(v.0.0.0.9500)</em>, <em>pillar(v.1.7.0)</em>, <em>uuid(v.1.1-0)</em>, <em>reprex(v.2.0.1)</em>, <em>xslt(v.1.4.3)</em>, <em>glue(v.1.6.2)</em>, <em>evaluate(v.0.15)</em>, <em>V8(v.4.2.0)</em>, <em>data.table(v.1.14.2)</em>, <em>remotes(v.2.4.2)</em>, <em>modelr(v.0.1.8)</em>, <em>vctrs(v.0.4.1)</em>, <em>tzdb(v.0.3.0)</em>, <em>cellranger(v.1.1.0)</em>, <em>gtable(v.0.3.0)</em>, <em>assertthat(v.0.2.1)</em>, <em>xfun(v.0.31)</em>, <em>broom(v.0.8.0)</em> and <em>ellipsis(v.0.3.2)</em></p>
+<em>nlme(v.3.1-157)</em>, <em>fs(v.1.5.2)</em>, <em>lubridate(v.1.8.0)</em>, <em>httr(v.1.4.3)</em>, <em>tools(v.4.2.0)</em>, <em>backports(v.1.4.1)</em>, <em>bslib(v.0.3.1)</em>, <em>utf8(v.1.2.2)</em>, <em>R6(v.2.5.1)</em>, <em>DBI(v.1.1.3)</em>, <em>colorspace(v.2.0-3)</em>, <em>withr(v.2.5.0)</em>, <em>tidyselect(v.1.1.2)</em>, <em>curl(v.4.3.2)</em>, <em>compiler(v.4.2.0)</em>, <em>cli(v.3.3.0)</em>, <em>rvest(v.1.0.2)</em>, <em>formatR(v.1.12)</em>, <em>pacman(v.0.5.1)</em>, <em>xml2(v.1.3.3)</em>, <em>officer(v.0.4.2)</em>, <em>bookdown(v.0.26)</em>, <em>sass(v.0.4.1)</em>, <em>scales(v.1.2.0)</em>, <em>systemfonts(v.1.0.4)</em>, <em>digest(v.0.6.29)</em>, <em>rmarkdown(v.2.14)</em>, <em>base64enc(v.0.1-3)</em>, <em>pkgconfig(v.2.0.3)</em>, <em>htmltools(v.0.5.2)</em>, <em>dbplyr(v.2.2.1)</em>, <em>fastmap(v.1.1.0)</em>, <em>rlang(v.1.0.3)</em>, <em>readxl(v.1.4.0)</em>, <em>rstudioapi(v.0.13)</em>, <em>jquerylib(v.0.1.4)</em>, <em>generics(v.0.1.2)</em>, <em>jsonlite(v.1.8.0)</em>, <em>zip(v.2.2.0)</em>, <em>magrittr(v.2.0.3)</em>, <em>Rcpp(v.1.0.8.3)</em>, <em>munsell(v.0.5.0)</em>, <em>fansi(v.1.0.3)</em>, <em>gdtools(v.0.2.4)</em>, <em>lifecycle(v.1.0.1)</em>, <em>stringi(v.1.7.6)</em>, <em>yaml(v.2.3.5)</em>, <em>grid(v.4.2.0)</em>, <em>crayon(v.1.5.1)</em>, <em>lattice(v.0.20-45)</em>, <em>haven(v.2.5.0)</em>, <em>hms(v.1.1.1)</em>, <em>knitr(v.1.39)</em>, <em>klippy(v.0.0.0.9500)</em>, <em>pillar(v.1.7.0)</em>, <em>uuid(v.1.1-0)</em>, <em>reprex(v.2.0.1)</em>, <em>xslt(v.1.4.3)</em>, <em>glue(v.1.6.2)</em>, <em>evaluate(v.0.15)</em>, <em>data.table(v.1.14.2)</em>, <em>remotes(v.2.4.2)</em>, <em>modelr(v.0.1.8)</em>, <em>vctrs(v.0.4.1)</em>, <em>tzdb(v.0.3.0)</em>, <em>cellranger(v.1.1.0)</em>, <em>gtable(v.0.3.0)</em>, <em>assertthat(v.0.2.1)</em>, <em>locatexec(v.0.1.1)</em>, <em>xfun(v.0.31)</em>, <em>broom(v.0.8.0)</em> and <em>ellipsis(v.0.3.2)</em></p>
 </div>
 <div id="back-to-table-of-contents" class="section level2 hide">
 <h2><a href="https://daniel1noble.github.io/meta-workshop/">Back to Table of Contents</a></h2>
