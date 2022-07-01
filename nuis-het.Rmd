@@ -131,8 +131,13 @@ head(q10_dat %>% mutate(exp_lnRR_Q10 = exp(lnRR_Q10)) %>% select(exp_lnRR_Q10, Q
 
 ```
 
-**Interpretation**: Now that we have our $lnRR_{Q_{10}}$ effect size estimates which we back-transformed how do we interpret them? Given these are simply $Q_{10}$'s we can interpret these normally. **For the first row of our data we can see that dive duration when temperatures increase by 10$^{\circ}$C is expected to decrease by ~67% (1-0.33)**. In other words, the dive duration 10$^{\circ}$C above the first temperature is 33% of the rate 10$^{\circ}$C lower. 
+#### Now that we have our $lnRR_{Q_{10}}$ effect size estimates which we back-transformed how do we interpret them? {.tabset .tabset-fade .tabset-pills} 
 
+##### Task {.tabset .tabset-fade .tabset-pills} 
+**How do we interpret $lnRR_{Q_{10}}$?** 
+
+##### Answer {.tabset .tabset-fade .tabset-pills} 
+Given these are simply $Q_{10}$'s we can interpret these normally. **For the first row of our data we can see that dive duration when temperatures increase by 10$^{\circ}$C is expected to decrease by ~67% (1-0.33)**. In other words, the dive duration 10$^{\circ}$C above the first temperature is 33% of the rate 10$^{\circ}$C lower. 
 
 ### **Acclimation Response Ratio, ARR**
 
@@ -195,8 +200,13 @@ asr_dat<-asr_dat %>%
 head(asr_dat %>% select(ARR, V_ARR))
 ```
 
+#### Now try to interpret $ARR$ effect size estimates from the model {.tabset .tabset-fade .tabset-pills} 
 
-**Interpretation**: If we look at the first row of data, **we can see that for each degree increase in acclimation temperature, the heat tolerance of the animals included in this data set increases by `r asr_dat[1,"ARR"]`$^{\circ}$C**. 
+##### Task {.tabset .tabset-fade .tabset-pills} 
+**How do we interpret $ARR$?** 
+
+##### Answer {.tabset .tabset-fade .tabset-pills} 
+If we look at the first row of data, **we can see that for each degree increase in acclimation temperature, the heat tolerance of the animals included in this data set increases by `r asr_dat[1,"ARR"]`$^{\circ}$C**. 
 
 ## **References**
 
