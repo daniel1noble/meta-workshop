@@ -611,7 +611,8 @@ phylo_cor <- vcv(tree, cor = T)
 
 ## Phylegeny2
 ```{r}
-plot(tree, type = "fan", adj = 0.5, cex = 0.8)
+par(mar=c(0,0,0,0))
+plot(tree, type = "fan", adj = 0.5, cex = 0.65)
 ```
 
 ## Phylegeny3
@@ -623,3 +624,150 @@ overall_model <- metafor::rma.mv(yi = Zr, V = V_Zr, mod = ~1, random = list(~1 |
         dplyr::mutate(species_OTL = stringr::str_replace_all(species_OTL, " ", "_")))
 summary(overall_model)
 ```
+
+
+## Shared Control
+
+```{r, sc1, echo = TRUE}
+# Load packages
+
+# install.packages('devtools') # We need this package to download from GitHub.
+# Un-comment if you don't already have it installed.
+devtools::install_github("daniel1noble/metaAidR")  # We've created a useful function for creating matrices here
+pacman::p_load(metaAidR, metafor, corrplot)
+
+# Load the data
+mass_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/Mass.data.csv")
+```
+
+## Shared Control2
+
+```{r, sc2, echo = TRUE}
+## Calculate the log response ratio
+mass_data <- escalc(measure = "ROM", n1i = treat_N, n2i = control_N, m1i = treat_mean,
+    m2i = control_mean, sd1i = treat_error, sd2i = control_error, data = mass_data)
+mass_data$obs <- 1:dim(mass_data)[1]
+```
+
+## Shared Control2
+
+```{r, sc3, echo = TRUE}
+## Calculate the M matrix
+M <- make_VCV_matrix(data = mass_data, V = "vi", cluster = "comparison_ID", m = "control_mean",
+    sd = "control_error", n = "control_N", type = "vcv", vcal = "ROM", obs = "obs")
+```
+
+## shared2
+
+```{r, sc4, echo = TRUE}
+## Plot the M matrix as a correlation matrix
+corrplot::corrplot(cov2cor(M))
+```
+
+## Share4
+
+```{r, sc5, echo = TRUE}
+# full model including all random effects and moderators to do AICc model
+# selection on
+mlma <- rma.mv(yi = yi, V = M, mod = ~1, random = list(~1 | paper_no, ~1 | Genus_species,
+    ~1 | data_ID), data = mass_data, method = "REML", test = "t", dfs = "contain")
+summary(mlma)
+```
+
+
+## Het 1
+
+
+```{r}
+# install.packages("pacman") ; uncomment this line if you haven't already installed 'pacman'
+pacman::p_load(metafor, tidyverse)
+
+asr_dat <- read.csv("https://osf.io/qn2af/download")
+
+#' @title arr
+#' @description Calculates the acclimation response ratio (ARR).  
+#' @param t2_l  Lowest of the two treatment temperatures
+#' @param t1_h  Highest of the two treatment temperatures
+#' @param x1_h  Mean trait value at high temperature
+#' @param x2_l  Mean trait value at low temperature
+#' @param sd1_h Standard deviation of mean trait value at high temperature
+#' @param sd2_l Standard deviation of mean trait value at low temperature
+#' @param n1_h  Sample size at high temperature
+#' @param n2_l  Sample size at low temperature
+
+arr <- function(x1_h, x2_l, sd1_h, sd2_l, n1_h, n2_l, t1_h, t2_l){
+        ARR <- (x1_h - x2_l)/(t1_h - t2_l)
+      V_ARR <- ((1/(t1_h - t2_l))^2*(sd2_l^2/n2_l + sd1_h^2/n1_h))
+return(data.frame(ARR, V_ARR))
+}
+
+# Calculate the effect sizes
+asr_dat<-asr_dat %>% 
+              mutate(ARR= arr(x1_h = mean_high, x2_l = mean_low, t1_h = acc_temp_high, t2_l = acc_temp_low, 
+                              sd1_h = sd_high, sd2_l = sd_low, n1_h = n_high_adj, n2_l = n_low_adj)[,1], 
+                     V_ARR = arr(x1_h =  mean_high, x2_l = mean_low, t1_h = acc_temp_high, t2_l = acc_temp_low, 
+                           sd1_h = sd_high, sd2_l = sd_low, n1_h = n_high_adj, n2_l = n_low_adj)[,2]) %>% 
+                filter(sex == "female")
+
+# Re-fit the multilevel meta-analytic model
+MLMA <- metafor::rma.mv(yi= ARR~ 1, V = V_ARR, 
+                   method="REML",
+                   random=list(~1|species_ID,
+                               ~1|study_ID,
+                               ~1|es_ID), 
+                   dfs = "contain",
+                   test="t",
+                   data=asr_dat)
+```
+
+
+## Het2
+
+$$ 
+\begin{equation} 
+I^2_{total} = \frac{\sigma^2_{study} + \sigma^2_{phylogeny} + \sigma^2_{species} + \sigma^2_{residual}}{\sigma^2_{study} + \sigma^2_{phylogeny} + \sigma^2_{species} + \sigma^2_{residual} +\sigma^2_{m}} \
+(\#eq:itot)
+\end{equation} 
+$$
+
+```{r i2, echo=TRUE}
+# The orchaRd package has some convenient functions for calculating various I2 estimates including total. We'll load and install that package
+#install.packages("pacman")
+pacman::p_load(devtools, tidyverse, metafor, patchwork, R.rsp, emmeans, flextable)
+
+#devtools::install_github("daniel1noble/orchaRd", force = TRUE, build_vignettes = TRUE)
+library(orchaRd)
+
+orchaRd::i2_ml(MLMA, data = asr_dat)
+
+```
+
+
+## PIs
+
+$$ 
+\begin{equation} 
+PI \sim  \bar{u} \pm 1.96 \sqrt{SE^2 + \sigma^2_{study} +  \sigma^2_{species} + \sigma^2_{residual}}
+(\#eq:pi)
+\end{equation} 
+$$
+
+
+```{r pis, echo=TRUE}
+# Calculate the prediction intervals
+predict(MLMA)
+```
+
+
+## 2
+
+```{r, echo=TRUE}
+
+l.pi.z = 0.1668 - 1.96*sqrt(MLMA$se^2 + sum(MLMA$sigma2))
+u.pi.z = 0.1668 + 1.96*sqrt(MLMA$se^2 + sum(MLMA$sigma2))
+
+c(l.pi.z, u.pi.z)
+
+l.pi.t = 0.1668 - qt(0.975, df = 20)*sqrt(MLMA$se^2 + sum(MLMA$sigma2))
+u.pi.t = 0.1668 + qt(0.975, df = 20)*sqrt(MLMA$se^2 + sum(MLMA$sigma2))
+c(l.pi.t, u.pi.t)
