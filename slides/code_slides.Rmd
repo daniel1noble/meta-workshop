@@ -661,7 +661,7 @@ M <- make_VCV_matrix(data = mass_data, V = "vi", cluster = "comparison_ID", m = 
 
 ```{r, sc4, echo = TRUE}
 ## Plot the M matrix as a correlation matrix
-corrplot::corrplot(cov2cor(M))
+corrplot::corrplot(cov2cor(M), tl.cex = 0.6, cl.cex = 0.6)
 ```
 
 ## Share4
@@ -771,3 +771,15 @@ c(l.pi.z, u.pi.z)
 l.pi.t = 0.1668 - qt(0.975, df = 20)*sqrt(MLMA$se^2 + sum(MLMA$sigma2))
 u.pi.t = 0.1668 + qt(0.975, df = 20)*sqrt(MLMA$se^2 + sum(MLMA$sigma2))
 c(l.pi.t, u.pi.t)
+```
+
+## MetaReg
+
+```{r metareg, echo = TRUE}
+meta_reg <- metafor::rma.mv(yi= ARR ~ 1 + method + class, V = V_ARR, method="REML", 
+                            random=list(~1|species_ID, 
+                                        ~1|study_ID, 
+                                        ~1|es_ID), 
+                            dfs = "contain", test="t", data=asr_dat)
+meta_reg
+```
