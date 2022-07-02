@@ -33,7 +33,7 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 Meta-analysis quantitatively aggregates effect size data collected from existing research. The effect size one uses for a study question needs to be chosen carefully. Each make certain assumptions about the underlying data. It's important to be weary of these assumptions and identify when something might have gone wrong. 
 
-The effect size chosen must satisfy two important features. First, the effect size must be comparable across studies. This means that they must be placed on the same scale so that they can be aggregated. Some effect size estimates can be inter-converted to each other (e.g., Zr, Hedges' g), but this isn't the case for all of them. Second, we must be able to derive or approximate the sampling variance for a given effect size. As [already indicated](https://daniel1noble.github.io/meta-workshop/introduction-to-meta), the sampling variance is very important if one wishes to use meta-analytic models that account for sampling variance and is needed to report certain measures of heterogeneity. 
+The effect size chosen must satisfy two important features. First, the effect size must be comparable across studies. This means that they must be placed on the same scale so that they can be aggregated. Some effect size estimates can be inter-converted to each other (e.g., Zr, Hedges' g), but this isn't the case for all of them. Second, we must be able to derive or approximate the sampling variance for a given effect size. As [already indicated](https://daniel1noble.github.io/meta-workshop/introduction-to-meta), the sampling variance is very important if one wishes to use meta-analytic models that account for sampling variance and is needed to report certain measures of [heterogeneity](https://daniel1noble.github.io/meta-workshop/het). 
 
 Meta-analyses in comparative physiology, and indeed, ecology and evolution more generally, often use highly heterogeneous data [@Noble2022; @Senior2016]. This poses other challenges in aggregating effect size data that make their comparability questionable. We'll discuss some of these issues in later [tutorials](https://daniel1noble.github.io/meta-workshop/nuis-het) and identify some ways in which some of this heterogeneity can be dealt with when deriving the effect size itself. 
 
@@ -146,6 +146,7 @@ For complete detail on the study aim and design, please see [@WuSeebacher2022](h
 Download the data. The following code illustrates how to calculate the Fisher z-transformed effect size (Zr) and sampling variance (V_Zr) from correlation coefficients (ri) and sample size (ni) using 10 rows of data from the main dataset.
 
 ```{r Zr, message=FALSE}
+# Download and clean data
 zr_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/ind_disp_raw_data.csv") %>%
   dplyr::select(study_ID, taxa, species, trait, response, response_unit, disp_trait, disp_unit, corr_coeff, sample_size) %>% # remove irrelevant columns for this tutorial
   dplyr::top_n(10) # select first 10 effect sizes to illustrate escalc function
@@ -178,11 +179,12 @@ For complete detail on the study aim and design, please see [@WuSeebacher2022](h
 Download the data. The following code illustrates how to calculate the log response ratio (yi) and sampling variance (vi) from the mean (mi), sample size (ni) and standard deviation (sdi) from the edge population (1), and core population (2) using 10 row of data from the main dataset.
 
 ```{r lnRR, message=FALSE}
+# Download and clean data
 ratio_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/pop_disp_raw_data.csv") %>%
   dplyr::select(study_ID, taxa, species, trait, response, response_unit, mean_core, sd_core, n_core, mean_front, sd_front, n_front) %>% # remove irrelevant columns for this tutorial
   dplyr::top_n(10) # select first 10 effect sizes to illustrate escalc function
 
-# Calculate log response ratio (lnRR) as yi = effect size and vi = sampling variances, where m1i = mean of edge population, n1i = sample size of edge population, sd1i = standard deviation of edge population, m2i = mean of core population, n2i = sample size of core population, sd2i = standard divation of core population.
+# Calculate log response ratio (lnRR) as yi = effect size and vi = sampling variances, where m1i = mean of edge population, n1i = sample size of edge population, sd1i = standard deviation of edge population, m2i = mean of core population, n2i = sample size of core population, sd2i = standard deviation of core population.
 ratio_data <- metafor::escalc(measure = "ROM", 
                               m1i = mean_front, n1i = n_front, sd1i = sd_front,
                               m2i = mean_core, n2i = n_core, sd2i = sd_core, 
