@@ -869,19 +869,13 @@ metafor::funnel(x = resid_cond, vi = vi_resid_cond, yaxis = "seinv", digits = 2,
 ## Pub bias 4
 
 $$
-\begin{equation}
-y_{i} = \mu + \beta_{se}se +  s_{j[i]} + spp_{k[i]} + e_{i} + m_{i} \\
-(\#eq:itot1)
-\end{equation}
+y_{i} = \mu + \beta_{se}se +  s_{j[i]} + spp_{k[i]} + e_{i} + m_{i}
 $$
 
 ## Pub bias 4.3
 
 $$
-\begin{equation}
-y_{i} = \mu + \sum_{i = 1}^{N_{m}}\beta_{m}x_{m} + \beta_{se}se + \beta_{y}Year +  s_{j[i]} + spp_{k[i]} + e_{i} + m_{i} \\
-(\#eq:itot2)
-\end{equation}
+y_{i} = \mu + \sum_{i = 1}^{N_{m}}\beta_{m}x_{m} + \beta_{se}se + \beta_{y}Year +  s_{j[i]} + spp_{k[i]} + e_{i} + m_{i}
 $$
 
 ## Pub bias 5
