@@ -186,7 +186,7 @@ Prediction intervals can be calculated in a similar way to confidence intervals 
 
 $$ 
 \begin{equation} 
-PI =  \bar{u} \pm 1.96 \sqrt{SE^2 + \sigma^2_{study} +  \sigma^2_{species} + \sigma^2_{residual}}
+PI \sim  \bar{u} \pm 1.96 \sqrt{SE^2 + \sigma^2_{study} +  \sigma^2_{species} + \sigma^2_{residual}}
 (\#eq:pi)
 \end{equation} 
 $$
@@ -239,7 +239,7 @@ print(MLMA)
 
 Of course, there are a multitude of ways that we could describe this test in words, but one way to describe it in your results section might be as follows:
 
-> The overall mean ARR across ectotherms was `r MLMA$b` and differed significantly from zero (95% CI: `r MLMA$ci.lb` to `r MLMA$ci.ub`, df = `r MLMA$ddf`, t = `r MLMA$b / MLMA$se`, p < 0.001). However, there was significant residual heterogeneity (*Q* = `r MLMA$QE`, df = `r dim(MLMA$data)[1]-1`, p < 0.001) even after accounting for a number of random effects with estimates expected to range from `r predict(MLMA)[[5]]` to `r predict(MLMA)[[6]]` (95% Prediction Interval).
+> The overall mean ARR across ectotherms was `r MLMA$b` and differed significantly from zero (95% CI: `r MLMA$ci.lb` to `r MLMA$ci.ub`, df = `r MLMA$ddf`, t = `r MLMA$b / MLMA$se`, p < 0.001). However, there was significant residual heterogeneity (*Q* = `r MLMA$QE`, df = `r dim(MLMA$data)[1]-1`, p < 0.001) with estimates expected to range from `r predict(MLMA)[[5]]` to `r predict(MLMA)[[6]]` (95% Prediction Interval).
 
 <br>
 
