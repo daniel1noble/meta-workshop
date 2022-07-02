@@ -551,3 +551,75 @@ MLMA <- metafor::rma.mv(yi= ARR~ 1, V = V_ARR,
 print(MLMA)
 
 ```
+
+## Phylogeny1
+
+```{r, phylo}
+## Load packages
+# install.packages("pacman")
+pacman::p_load(tidyverse, metafor, ape, phytools)
+
+zr_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-workshop/gh-pages/data/ind_disp_raw_data.csv") %>%
+  dplyr::select(-dispersal_def) %>% # remove irrelevant columns
+  tibble::rowid_to_column("es_ID") %>% # add effect size ID
+  dplyr::mutate(species_OTL = stringr::str_replace_all(species_OTL, "_", " ")) # remove underscore for some species with missing underscore. Some inconsistency when curating the database.
+
+# Calculate Fisher's r-to-z transformed correlation coefficient (ZCOR) as yi = effect size and vi = sampling variances, where ri = raw correlation coefficients, and ni = sample size.
+zr_data <- metafor::escalc(measure = "ZCOR", ri = corr_coeff, ni = sample_size, data = zr_data, var.names = c("Zr", "V_Zr"))
+
+# Load additional packages for phylogenetic reconstruction
+pacman::p_load(rotl, ape)
+
+# Create species list based on OTL names and match with OTL database
+species <- sort(unique(as.character(zr_data$species_OTL)))  # generate list of species (as character format)
+taxa <- rotl::tnrs_match_names(names = species)  # match taxonomic names to the OTL
+
+# Check if species list do not match OTL identifier
+taxa[taxa$approximate_match == TRUE, ]  # none so far
+
+# Retrieving phylogenetic relationships among taxa in the form of a trimmed
+# sub-tree
+tree <- rotl::tol_induced_subtree(ott_ids = ott_id(taxa), label_format = "name")
+
+tree_tip_label <- tree$tip.label  # extract tree tip names
+species_list <- unique(stringr::str_replace_all(zr_data$species_OTL, " ", "_"))  # extract species name and add underscore to match tree_trip_label
+
+setdiff(tree_tip_label, species_list)  # check what names from the raw data is not found in tree. 
+
+# If names do not match the tree, then replace name in raw data to match tree
+
+# You can also visually inspect the tree via plot function to check if the
+# species extracted are correct. plot(tree, cex = 0.6, label.offset = 0.1,
+# no.margin = TRUE) # plot tree
+
+set.seed(1)
+tree <- ape::compute.brlen(tree, method = "Grafen", power = 0.5)  # compute branch lengths
+tree <- ape::multi2di(tree, random = TRUE)  # use a randomization approach to deal with polytomies
+
+# Note, an internal node of a phylogenetic tree is described as a polytomy if
+# (i) it is in a rooted tree and is linked to three or more subtrees or (ii) it
+# is in an unrooted tree and is attached to four or more branches which is
+# commonly observed with data extracted from OTL. This is the result of
+# insufficient phylogenetic information such such as divergence time. To
+# resolve polytomies, we use the multi2di function from the ape package.
+
+# Check tree is ultrametric ape::is.ultrametric(tree) # TRUE
+
+# Create correlation matrix for analysis
+phylo_cor <- vcv(tree, cor = T)
+```
+
+## Phylegeny2
+```{r}
+plot(tree, type = "fan", adj = 0.5, cex = 0.8)
+```
+
+## Phylegeny3
+
+```{r, phylomod, echo = TRUE}
+overall_model <- metafor::rma.mv(yi = Zr, V = V_Zr, mod = ~1, random = list(~1 |
+    study_ID, ~1 | es_ID, ~1 | species, ~1 | species_OTL), R = list(species_OTL = phylo_cor),
+    method = "REML", test = "t", dfs = "contain", data = zr_data %>%
+        dplyr::mutate(species_OTL = stringr::str_replace_all(species_OTL, " ", "_")))
+summary(overall_model)
+```
