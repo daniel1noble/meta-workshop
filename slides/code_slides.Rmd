@@ -5,6 +5,8 @@ output: powerpoint_presentation
 date: '`r Sys.Date()`'
 editor_options: 
   chunk_output_type: console
+  markdown: 
+    wrap: 72
 ---
 
 ```{r setup, include=FALSE}
@@ -15,16 +17,16 @@ pacman::p_load(metafor, flextable, tidyverse, orchaRd, pander, mathjaxr, equatag
 
 ## Slide with Bullets {.secondslide}
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
+-   Bullet 1
+-   Bullet 2
+-   Bullet 3
 
 $$
 y_{i} = x^2
 $$
 
-> - Eat eggs
-> - Drink coffee
+> -   Eat eggs
+> -   Drink coffee
 
 ## Slide with R Output {.thirdslide}
 
@@ -39,7 +41,6 @@ trt_26C <- rnorm(10, 0.60, 0.20)
 mean(trt_26C - trt_8C)
 t.test(trt_26C, trt_8C)
 ```
-
 
 ## Do 1000s of experiments
 
@@ -82,13 +83,10 @@ $$
 SE = SD / \sqrt{N}
 $$
 
-
 ```{r simfig2, echo = TRUE, tidy=TRUE}
 sd(expts$effect)
 
 ```
-
-
 
 ## se
 
@@ -112,11 +110,12 @@ sd(expts$effect)
 se <- sd(mass) / sqrt(length(mass))
 se
 ```
+
 ## Plots
+
 ```{r simfig3plot, echo = TRUE, eval = FALSE, tidy=TRUE}
    ggplot() + geom_histogram(aes(x = means))
 ```
-
 
 ## Zr
 
@@ -127,6 +126,7 @@ zr_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-worksho
 ```
 
 ## Effect calculation
+
 ```{r Zrescalc,  echo = TRUE}
 # Calculate Fisher's r-to-z transformed correlation coefficient (ZCOR) as yi = effect size and vi = sampling variances, where ri = raw correlation coefficients, and ni = sample size.
 zr_data <- metafor::escalc(measure = "ZCOR", ri = corr_coeff, ni = sample_size, data = zr_data, var.names=c("Zr","v_Zr"))
@@ -145,7 +145,6 @@ zr_data$r <- tanh(zr_data$Zr)
 zr_data %>% select(corr_coeff, r)
 ```
 
-
 ## Hedges
 
 ```{r lnRR, echo = TRUE}
@@ -155,6 +154,7 @@ contrast_data <- read.csv("https://raw.githubusercontent.com/daniel1noble/meta-w
 ```
 
 ## Hedgesg
+
 ```{r hedges, echo = TRUE}
 # Calculate Hedges' g as g = effect size and v_g = sampling variances, where m1i = mean of edge population, n1i = sample size of edge population, sd1i = standard deviation of edge population, m2i = mean of core population, n2i = sample size of core population, sd2i = standard deviation of core population.
 contrast_data <- metafor::escalc(measure = "SMD", 
@@ -164,8 +164,8 @@ contrast_data <- metafor::escalc(measure = "SMD",
 contrast_data %>% select(study_ID, mean_core, sd_core, n_core, mean_front, sd_front, n_front, g, v_g)
 ```
 
-
 ## lnRR
+
 ```{r lnRREffects, echo = TRUE, eval = FALSE}
 # Calculate log response ratio, lnRR = effect size and v_lnRR = sampling variances, where m1i = mean of edge population, n1i = sample size of edge population, sd1i = standard deviation of edge population, m2i = mean of core population, n2i = sample size of core population, sd2i = standard deviation of core population.
 contrast_data <- metafor::escalc(measure = "ROM", 
@@ -246,7 +246,6 @@ with(contrast_data, exp(log(mean_front[1]) - log(mean_core[1])) * mean_core[1])
 with(contrast_data, mean_front[1])
 ```
 
-
 ## Latency
 
 $$
@@ -268,13 +267,12 @@ SD_{p} = \sqrt{SD^2 \left ( \frac{1}{p} \right ) + \left ( \frac{p}{ 1 - p^2} \r
 $$
 
 ## Arcsine transformation
+
 $$
 \bar{X_{t}} = arcsine(\sqrt{\bar{{X}}})
-$$
-$$
+$$ $$
 SD_{t} = \sqrt{\frac{SD^2}{4\bar{X}\left ( 1- \bar{X}\right ) }}
-$$
-## Geary test - Counts
+$$ \## Geary test - Counts
 
 $$
 \frac{\bar{X}}{SD} \left ( \frac{4N^{3/2}}{1 + 4N} \right ) \geq 3
@@ -287,7 +285,7 @@ $$
   lnRR_{Q_{10}} = ln\left( \frac{R_{2}}{R_{1}} \right){ \left(\ \frac{10^{\circ}C}{T_{2}-T_{1}} \right) }
 (\#eq:lnq10)
 \end{equation} 
-$$ 
+$$
 
 $$
 \begin{equation} 
@@ -296,9 +294,7 @@ $$
 \end{equation} 
 $$
 
-
 ## Fixed effect
-
 
 ```{r fixmodel, echo = TRUE}
 
@@ -318,8 +314,8 @@ set.seed(86) # Set see so that we all get the same simulated results
 
 ```
 
-
 ## Fixed effects
+
 ```{r fePLOT, echo = FALSE}
   
   plot(stdy - 0.25 ~ es, col = "black", pch = 16, ylim = c(0, 6), xlim = c(1, 3.2), 
@@ -331,9 +327,7 @@ set.seed(86) # Set see so that we all get the same simulated results
          angle = 90, length = 0.05, col = "black")
 ```
 
-
 ## Fixed effect model
-
 
 ```{r, fixedma,  eval=TRUE, echo=TRUE}
 # Run a fixed effect meta-analysis using the FE dataset. 
@@ -342,14 +336,13 @@ set.seed(86) # Set see so that we all get the same simulated results
 
 ## Now by hand FE
 
-We can even do all the seemingly fancy stuff `metafor` is doing ourselves if we want....we just need to know the equations:
- $$
+We can even do all the seemingly fancy stuff `metafor` is doing
+ourselves if we want....we just need to know the equations: $$
   \bar{ES}= \sum{\left (W*ES \right )}/ \sum{W}
- $$
-$$
+ $$ $$
   \sigma_{\bar{ES}}^2= \frac{1}{\sum{W}}
  $$
- 
+
 ```{r, fixedmahand,  eval=TRUE, echo=TRUE}
 # Calculate pooled effect size
        EsP.FE <- sum(W*dataFE$es) / sum(W)
@@ -390,23 +383,25 @@ $$
          angle = 90, length = 0.05, col = "red")
   
 ```
-## random effect model
 
+## random effect model
 
 ```{r, re,  eval=TRUE, echo=TRUE}
 metafor::rma(yi = esRE, vi = Ves, method="DL", data = dataRE)
 ```
 
 ## Random by hand
-We first need to estimate $\tau^2$ or the between-study variance which can be calculated from these equations:
 
-$$\tau^2 = \frac{Q - df}{C} $$
-where 
+We first need to estimate $\tau^2$ or the between-study variance which
+can be calculated from these equations:
+
+$$\tau^2 = \frac{Q - df}{C} $$ where
 
 $$ Q = \sum_{i=1}^{k}{W_{i}ES_{i}^2} - \frac{ \left (\sum_{i=1}^{k}{W_{i}ES_{i}} \right)^2}{\sum_{i=1}^{k}{W_{i}}}$$
 $$ C = \sum{W_{i}} - \frac{\sum{W_{i}^2}}{\sum{W_{i}}}$$
 
 ## Random effect by hand 2
+
 ```{r, re_hand, eval=TRUE, echo=TRUE}
 # Calculate our Q statistic again
     Q <- sum(W*(dataRE$es^2) ) - (sum(W*dataRE$es)^2 / sum(W))
@@ -422,8 +417,8 @@ $$ C = \sum{W_{i}} - \frac{\sum{W_{i}^2}}{\sum{W_{i}}}$$
     T2
 ```
 
-
 ## Now that we have tau2 lets do the meta-analysis
+
 Remember, things are the same but the weighting is different now.
 
 ```{r, re_w, eval=TRUE, echo=TRUE}
@@ -476,6 +471,7 @@ lnRR_Q10 <- function(t1, t2, r1, r2, sd1, sd2, n1, n2, name ="acute"){
 ```
 
 ## Q10
+
 ```{r ln101, echo = TRUE, message=FALSE, warning=FALSE}
 q10_dat <- read.csv("https://osf.io/download/fb3ht/") 
 
@@ -486,14 +482,16 @@ head(q10_dat)
 ```
 
 ## Q10 Interpretation
+
 ```{r ln102, echo = TRUE,message=FALSE, warning=FALSE}
 # Now we can back-calculate to put on the original Q10 scale. We can than check that this matches the Q10 already in the data
 head(q10_dat %>% mutate(exp_lnRR_Q10 = exp(lnRR_Q10)) %>% select(exp_lnRR_Q10, Q10))
 
 ```
 
-**For the first row of our data we can see that dive duration when temperatures increase by 10$^{\circ}$C is expected to decrease by ~67% (1-0.33)**.
-
+**For the first row of our data we can see that dive duration when
+temperatures increase by 10**$^{\circ}$C is expected to decrease by
+\~67% (1-0.33).
 
 ## MLMA
 
@@ -504,7 +502,8 @@ pacman::p_load(metafor, tidyverse)
 asr_dat <- read.csv("https://osf.io/qn2af/download")
 ```
 
-We'll also need our function for calculating ARR and its sampling variance because these don't exist in any current packages. 
+We'll also need our function for calculating ARR and its sampling
+variance because these don't exist in any current packages.
 
 ```{r ARRfunc, echo = TRUE}
 #' @title arr
@@ -526,6 +525,7 @@ return(data.frame(ARR, V_ARR))
 ```
 
 ## Caluclate ARR
+
 ```{r, tidy=TRUE, echo = TRUE}
 # Calculate the effect sizes
 asr_dat<-asr_dat %>% 
@@ -610,6 +610,7 @@ phylo_cor <- vcv(tree, cor = T)
 ```
 
 ## Phylegeny2
+
 ```{r}
 par(mar=c(0,0,0,0))
 plot(tree, type = "fan", adj = 0.5, cex = 0.65)
@@ -624,7 +625,6 @@ overall_model <- metafor::rma.mv(yi = Zr, V = V_Zr, mod = ~1, random = list(~1 |
         dplyr::mutate(species_OTL = stringr::str_replace_all(species_OTL, " ", "_")))
 summary(overall_model)
 ```
-
 
 ## Shared Control
 
@@ -674,9 +674,7 @@ mlma <- rma.mv(yi = yi, V = M, mod = ~1, random = list(~1 | paper_no, ~1 | Genus
 summary(mlma)
 ```
 
-
 ## Het 1
-
 
 ```{r}
 # install.packages("pacman") ; uncomment this line if you haven't already installed 'pacman'
@@ -720,7 +718,6 @@ MLMA <- metafor::rma.mv(yi= ARR~ 1, V = V_ARR,
                    data=asr_dat)
 ```
 
-
 ## Het2
 
 $$ 
@@ -742,7 +739,6 @@ orchaRd::i2_ml(MLMA, data = asr_dat)
 
 ```
 
-
 ## PIs
 
 $$ 
@@ -752,12 +748,10 @@ PI \sim  \bar{u} \pm 1.96 \sqrt{SE^2 + \sigma^2_{study} +  \sigma^2_{species} + 
 \end{equation} 
 $$
 
-
 ```{r pis, echo=TRUE}
 # Calculate the prediction intervals
 predict(MLMA)
 ```
-
 
 ## 2
 
@@ -782,4 +776,140 @@ meta_reg <- metafor::rma.mv(yi= ARR ~ 1 + method + class, V = V_ARR, method="REM
                                         ~1|es_ID), 
                             dfs = "contain", test="t", data=asr_dat)
 meta_reg
+```
+
+## Orchard
+
+```{r orchard, echo = TRUE}
+
+orchaRd::orchard_plot(meta_reg, data = asr_dat, mod = "class", group = "study_ID", xlab = "Acclimation Response Ratio (ARR)", angle = 45)
+```
+
+## Orchard2
+
+```{r orchard2, echo = TRUE}
+mod_table <- orchaRd::mod_results(meta_reg,  data = asr_dat,  mod = "class", group = "study_ID", at = list(class = c("Malacostraca", "Insecta", "Actinopterygii", "Amphibia")), subset = TRUE)
+
+orchaRd::orchard_plot(mod_table, xlab = "Acclimation Response Ratio (ARR)", angle = 45)
+
+```
+
+## Pub bias
+
+```{r}
+# Packages
+pacman::p_load(tidyverse, metafor, orchaRd)
+
+# Download the data. Exclude NA in r and sample size columns
+arnold_data <- read.csv("https://raw.githubusercontent.com/pieterarnold/fitness-rmr-meta/main/MR_Fitness_Data_revised.csv")
+
+# Exclude some NA's in sample size and r
+arnold_data <- arnold_data[complete.cases(arnold_data$n.rep) & complete.cases(arnold_data$r),
+    ]
+
+# Calculate the effect size, ZCOR
+arnold_data <- metafor::escalc(measure = "ZCOR", ri = r, ni = n.rep, data = arnold_data,
+    var.names = c("Zr", "Zr_v"))
+
+# Lets subset to endotherms for demonstration purposes
+arnold_data_endo <- arnold_data %>%
+    mutate(endos = ifelse(Class %in% c("Mammalia", "Aves"), "endo", "ecto")) %>%
+    filter(endos == "endo" & Zr <= 3)  # Note that one sample that was an extreme outlier was removed in the paper.
+
+# Add in observation-level (residual)
+arnold_data_endo$obs <- 1:dim(arnold_data_endo)[1]
+```
+
+## Pub bias 2
+
+```{r, funnel, echo=TRUE}
+par(mfrow=c(1,1))
+metafor::funnel(x = arnold_data_endo$Zr, vi = arnold_data_endo$Zr_v, yaxis = "seinv",
+    digits = 2, level = c(0.1, 0.05, 0.01), shade = c("white", "gray55", "gray 75"),
+    las = 1, xlab = "Correlation Coefficient (r)", atransf = tanh, legend = TRUE)
+```
+
+## Pub bias 3
+
+```{r}
+# Fitness type
+metareg <- rma.mv(yi = Zr, V = Zr_v, mods = ~FitnessClassification, data = arnold_data_endo,
+    random = list(~1 | Ref, ~1 | obs))
+
+
+# Extract residuals based on the fixed effect predictions (marginal) and the
+# fixed and random effect (conditional)
+resid_marg <- arnold_data_endo$Zr - predict(metareg)[[1]]  # Calculates the residuals based on fixed effects only
+vi_residm <- arnold_data_endo$Zr_v + predict(metareg)[[2]]^2  # Adds prediction errors
+
+# Conditional requires random effect blups for study (Ref) and effect size obs
+blups <- ranef(metareg)  # extracts blups for each random effect. Stored as a list.
+
+study_ef <- blups$Ref[[1]][match(arnold_data_endo$Ref, row.names(blups$Ref))]  # This code will expand each random effect for study out to match the study ID across the entire dataset
+study_vi <- (blups$Ref[[2]][match(arnold_data_endo$Ref, row.names(blups$Ref))])^2
+
+effect_effect <- blups$obs[[1]]
+vi_effect <- blups$obs[[1]]^2
+
+# Now we have everything we need to calculate residuals
+resid_cond <- arnold_data_endo$Zr - (predict(metareg)[[1]] + study_ef + effect_effect)
+vi_resid_cond <- vi_residm + study_vi + vi_effect
+
+# Lets make a funnel plot to visualize the data in relation to the precision,
+# inverse sampling standard error,
+par(mfrow = c(1, 2))
+metafor::funnel(x = resid_marg, vi = vi_residm, yaxis = "seinv", digits = 2, level = c(0.1,
+    0.05, 0.01), shade = c("white", "gray55", "gray 75"), las = 1, xlab = "Meta-analytic Residuals (marginal)",
+    legend = FALSE)
+metafor::funnel(x = resid_cond, vi = vi_resid_cond, yaxis = "seinv", digits = 2,
+    level = c(0.1, 0.05, 0.01), shade = c("white", "gray55", "gray 75"), las = 1,
+    xlab = "Meta-analytic Residuals (conditional)", legend = TRUE)
+```
+
+## Pub bias 4
+
+$$
+\begin{equation}
+y_{i} = \mu + \beta_{se}se +  s_{j[i]} + spp_{k[i]} + e_{i} + m_{i} \\
+(\#eq:itot1)
+\end{equation}
+$$
+
+## Pub bias 4.3
+
+$$
+\begin{equation}
+y_{i} = \mu + \sum_{i = 1}^{N_{m}}\beta_{m}x_{m} + \beta_{se}se + \beta_{y}Year +  s_{j[i]} + spp_{k[i]} + e_{i} + m_{i} \\
+(\#eq:itot2)
+\end{equation}
+$$
+
+## Pub bias 5
+
+```{r, echo = TRUE}
+# Including sampling standard error as moderator
+metareg_se <- rma.mv(yi = Zr, V = Zr_v, mods = ~ sqrt(Zr_v), test = "t", dfs = "contain", data = arnold_data_endo, random = list(~1|Ref, ~1|obs))
+summary(metareg_se)
+```
+
+## Pub bias 6
+
+```{r, echo = TRUE}
+# Including sampling standard error as moderator and year
+arnold_data_endo$se <- sqrt(arnold_data_endo$Zr_v)
+arnold_data_endo$c_log_year <- scale(log(arnold_data_endo$Year))
+
+# Fit model
+metareg_se_time <- rma.mv(yi = Zr, V = Zr_v, mods = ~ se + c_log_year, test = "t", dfs = "contain", data = arnold_data_endo, random = list(~1|Ref, ~1|obs))
+summary(metareg_se_time)
+
+# Bubble plots!
+p1 <- orchaRd::bubble_plot(metareg_se_time, mod = "se", group = "Ref", data = arnold_data_endo, xlab = "Sampling Standard Error (SE)", ylab = "Zr", legend.pos = "bottom.left")
+
+p2 <- orchaRd::bubble_plot(metareg_se_time, mod = "c_log_year", group = "Ref", data = arnold_data_endo, xlab = "Publication Year (log-transformed & scaled)", ylab = "Zr", legend.pos = "none")
+
+p1 | p2
+
+
+
 ```
