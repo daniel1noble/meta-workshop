@@ -38,7 +38,7 @@ In the [last tutorial](https://daniel1noble.github.io/meta-workshop/pub-bias1) w
 
 In this tutorial, we'll overview some ways we can attempt to understand whether publication bias is present using multilevel meta regression to quantitatively assess in a more objective way whether it's present. We can also use these statistical tools to attempt to  'correct' for it. 
 
-## **Visually Assessing Publication Bias**
+## **Statistically Testing and Correcting for Publication Bias**
 ### Introduction
 
 ![](./figs/arnold.png)
