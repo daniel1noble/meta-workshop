@@ -67,9 +67,23 @@ $$
 0 & 0 & 1
 \end{bmatrix}
 $$
-**What is the significance of multiplying the $\bf{I}$ matrix by the variance for each random effect above?** The short story is that we are making the assumption that each random effect added to a given effect size is drawn from an independent and identical distribution. To see why this is the case think about what happens when we multiply $\sigma_{i}^2$ by this matrix. Along the diagonal, we get the exact same variance estimate for every single effect size (or for effect sizes that share a cluster). This tells us that they are sampled from a distribution that has the same mean (0) and variance ($\sigma_{i}^2$) (i.e., are sampled from the same distribution). 
 
-If, however, we multiply the off-diagonals by the variance we get zero. The fact that these off-diagonals are 0 tells us straight away that all the random effects being sampled are independent from one another as otherwise the off-diagonals would be non-zero (i.e., would have a co-variance) (and the correlation matrix would have a correlation above 0). This seems sensible. All effect size estimates from the same study will have the same 'effect' added to the estimate. This indicates that these effects should be more similar to each other by virtue of them being from the same study (Fig. \@ref(fig:fig1)b from @Noble2017). This does, in some sense, deal with non-independence, but not completely!
+#### **Thinking about matrices and variances!** {.tabset .tabset-fade .tabset-pills}
+
+##### Task! {.tabset .tabset-fade .tabset-pills}
+
+>**What is the significance of multiplying the $\bf{I}$ matrix by the variance for each random effect above?** 
+
+<br>
+
+##### Answer! {.tabset .tabset-fade .tabset-pills}
+
+>The short story is that we are making the assumption that each random effect added to a given effect size is drawn from an independent and identical distribution. To see why this is the case think about what happens when we multiply $\sigma_{i}^2$ by this matrix. Along the diagonal, we get the exact same variance estimate for every single effect size (or for effect sizes that share a cluster). This tells us that they are sampled from a distribution that has the same mean (0) and variance ($\sigma_{i}^2$) (i.e., are sampled from the same distribution). 
+
+>If, however, we multiply the off-diagonals by the variance we get zero. The fact that these off-diagonals are 0 tells us straight away that all the random effects being sampled are independent from one another as otherwise the off-diagonals would be non-zero (i.e., would have a co-variance) (and the correlation matrix would have a correlation above 0). This seems sensible. All effect size estimates from the same study will have the same 'effect' added to the estimate. This indicates that these effects should be more similar to each other by virtue of them being from the same study (Fig. \@ref(fig:fig1)b from @Noble2017). This does, in some sense, deal with non-independence, but not completely!
+
+<br>
+
 
 ```{r, fig1, fig.align='center', fig.width= 15, fig.height=15, fig.cap= "Different forms of non-independence described by Noble et al. 2017. A) Effect size estimates could be correlated as a result of shared evolutionary history; B) could be correlated because they come from the same study with the same types of methodology applied. Effect sizes could also be corrrelated because the effects themselves are correlated to differing degrees because of spatial or temporal correlations (E, F), their samling errors are correlated (D) or a combination of both (C)", echo = FALSE}
 img1 <- magick::image_read("./figs/nonIn.png")
@@ -168,11 +182,15 @@ As you can see in the model, the `V` argument in `metafor` takes the $\textbf{M}
 
 ##### Task {.tabset .tabset-fade .tabset-pills} 
 
-**What is the overall mean estimate and variance, and what does it mean in the context of fluctuating temperature on body mass?** 
+>**What is the overall mean estimate and variance, and what does it mean in the context of fluctuating temperature on body mass?** 
+
+<br>
 
 ##### Answer {.tabset .tabset-fade .tabset-pills} 
 
-In essence, what this model is telling us is that there is, on average, a  **`r (1 - predict(mlma, transf = exp)$pred)*100`% decrease** in mass in the fluctuating temperature treatment compared to the control treatment, which is a pretty trivial difference! We can also see that the **95% confidence intervals are wide and overlap zero indicating that the estimate does not differ significantly from a zero** (as indicated by the null hypothesis). Having said that, there is a lot of heterogeneity in effects across species and studies included in the analysis suggesting that it might really depend on the study.
+>In essence, what this model is telling us is that there is, on average, a  **`r (1 - predict(mlma, transf = exp)$pred)*100`% decrease** in mass in the fluctuating temperature treatment compared to the control treatment, which is a pretty trivial difference! We can also see that the **95% confidence intervals are wide and overlap zero indicating that the estimate does not differ significantly from a zero** (as indicated by the null hypothesis). Having said that, there is a lot of heterogeneity in effects across species and studies included in the analysis suggesting that it might really depend on the study.
+
+<br>
 
 ## **Robust Variance Estimation -- a useful tool to deal with unknown dependency**
 
