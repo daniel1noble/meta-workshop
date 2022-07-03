@@ -161,15 +161,21 @@ print(MLMA)
 
 ```
 
-#### What does the model output tell us? {.tabset .tabset-fade .tabset-pills} 
+#### **What does the model output tell us?** {.tabset .tabset-fade .tabset-pills} 
 
 ##### Task {.tabset .tabset-fade .tabset-pills} 
-**What is the overall mean estimate and variance of the model, and how much heterogeneity exist?** 
+>**What is the overall mean estimate and variance of the model, and how much heterogeneity exist?** 
+
+<br>
 
 ##### Answer {.tabset .tabset-fade .tabset-pills} 
-We can see from above that the model estimates an **overall meta-analytic mean as `r MLMA$b` with a 95% confidence interval of `r MLMA$ci.lb` to `r MLMA$ci.ub`**. **In other words, for each degree variation in acclimation temperature female heat tolerance changes by an average of `r MLMA$b`$^{\circ}$C**. 
+>We can see from above that the model estimates an **overall meta-analytic mean as `r MLMA$b` with a 95% confidence interval of `r MLMA$ci.lb` to `r MLMA$ci.ub`**. **In other words, for each degree variation in acclimation temperature female heat tolerance changes by an average of `r MLMA$b`$^{\circ}$C**. 
 
-We can also see that there's a significant amount of heterogeneity among our effect size estimates with our *Q*-test being significant. Some of this heterogeneity seems to be driven by variation among studies, within studies and among species as judged by the variance components of the model. We'll probe how to dissect and discuss this heterogeneity in later tutorials. 
+<br>
+
+>We can also see that there's a significant amount of heterogeneity among our effect size estimates with our *Q*-test being significant. Some of this heterogeneity seems to be driven by variation among studies, within studies and among species as judged by the variance components of the model. We'll probe how to dissect and discuss this heterogeneity in later tutorials. 
+
+<br>
 
 ## **References**
 
