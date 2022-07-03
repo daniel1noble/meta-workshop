@@ -99,12 +99,15 @@ For the purpose of this tutorial, we will follow the second method. Notice that 
 
 ##### Errors in matching names {.tabset .tabset-fade .tabset-pills} 
 
-What to do if errors occur when matching names in phylogeny with data set?
+> **What can we do if errors occur when matching taxa names in the phylogeny with those in the data set?**
+
+<br>
 
 ##### Suggestions {.tabset .tabset-fade .tabset-pills} 
 
-Errors in matching names with the OTL comes in different forms and flavours, but the easiest way to avoid most errors to check that the **names in the raw data match the OTL database** each time you add a new species in. This will address many errors matching names down the track. We have included code to check which names are inconsistent in case you missed some. The remaining errors comes down to formatting which you can see below. As an example with this dataset, I often have to re-add underscore between the Genus and species name because some names (I noticed 3 species in this dataset) "Gambusia_affinis" without the underscore matches up with "Bambusia affinis" in the OTL database which is clearly a different taxa. I am not sure why this is but I got around it by first removing the underscore before matching the names (see code for raw before), then add it back when matching the names to the tree (which has underscores).
+> Name matching errors come in different forms and flavours with the OTL. The easiest way to avoid most errors is to check that the **names in the raw data match the OTL database** each time you add a new species. OTL will also check for taxa synoymn's -- changes to taxa names. You can check for these and update your dataset so the taxa match. This will address many errors matching names down the track. We have included code to check which names are inconsistent in case you missed some. The remaining errors come down to formatting which you can see below. As an example with this dataset, we have to re-add the underscore between the Genus and species name because some names (I noticed 3 species in this dataset) such as "Gambusia affinis" (without the underscore) matches up with "Bambusia affinis" in the OTL database. Clearly this is a different taxa. We can get around it by first removing the underscore before matching the names (see code for raw before), then adding it back when matching the names to the tree (which has underscores).
 
+<br>
 
 ### Build the tree and create correlation matrix
 ```{r phylo, warning=FALSE, message=FALSE}
@@ -172,11 +175,15 @@ summary(overall_model)
 
 ##### Task {.tabset .tabset-fade .tabset-pills} 
 
-**Is there an overall positive or negative relationship between physiology and movement?** 
+>**Is there an overall positive or negative relationship between physiology and movement?** 
+
+<br>
 
 ##### Answer {.tabset .tabset-fade .tabset-pills} 
 
-We can see from above that the model estimates **a positive relationship** between physiology and movement with **an overall mean of `r overall_model$b[1,]` with a 95% confidence interval (95% CI) of `r overall_model$ci.lb[1]` to `r overall_model$ci.ub[1]`**. In this analysis, we also observe high heterogeneity among our effect size estimates with our Q-test being significant, a very common observation in ecological and evolutionary meta-analysis studies. Some of this heterogeneity may be driven by variation among studies, within studies, among species, and phylogeny as seen by the variance components of the model.
+>We can see from above that the model estimates **a positive relationship** between physiology and movement with **an overall mean of `r overall_model$b[1,]` with a 95% confidence interval (95% CI) of `r overall_model$ci.lb[1]` to `r overall_model$ci.ub[1]`**. In this analysis, we also observe high heterogeneity among our effect size estimates with our Q-test being significant, a very common observation in ecological and evolutionary meta-analysis studies. Some of this heterogeneity may be driven by variation among studies, within studies, among species, and phylogeny as seen by the variance components of the model.
+
+<br>
 
 ## **References**
 
