@@ -39,7 +39,7 @@ In this tutorial, we'll overview some of these unique forms of non-independence 
 
 ## **The Many Forms of Dependence in Meta-analysis**
 
-Let's briefly overview why non-independence can be an issue and why simple multilevel meta-analytic models do not always deal with the problem sufficiently well. Recall our MLMA model from the [last tutorial](https://daniel1noble.github.io/meta-workshop/multi-level). 
+Let's briefly overview why non-independence can be an issue and why simple multilevel meta-analytic models do not always deal with the problem sufficiently well. Recall our multi-level meta-analytic (MLMA) model from the [last tutorial](https://daniel1noble.github.io/meta-workshop/multi-level). 
 
 $$
 y_{i} = \mu + s_{j[i]} + spp_{k[i]} + e_{i} + m_{i} \\

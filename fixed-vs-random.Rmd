@@ -39,7 +39,7 @@ Despite the limitations, these models have an important place in the meta-analyt
 This tutorial will walk you through the differences between fixed and random effect models with a focus on understanding how we are synthesising different effect sizes across studies. At the end of this tutorial I hope you understand:
 
 1. The distinct difference between fixed and random effect meta-analytic models
-2. How to fit these models using `metafor` (the most popular package for meta-analysis in R)
+2. How to fit these models using `metafor` (the most popular package for meta-analysis in *R*)
 3. How to interpret the output from each model
 4. How you can reproduce the results of the `metafor` models yourself
 
@@ -72,7 +72,7 @@ set.seed(86) # Set see so that we all get the same simulated results
 
 We can get a look at what these two datasets we simulated above look like (Figure \@ref(fig:fvsr)). The red circles are effect sizes and their standard errors (square root of the sampling error variance) from our fixed effect meta-analysis (FE) data set. In contrast, the black circles are our effect size and standard errors from the data generated in the random effect meta-analysis (RE) dataset. The black line is the average, true effect size (which we have set to the value 2).
 
-```{r, fvsr, eval=TRUE, echo=FALSE, fig.cap="Mean (arrows are sampling standard deviation) effect size for each study. Data simulated under a fixed effect model in black and data simulated under a random effect model in red."}
+```{r, fvsr, eval=TRUE, echo=FALSE, fig.cap="Mean (arrows are sampling standard deviation) effect size for each study. Data simulated under a **fixed effect model in black** and data simulated under a **random effect model in red**."}
     
   plot(stdy - 0.25 ~ es, col = "black", pch = 16, ylim = c(0, 6), xlim = c(1, 3.2), 
        data = dataFE, ylab = "Study", xlab = "Effect size")
@@ -175,7 +175,7 @@ y_{i} = \mu + s_{i} + m_{i} \\
 m_{i} \sim N(0, v_{i}) \\
 s_{i} \sim N(0, \tau^2)
 $$
-Again, $y_{i}$ is the *i*th effect size estimate and $m_{i}$ is the sampling error (deviation from $\mu$) for effect size *i*. Sampling deviations are assumed to be drawn from a normal distribution (N) with a mean of 0 and a sampling variance, $v_{i}$. However, you will notice now that we have an additional source of variation, $s_{i}$, which is the study specific deviation. Here, we are assuming now that every study has it's own mean effect size which is again sampled from a normal distribution with a between study variance, $\tau^2$ (read, tau-squared).  
+Again, $y_{i}$ is the *i*th effect size estimate and $m_{i}$ is the sampling error (deviation from $\mu$) for effect size *i*. Sampling deviations are assumed to be drawn from a normal distribution (N) with a mean of 0 and a sampling variance, $v_{i}$. However, you will notice now that we have an additional source of variation, $s_{i}$, which is the study specific deviation. **Here, we are assuming now that every study has it's own mean effect size which is again sampled from a normal distribution with a between study variance, $\tau^2$ (read, tau-squared)**.  
 
 You'll notice from this model, and the simulated data, that we are again assuming that there is a single overall mean and that effects are independently, and identically, distributed. However, now any deviation from the true mean is the result of not only $\mu$ (sampling error) but also because studies vary in their true mean effect sizes as well. Again, beyond these two sources, there are no additional sources of variance added to effect size estimates. 
 
