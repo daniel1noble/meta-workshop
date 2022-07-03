@@ -134,29 +134,29 @@ orchaRd::i2_ml(MLMA, data = asr_dat)
 
 ```
 
-#### Interpreting $I^2$ Estimates {.tabset .tabset-fade .tabset-pills} 
+#### **Interpreting $I^2$ Estimates** {.tabset .tabset-fade .tabset-pills} 
 
 ##### First Task! {.tabset .tabset-fade .tabset-pills} 
 
-**Interpret the meaning of $I_{Total}^2$ from the multilevel meta-analytic model**
+>**Interpret the meaning of $I_{Total}^2$ from the multilevel meta-analytic model**
 
 <br>
 
 ##### First Answer! {.tabset .tabset-fade .tabset-pills} 
 
-Overall, we have highly heterogeneous effect size data because sampling variation only contributes to `r 100-orchaRd::i2_ml(MLMA, data = asr_dat)[1]`% of the total variation in effects.  
+>Overall, we have highly heterogeneous effect size data because sampling variation only contributes to `r 100-orchaRd::i2_ml(MLMA, data = asr_dat)[1]`% of the total variation in effects.  
 
 <br>
 
 ##### Second Task! {.tabset .tabset-fade .tabset-pills} 
 
-**Interpret the meaning of $I_{study}^2$ from the multilevel meta-analytic model**
+>**Interpret the meaning of $I_{study}^2$ from the multilevel meta-analytic model**
 
 <br>
 
 ##### Second Answer! {.tabset .tabset-fade .tabset-pills} 
 
-From the multilevel meta-analytic model we find that `r orchaRd::i2_ml(MLMA, data = asr_dat)[3]`%  of the total variation in effect size estimates is the result of differences between studies.
+>From the multilevel meta-analytic model we find that `r orchaRd::i2_ml(MLMA, data = asr_dat)[3]`%  of the total variation in effect size estimates is the result of differences between studies.
 
 <br>
 
@@ -198,17 +198,17 @@ We can get these quite easily using the `predict` function in `metafor`:
 predict(MLMA)
 ```
 
-#### Interpreting Predcition Intervals {.tabset .tabset-fade .tabset-pills}
+#### **Interpreting Predcition Intervals** {.tabset .tabset-fade .tabset-pills}
 
 ##### Task! {.tabset .tabset-fade .tabset-pills}
 
-**If the meta-analytic mean ARR is `r predict(MLMA)[[1]]` what would be the expected range of effect size we would expect in a future study? Are the studies consistent or inconsistent?**
+>**If the meta-analytic mean ARR is `r predict(MLMA)[[1]]` what would be the expected range of effect size we would expect in a future study? Are the studies consistent or inconsistent?**
 
 <br> 
 
 ##### Answer! {.tabset .tabset-fade .tabset-pills}
 
-Our 95% prediction intervals are wide. Effect sizes (ARR) we are expected to get range from `r predict(MLMA)[[5]]` to `r predict(MLMA)[[6]]`, suggesting a lot of inconsistency between studies. 
+>Our 95% prediction intervals are wide. Effect sizes (ARR) we are expected to get range from `r predict(MLMA)[[5]]` to `r predict(MLMA)[[6]]`, suggesting a lot of inconsistency between studies. 
 
 <br>
 
@@ -227,19 +227,21 @@ We don't need to do anything special to get this test. In fact, this is automati
 print(MLMA)
 ```
 
-#### Describing the *Q*-test  {.tabset .tabset-fade .tabset-pills} 
+#### **Describing the *Q*-test**  {.tabset .tabset-fade .tabset-pills} 
 
 ##### Task! {.tabset .tabset-fade .tabset-pills} 
 
-**How would you describe in a paper the *Q*-test from the `metafor` model above?**
+>**How would you describe in a paper the *Q*-test from the `metafor` model above?**
 
 <br>
 
 ##### Answer! {.tabset .tabset-fade .tabset-pills} 
 
-Of course, there are a multitude of ways that we could describe this test in words, but one way to describe it in your results section might be as follows:
+>Of course, there are a multitude of ways that we could describe this test in words, but one way to describe it in your results section might be as follows:
 
-> The overall mean ARR across ectotherms was `r MLMA$b` and differed significantly from zero (95% CI: `r MLMA$ci.lb` to `r MLMA$ci.ub`, df = `r MLMA$ddf`, t = `r MLMA$b / MLMA$se`, p < 0.001). However, there was significant residual heterogeneity (*Q* = `r MLMA$QE`, df = `r dim(MLMA$data)[1]-1`, p < 0.001) with estimates expected to range from `r predict(MLMA)[[5]]` to `r predict(MLMA)[[6]]` (95% Prediction Interval).
+<br>
+
+>The overall mean ARR across ectotherms was `r MLMA$b` and differed significantly from zero (95% CI: `r MLMA$ci.lb` to `r MLMA$ci.ub`, df = `r MLMA$ddf`, t = `r MLMA$b / MLMA$se`, p < 0.001). However, there was significant residual heterogeneity (*Q* = `r MLMA$QE`, df = `r dim(MLMA$data)[1]-1`, p < 0.001) with estimates expected to range from `r predict(MLMA)[[5]]` to `r predict(MLMA)[[6]]` (95% Prediction Interval).
 
 <br>
 
@@ -254,7 +256,7 @@ R^2_{marginal} = \frac{\sigma^2_{fixed}}{\sigma^2_{fixed} + \sigma^2_{study} + \
 \end{equation} 
 $$
 
-Note that this formula does not include $\sigma^2_{m}$ as sampling error variance is assumed to be known in meta-analysis. We won't go into the details on how to calculate and interpret these because we'll cover this in a later tutorial on [publication bias](https://daniel1noble.github.io/meta-workshop/pub-bias1). Suffice it to say that this is a useful statistic from describing how much variation your moderators or model explain.
+Note that this formula does not include $\sigma^2_{m}$ as sampling error variance is assumed to be known in meta-analysis. We won't go into the details on how to calculate and interpret these because we'll cover this in a later tutorial on [publication bias](https://daniel1noble.github.io/meta-workshop/pub-bias1). Suffice it to say that this is a useful statistic for describing how much variation your moderators or model explain.
 
 ## **Conclusion**
 
