@@ -114,15 +114,19 @@ overall_model <- metafor::rma.mv(yi = Zr, V = V_Zr,
 summary(overall_model)
 ```
 
-#### What does the model output tell us? {.tabset .tabset-fade .tabset-pills} 
+#### **What does the model output tell us?** {.tabset .tabset-fade .tabset-pills} 
 
 ##### Task {.tabset .tabset-fade .tabset-pills} 
 
-**Is there a relationship between physiology with either activity, exploration, and dispersal?** 
+>**Is there a relationship between physiology with either activity, exploration, and dispersal?** 
+
+<br>
 
 ##### Answer {.tabset .tabset-fade .tabset-pills} 
 
-We can see from above that the model estimates **a positive relationship** between physiology and activity with **an overall mean of `r overall_model$b[1,]` with a 95% confidence interval (95% CI) of `r overall_model$ci.lb[1]` to `r overall_model$ci.ub[1]`**. Exploration and dispersal was also, on average, positively associated with physiology, but exploration had higher level of uncertainty (Exploration = `r overall_model$b[3,]` [95% CI `r overall_model$ci.lb[3]`, `r overall_model$ci.ub[3]`], Dispersal = `r overall_model$b[2,]`, [95% CI `r overall_model$ci.lb[2]`, `r overall_model$ci.ub[2]`]). Heterogeneity remained high in this analysis based on the Q-test. 
+>We can see from above that the model estimates **a positive relationship** between physiology and activity with **an overall mean of `r overall_model$b[1,]` with a 95% confidence interval (95% CI) of `r overall_model$ci.lb[1]` to `r overall_model$ci.ub[1]`**. Exploration and dispersal was also, on average, positively associated with physiology, but exploration had higher level of uncertainty (Exploration = `r overall_model$b[3,]` [95% CI `r overall_model$ci.lb[3]`, `r overall_model$ci.ub[3]`], Dispersal = `r overall_model$b[2,]`, [95% CI `r overall_model$ci.lb[2]`, `r overall_model$ci.ub[2]`]). Heterogeneity remained high in this analysis based on the Q-test. 
+
+<br>
 
 ### Contrasts between Trait Levels
 
@@ -139,23 +143,30 @@ overall_model <- metafor::rma.mv(yi = Zr, V = V_Zr,
 summary(overall_model)
 ```
 
-#### What does the model output tell us? {.tabset .tabset-fade .tabset-pills} 
+#### **What does the model output tell us?** {.tabset .tabset-fade .tabset-pills} 
 
-We can see that the model coefficients have changed. The `intrcpt` now takes on the mean Zr for `Activity`. In other words, this is the mean *Zr* for the correlations between physiology and activity. As such, this is the same value and all the inferential statistics are testing the same null hypothesis -- that the mean effect size, *Zr*, differs significantly from zero, which it does. `disp_traitDispersal` and `disp_traitExploration` are not contrasts, or differences, between `Activity` and the mean for `Dispersal` and `Exploration`. They are now testing the null hypothesis that the difference between *Activity and Dispersal* (i.e., `disp_traitDispersal`) and *Activity and Exploration* (i.e., `disp_traitExploration`) are different from zero.
+We can see that the model coefficients have changed. The `intrcpt` now takes on the mean *Zr* for `Activity`. In other words, this is the mean *Zr* for the correlations between physiology and activity. As such, this is the same value as the previous model. For the `intrcpt`, the null hypothesis being tested is whether the mean differs significantly from zero, which it does. In contrast, `disp_traitDispersal` and `disp_traitExploration` are no longer meta-analytic means for `Dispersal` and `Exploration` as in the previous model. Rather, they are now contrasts, or differences, between the mean *Zr* for `Activity` and the mean *Zr* for `Dispersal` and `Exploration`. They are now testing the null hypothesis that the difference between *Activity and Dispersal* (i.e., `disp_traitDispersal`) and *Activity and Exploration* (i.e., `disp_traitExploration`) are different from zero.
 
-##### Task {.tabset .tabset-fade .tabset-pills} 
+##### Task! {.tabset .tabset-fade .tabset-pills} 
 
-**Does the correlation effect size for Exploration and Dispersal differ from Activity?** 
+>**Does the mean *Zr* for Exploration and Dispersal differ from Activity?** 
 
-##### Answer {.tabset .tabset-fade .tabset-pills} 
+<br>
 
-We can see that Z-transformed correlations (*Zr*) between physiology and activity **do not differ significantly** from correlations between *Activity and Dispersal* and *Activity and Exploration*. The model also explains only `r orchaRd::r2_ml(overall_model)[1]`% ($R_{marginal}^2$) of the variation, so we can be confident that there is little predictive power from this moderator. 
+##### Answer! {.tabset .tabset-fade .tabset-pills} 
 
-We can also visually depict the differences in *r* between these groups using an orchard plot [@Nakagawa2021c] after back-transforming from *Zr*: 
+>We can see that the mean Z-transformed correlation (*Zr*) between physiology and activity **do not differ significantly** from *Zr* between *Activity and Dispersal* and *Activity and Exploration*. The model also explains only `r orchaRd::r2_ml(overall_model)[1]`% ($R_{marginal}^2$) of the variation, so we can be confident that there is little predictive power from this moderator. 
+
+<br>
+
+>We can also visually depict the differences in *r* between these groups using an orchard plot [@Nakagawa2021c] after back-transforming from *Zr*: 
 
 ```{r orchard, echo=TRUE, fig.align='center', fig.cap= "Orchard plot of mean correlation coefficient between physiology and activity, dispersal and exploration. k indicates the number of effect sizes (studies in brackets). Thick black bars are 95% confidence intervals and the thin (`twigs`) are 95% prediction intervals"}
 orchaRd::orchard_plot(overall_model, group = "study_ID", mod = "disp_trait", data = zr_data, xlab = "Correlation Coefficient (r)", transfm = "tanh", angle = 45)
 ```
+
+
+<br>
 
 ## **References**
 
