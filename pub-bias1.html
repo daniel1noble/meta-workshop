@@ -11,7 +11,7 @@
 
 <meta name="author" content="Daniel W.A. Noble" />
 
-<meta name="date" content="2022-07-01" />
+<meta name="date" content="2022-07-03" />
 
 <title>Publication Bias in Meta-analysis</title>
 
@@ -1304,6 +1304,8 @@ window.initializeCodeFolding = function(show) {
   // select all R code blocks
   var rCodeBlocks = $('pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan, pre.julia, pre.foldable');
   rCodeBlocks.each(function() {
+    // skip if the block has fold-none class
+    if ($(this).hasClass('fold-none')) return;
 
     // create a collapsable div to wrap the code in
     var div = $('<div class="collapse r-code-collapse"></div>');
@@ -2014,7 +2016,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Publication Bias in Meta-analysis</h1>
 <h4 class="author">Daniel W.A. Noble</h4>
-<h4 class="date">2022-07-01</h4>
+<h4 class="date">2022-07-03</h4>
 
 </div>
 
@@ -2077,20 +2079,26 @@ Figure 1: Funnel plot depicting the correlation between metabolism and fitness a
 </div>
 <p>We can see from Fig. <a href="#fig:funnel">1</a> above the typical funnel shape. You will notice that most effects lie in the positive correlation space – in other words there is a strong positive correlation between BMR and fitness. However, we also find some studies that show the opposite pattern. We expect that based on sampling theory alone, and indeed many of these effects fall close to the dotted sampling error intervals. Studies in the light grey regions are studies where the p-value was significant.</p>
 <div id="what-do-we-expect-if-publication-bias-were-present" class="section level4 tabset tabset-fade tabset-pills">
-<h4>What do we expect if publication bias were present?</h4>
+<h4><strong>What do we expect if publication bias were present?</strong></h4>
 <div id="task" class="section level5 tabset tabset-fade tabset-pills">
 <h5>Task!</h5>
+<blockquote>
 <p><strong>Think about what you would expect the funnel plot to look like and why.</strong></p>
+</blockquote>
 <p><br></p>
 </div>
 <div id="answer" class="section level5 tabset tabset-fade tabset-pills">
 <h5>Answer!</h5>
-<p><em>We might expect under a file-drawer situation (i.e., where researchers stash away poorer quality studies showing opposite effects in their desk drawers) that studies with low power (i.e., low precision, wide standard errors, and small sample sizes) and non-significant correlations will go unpublished. This should be particularly true for studies that show the opposite to what we might predict by theory – specifically, negative correlations from studies with small sample sizes / low precision that are not significant. This is one factor that can drive what we call funnel asymmetry, showing a bunch of missing effect sizes in the bottom left corner of the funnel.</em></p>
+<blockquote>
+<p>We might expect under a file-drawer situation (i.e., where researchers stash away poorer quality studies showing opposite effects in their desk drawers) that studies with low power (i.e., low precision, wide standard errors, and small sample sizes) and non-significant correlations will go unpublished. This should be particularly true for studies that show the opposite to what we might predict by theory – specifically, negative correlations from studies with small sample sizes / low precision that are not significant. This is one factor that can drive what we call funnel asymmetry, showing a bunch of missing effect sizes in the bottom left corner of the funnel.</p>
+</blockquote>
 <p><br></p>
 </div>
 <div id="interpreting-our-funnel-plot" class="section level5 tabset tabset-fade tabset-pills">
 <h5>Interpreting our Funnel Plot</h5>
+<blockquote>
 <p>If we look at Fig. <a href="#fig:funnel">1</a> we do see some hint of this scenario. There is a noticeable blank space in the bottom left corner with negative correlations based on very small sample sizes that are generally small to moderate in magnitude going unpublished. The contour-enhanced funnel plot also tells us that these are studies that failed to find a significant correlation. But, interestingly, we also see that if the magnitude of correlation is large enough in the negative direction even with small sample sizes these can get published, but for the most part these are significant at 0.05. We can only speculate as to why or if this is even a real signature of publication bias. However, this might suggest that if folks estimate large enough correlations and these are in the opposite direction to what one might expect these arguably ‘surprising’ results are more likely to be published than if the correlation is weak and in the opposite direction.</p>
+</blockquote>
 <p><br></p>
 </div>
 </div>
@@ -2149,14 +2157,20 @@ orchaRd::r2_ml(metareg) * 100</code></pre>
 <pre><code>##    R2_marginal R2_conditional 
 ##           26.8           82.5</code></pre>
 <div id="what-is-the-difference-between-marginal-and-conditional-r2" class="section level4 tabset tabset-fade tabset-pills">
-<h4>What is the difference between marginal and conditional <span class="math inline">\(R^2\)</span>?</h4>
+<h4><strong>What is the difference between marginal and conditional <span class="math inline">\(R^2\)</span>?</strong></h4>
 <div id="task-1" class="section level5 tabset tabset-fade tabset-pills">
 <h5>Task!</h5>
+<blockquote>
 <p><strong>Interpret the meaning of both values output from our <span class="math inline">\(R^2\)</span> calculations</strong></p>
+</blockquote>
+<p><br></p>
 </div>
 <div id="answer-1" class="section level5 tabset tabset-fade tabset-pills">
 <h5>Answer!</h5>
+<blockquote>
 <p>From the output above we can see that the fixed effects or moderator explains 26.773% of the variation in Zr estimates (as indicated by <span class="math inline">\(R_{marginal}^2\)</span>), while when we consider both the fixed and random effects than the model explains 82.525% of the variation in Zr estimates (as indicated by <span class="math inline">\(R_{conditional}^2\)</span>). Interestingly, we still have a significant amount of residual heterogeneity that we cannot explain (<span class="math inline">\(QE\)</span> = 846.135, p = 5.477^{-80}).</p>
+</blockquote>
+<p><br></p>
 </div>
 </div>
 <div id="funnel-plot-with-residuals" class="section level4">
@@ -2197,15 +2211,20 @@ Figure 2: Funnel plot of meta-analytic residuals against precision (1 / SE). The
 </div>
 </div>
 <div id="how-do-our-conclusions-about-the-possibility-of-publication-bias-change-by-plotting-residuals" class="section level4 tabset tabset-fade tabset-pills">
-<h4>How do our conclusions about the possibility of publication bias change by plotting residuals?</h4>
+<h4><strong>How do our conclusions about the possibility of publication bias change by plotting residuals?</strong></h4>
 <div id="task-2" class="section level5 tabset tabset-fade tabset-pills">
 <h5>Task!</h5>
+<blockquote>
 <p><strong>After looking at the new funnel plots (Fig. <a href="#fig:funnelresid">2</a>) that account for varying amounts of heterogeneity in the model would you say our conclusions about publication bias being present or not change at all? If not, why not?</strong></p>
+</blockquote>
+<p><br></p>
 </div>
 <div id="answer-2" class="section level5 tabset tabset-fade tabset-pills">
 <h5>Answer!</h5>
-<p>Maybe. Even after accounting for factors that explain (or estimate) heterogeneity in the data we still see areas of the funnel plot that appear to be missing effect size estimates, notably for the marginal residuals we still see the missing effects on the left side. However, when looking at the conditional (taking into account fixed and random effects) we see that there is a gap yet when precision is low, but we are still seeing some effect size estimates being published with very low precision, which is not really what we might expect from publication bias.
-<br></p>
+<blockquote>
+<p>Maybe. Even after accounting for factors that explain (or estimate) heterogeneity in the data we still see areas of the funnel plot that appear to be missing effect size estimates, notably for the marginal residuals we still see the missing effects on the left side. However, when looking at the conditional (taking into account fixed and random effects) we see that there is a gap yet when precision is low, but we are still seeing some effect size estimates being published with very low precision, which is not really what we might expect from publication bias.</p>
+</blockquote>
+<p><br></p>
 </div>
 </div>
 </div>
@@ -2251,9 +2270,9 @@ Figure 2: Funnel plot of meta-analytic residuals against precision (1 / SE). The
 <p><strong>attached base packages:</strong>
 <em>stats</em>, <em>graphics</em>, <em>grDevices</em>, <em>utils</em>, <em>datasets</em>, <em>methods</em> and <em>base</em></p>
 <p><strong>other attached packages:</strong>
-<em>magick(v.2.7.2)</em>, <em>vembedr(v.0.1.5)</em>, <em>equatags(v.0.1.0)</em>, <em>mathjaxr(v.1.6-0)</em>, <em>pander(v.0.6.4)</em>, <em>orchaRd(v.2.0)</em>, <em>forcats(v.0.5.1)</em>, <em>stringr(v.1.4.0)</em>, <em>dplyr(v.1.0.9)</em>, <em>purrr(v.0.3.4)</em>, <em>readr(v.2.1.2)</em>, <em>tidyr(v.1.2.0)</em>, <em>tibble(v.3.1.6)</em>, <em>ggplot2(v.3.3.5)</em>, <em>tidyverse(v.1.3.1)</em>, <em>flextable(v.0.6.6)</em>, <em>metafor(v.3.4-0)</em>, <em>metadat(v.0.2-0)</em> and <em>Matrix(v.1.3-4)</em></p>
+<em>magick(v.2.7.2)</em>, <em>vembedr(v.0.1.5)</em>, <em>equatags(v.0.1.0)</em>, <em>mathjaxr(v.1.6-0)</em>, <em>pander(v.0.6.4)</em>, <em>orchaRd(v.2.0)</em>, <em>forcats(v.0.5.1)</em>, <em>stringr(v.1.4.0)</em>, <em>dplyr(v.1.0.9)</em>, <em>purrr(v.0.3.4)</em>, <em>readr(v.2.1.2)</em>, <em>tidyr(v.1.2.0)</em>, <em>tibble(v.3.1.7)</em>, <em>ggplot2(v.3.3.6)</em>, <em>tidyverse(v.1.3.1)</em>, <em>flextable(v.0.6.6)</em>, <em>metafor(v.3.4-0)</em>, <em>metadat(v.1.3-0)</em> and <em>Matrix(v.1.3-4)</em></p>
 <p><strong>loaded via a namespace (and not attached):</strong>
-<em>nlme(v.3.1-152)</em>, <em>fs(v.1.5.2)</em>, <em>lubridate(v.1.8.0)</em>, <em>httr(v.1.4.2)</em>, <em>tools(v.4.0.3)</em>, <em>backports(v.1.4.1)</em>, <em>bslib(v.0.3.1)</em>, <em>utf8(v.1.2.2)</em>, <em>R6(v.2.5.1)</em>, <em>DBI(v.1.1.2)</em>, <em>colorspace(v.2.0-3)</em>, <em>withr(v.2.5.0)</em>, <em>tidyselect(v.1.1.2)</em>, <em>curl(v.4.3.2)</em>, <em>compiler(v.4.0.3)</em>, <em>cli(v.3.3.0)</em>, <em>rvest(v.1.0.2)</em>, <em>formatR(v.1.11)</em>, <em>pacman(v.0.5.1)</em>, <em>xml2(v.1.3.3)</em>, <em>officer(v.0.3.18)</em>, <em>bookdown(v.0.22)</em>, <em>sass(v.0.4.1)</em>, <em>scales(v.1.2.0)</em>, <em>rappdirs(v.0.3.3)</em>, <em>systemfonts(v.1.0.2)</em>, <em>digest(v.0.6.29)</em>, <em>rmarkdown(v.2.13)</em>, <em>base64enc(v.0.1-3)</em>, <em>pkgconfig(v.2.0.3)</em>, <em>htmltools(v.0.5.2)</em>, <em>highr(v.0.9)</em>, <em>dbplyr(v.2.1.1)</em>, <em>fastmap(v.1.1.0)</em>, <em>rlang(v.1.0.2)</em>, <em>readxl(v.1.4.0)</em>, <em>rstudioapi(v.0.13)</em>, <em>jquerylib(v.0.1.4)</em>, <em>generics(v.0.1.2)</em>, <em>jsonlite(v.1.8.0)</em>, <em>zip(v.2.2.0)</em>, <em>magrittr(v.2.0.3)</em>, <em>Rcpp(v.1.0.8.3)</em>, <em>munsell(v.0.5.0)</em>, <em>fansi(v.1.0.3)</em>, <em>gdtools(v.0.2.3)</em>, <em>lifecycle(v.1.0.1)</em>, <em>stringi(v.1.7.6)</em>, <em>yaml(v.2.3.5)</em>, <em>grid(v.4.0.3)</em>, <em>crayon(v.1.5.1)</em>, <em>lattice(v.0.20-44)</em>, <em>haven(v.2.4.3)</em>, <em>hms(v.1.1.1)</em>, <em>knitr(v.1.39)</em>, <em>klippy(v.0.0.0.9500)</em>, <em>pillar(v.1.7.0)</em>, <em>uuid(v.1.0-4)</em>, <em>reprex(v.2.0.1)</em>, <em>xslt(v.1.4.3)</em>, <em>glue(v.1.6.2)</em>, <em>evaluate(v.0.15)</em>, <em>data.table(v.1.14.2)</em>, <em>remotes(v.2.4.2)</em>, <em>modelr(v.0.1.8)</em>, <em>vctrs(v.0.4.1)</em>, <em>tzdb(v.0.3.0)</em>, <em>cellranger(v.1.1.0)</em>, <em>gtable(v.0.3.0)</em>, <em>assertthat(v.0.2.1)</em>, <em>locatexec(v.0.1.1)</em>, <em>xfun(v.0.30)</em>, <em>broom(v.0.7.12)</em> and <em>ellipsis(v.0.3.2)</em></p>
+<em>nlme(v.3.1-152)</em>, <em>fs(v.1.5.2)</em>, <em>lubridate(v.1.8.0)</em>, <em>httr(v.1.4.3)</em>, <em>tools(v.4.0.3)</em>, <em>backports(v.1.4.1)</em>, <em>bslib(v.0.3.1)</em>, <em>utf8(v.1.2.2)</em>, <em>R6(v.2.5.1)</em>, <em>DBI(v.1.1.3)</em>, <em>colorspace(v.2.0-3)</em>, <em>withr(v.2.5.0)</em>, <em>tidyselect(v.1.1.2)</em>, <em>curl(v.4.3.2)</em>, <em>compiler(v.4.0.3)</em>, <em>cli(v.3.3.0)</em>, <em>rvest(v.1.0.2)</em>, <em>formatR(v.1.11)</em>, <em>pacman(v.0.5.1)</em>, <em>xml2(v.1.3.3)</em>, <em>officer(v.0.3.18)</em>, <em>bookdown(v.0.22)</em>, <em>sass(v.0.4.1)</em>, <em>scales(v.1.2.0)</em>, <em>rappdirs(v.0.3.3)</em>, <em>systemfonts(v.1.0.2)</em>, <em>digest(v.0.6.29)</em>, <em>rmarkdown(v.2.14)</em>, <em>base64enc(v.0.1-3)</em>, <em>pkgconfig(v.2.0.3)</em>, <em>htmltools(v.0.5.2)</em>, <em>highr(v.0.9)</em>, <em>dbplyr(v.2.2.1)</em>, <em>fastmap(v.1.1.0)</em>, <em>rlang(v.1.0.3)</em>, <em>readxl(v.1.4.0)</em>, <em>rstudioapi(v.0.13)</em>, <em>jquerylib(v.0.1.4)</em>, <em>generics(v.0.1.2)</em>, <em>jsonlite(v.1.8.0)</em>, <em>zip(v.2.2.0)</em>, <em>magrittr(v.2.0.3)</em>, <em>Rcpp(v.1.0.8.3)</em>, <em>munsell(v.0.5.0)</em>, <em>fansi(v.1.0.3)</em>, <em>gdtools(v.0.2.3)</em>, <em>lifecycle(v.1.0.1)</em>, <em>stringi(v.1.7.6)</em>, <em>yaml(v.2.3.5)</em>, <em>grid(v.4.0.3)</em>, <em>crayon(v.1.5.1)</em>, <em>lattice(v.0.20-44)</em>, <em>haven(v.2.5.0)</em>, <em>hms(v.1.1.1)</em>, <em>knitr(v.1.39)</em>, <em>klippy(v.0.0.0.9500)</em>, <em>pillar(v.1.7.0)</em>, <em>uuid(v.1.1-0)</em>, <em>reprex(v.2.0.1)</em>, <em>xslt(v.1.4.3)</em>, <em>glue(v.1.6.2)</em>, <em>evaluate(v.0.15)</em>, <em>data.table(v.1.14.2)</em>, <em>remotes(v.2.4.2)</em>, <em>modelr(v.0.1.8)</em>, <em>vctrs(v.0.4.1)</em>, <em>tzdb(v.0.3.0)</em>, <em>cellranger(v.1.1.0)</em>, <em>gtable(v.0.3.0)</em>, <em>assertthat(v.0.2.1)</em>, <em>locatexec(v.0.1.1)</em>, <em>xfun(v.0.31)</em>, <em>broom(v.1.0.0)</em> and <em>ellipsis(v.0.3.2)</em></p>
 </div>
 <div id="back-to-table-of-contents" class="section level2 hide">
 <h2><a href="https://daniel1noble.github.io/meta-workshop/">Back to Table of Contents</a></h2>

@@ -90,15 +90,15 @@ Here, $\beta_{m}$ is the slope (or contrast) for the $m^{th}$ moderator (where m
 
 As such, @Nakagawa2021b recommend a two step approach. First fitting a model with SE. If the intercept of that model is significant than re-fitting the model using V (or $SE^2$) as this will give us a better estimate of the adjusted mean effect size.
 
-#### Why does including sampling variance in the model adjust the overall meta-analytic mean?  {.tabset .tabset-fade .tabset-pills} 
+#### **Why does including sampling variance in the model adjust the overall meta-analytic mean?**  {.tabset .tabset-fade .tabset-pills} 
 
 ##### Task! {.tabset .tabset-fade .tabset-pills}
-**Think about how the intercept, $\mu$, changes its meaning when a continuous moderator, such as $se$, is included in the model. When estimating $\beta_{se}$ explicitly how do we now interpret the intercept or meta-analytic mean?**
+>**Think about how the intercept, $\mu$, changes its meaning when a continuous moderator, such as $se$, is included in the model. When estimating $\beta_{se}$ explicitly how do we now interpret the intercept or meta-analytic mean?**
 
 <br>
 
 ##### Answer! {.tabset .tabset-fade .tabset-pills}
-The reason why the intercept ($\mu$) is an adjusted meta-analytic mean is because when we include a continuous moderator the intercept itself takes on a different meaning. For example, if we fit the multilevel meta-regression model using SE than the intercept estimated in that model is the overall meta-analytic mean when the SE is zero. Or, in other words, when there is **no** sampling variability or uncertainty around the estimate. We can see that this is true by setting SE = 0 in the equation:
+>The reason why the intercept ($\mu$) is an adjusted meta-analytic mean is because when we include a continuous moderator the intercept itself takes on a different meaning. For example, if we fit the multilevel meta-regression model using SE than the intercept estimated in that model is the overall meta-analytic mean when the SE is zero. Or, in other words, when there is **no** sampling variability or uncertainty around the estimate. We can see that this is true by setting SE = 0 in the equation:
 
 $$
 y_{i} = \mu + \beta_{se}*0  =
@@ -125,16 +125,17 @@ metareg_v <- rma.mv(yi = Zr, V = Zr_v, mods = ~ Zr_v, test = "t", dfs = "contain
 summary(metareg_v)
 ```
 
-#### Interpreting the results  {.tabset .tabset-fade .tabset-pills} 
+#### **Interpreting the results**  {.tabset .tabset-fade .tabset-pills} 
 
 ##### Task! {.tabset .tabset-fade .tabset-pills}
-**Is there evidence for publication bias? If so, what is the adjusted meta-analytic mean estimate?**
+>**Is there evidence for publication bias? If so, what is the adjusted meta-analytic mean estimate?**
 
 <br>
 
 ##### Answer! {.tabset .tabset-fade .tabset-pills}
 
-Yes, there is evidence for publication bias because the slope estimate for `sqrt(Zr)` or the sampling standard error is significant. Given that the `intrcpt` is not significant we can interpret the model using SE instead of V. We can see from this model that the adjusted `Zr` when there is *no* uncertainty is `r metareg_se$b[1]`with a 95% confidence interval that overlaps zero (i.e., 95% CI = `r metareg_se$ci.lb[1]` to `r metareg_se$ci.ub[1]`). In other words, if no uncertainty around estimates exists, or we have a very high powered set of studies than we would expect the correlation to be, on average, `r tanh(metareg_se$b[1])`. 
+>Yes, there is evidence for publication bias because the slope estimate for `sqrt(Zr)` or the sampling standard error is significant. Given that the `intrcpt` is not significant we can interpret the model using SE instead of V. We can see from this model that the adjusted `Zr` when there is *no* uncertainty is `r metareg_se$b[1]`with a 95% confidence interval that overlaps zero (i.e., 95% CI = `r metareg_se$ci.lb[1]` to `r metareg_se$ci.ub[1]`). In other words, if no uncertainty around estimates exists, or we have a very high powered set of studies than we would expect the correlation to be, on average, `r tanh(metareg_se$b[1])`. 
+
 <br>
 
 
