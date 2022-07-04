@@ -11,7 +11,7 @@
 
 <meta name="author" content="Daniel W.A. Noble" />
 
-<meta name="date" content="2022-07-03" />
+<meta name="date" content="2022-07-04" />
 
 <title>Introduction to Meta-analysis</title>
 
@@ -2029,7 +2029,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Introduction to Meta-analysis</h1>
 <h4 class="author">Daniel W.A. Noble</h4>
-<h4 class="date">2022-07-03</h4>
+<h4 class="date">2022-07-04</h4>
 
 </div>
 
@@ -2059,7 +2059,7 @@ Why would we want to account for a given study’s sampling variance? We want to
 </div>
 </div>
 <p>We can effectively think of a meta-analysis as a weighted regression model with the weights being the inverse sampling variance for each effect size. Weights are calculated differently depending on the meta-analytic model in question (more on that in later tutorials).</p>
-<p>Throughout this workshop we will highlight the various features of meta-analysis that we discuss above. We’ll try to focus on dissecting how meta-analytic models are working and focus on important aspects of effect sizes and modelling that users should be aware of when meta-analysing a body of work for their specific question of interest. An important aspect to doing meta-analysis well (which can be hard) is being critical of the data and assumptions inherent to both effect sizes and statistical models. Meta-analysis also has some unique sources of non-independence <span class="citation">(Gleser and Olkin, 2009; Gurevitch and Hedges, 1999; Noble et al., 2017; <strong>NakagawaSantos?</strong>)</span> that isn’t always apparent. We’ll try and cover these and discuss some ways in which you can protect yourself from their impacts on inferences.</p>
+<p>Throughout this workshop we will highlight the various features of meta-analysis that we discuss above. We’ll try to focus on dissecting how meta-analytic models are working and focus on important aspects of effect sizes and modelling that users should be aware of when meta-analysing a body of work for their specific question of interest. An important aspect to doing meta-analysis well (which can be hard) is being critical of the data and assumptions inherent to both effect sizes and statistical models. Meta-analysis also has some unique sources of non-independence <span class="citation">(Gleser and Olkin, 2009; Gurevitch and Hedges, 1999; Nakagawa and Santos, 2012; Noble et al., 2017)</span> that isn’t always apparent. We’ll try and cover these and discuss some ways in which you can protect yourself from their impacts on inferences.</p>
 </div>
 <div id="meta-analysis-with-metafor" class="section level2">
 <h2><strong>Meta-analysis with <code>metafor</code>!</strong></h2>
@@ -2123,14 +2123,14 @@ Why would we want to account for a given study’s sampling variance? We want to
 </div>
 <div id="session-information" class="section level2">
 <h2><strong>Session Information</strong></h2>
-<p><strong>R version 4.0.3 (2020-10-10)</strong></p>
+<p><strong>R version 4.0.5 (2021-03-31)</strong></p>
 <p><strong>Platform:</strong> x86_64-apple-darwin17.0 (64-bit)</p>
 <p><strong>attached base packages:</strong>
 <em>stats</em>, <em>graphics</em>, <em>grDevices</em>, <em>utils</em>, <em>datasets</em>, <em>methods</em> and <em>base</em></p>
 <p><strong>other attached packages:</strong>
-<em>vembedr(v.0.1.5)</em>, <em>equatags(v.0.1.0)</em>, <em>mathjaxr(v.1.6-0)</em>, <em>pander(v.0.6.4)</em>, <em>orchaRd(v.2.0)</em>, <em>forcats(v.0.5.1)</em>, <em>stringr(v.1.4.0)</em>, <em>dplyr(v.1.0.9)</em>, <em>purrr(v.0.3.4)</em>, <em>readr(v.2.1.2)</em>, <em>tidyr(v.1.2.0)</em>, <em>tibble(v.3.1.7)</em>, <em>ggplot2(v.3.3.6)</em>, <em>tidyverse(v.1.3.1)</em>, <em>flextable(v.0.6.6)</em>, <em>metafor(v.3.4-0)</em>, <em>metadat(v.1.3-0)</em> and <em>Matrix(v.1.3-4)</em></p>
+<em>vembedr(v.0.1.5)</em>, <em>equatags(v.0.1.1)</em>, <em>mathjaxr(v.1.6-0)</em>, <em>pander(v.0.6.4)</em>, <em>orchaRd(v.2.0)</em>, <em>forcats(v.0.5.1)</em>, <em>stringr(v.1.4.0)</em>, <em>dplyr(v.1.0.9)</em>, <em>purrr(v.0.3.4)</em>, <em>readr(v.2.1.2)</em>, <em>tidyr(v.1.2.0)</em>, <em>tibble(v.3.1.7)</em>, <em>ggplot2(v.3.3.6)</em>, <em>tidyverse(v.1.3.1)</em>, <em>flextable(v.0.6.10)</em>, <em>metafor(v.3.5-4)</em>, <em>metadat(v.1.2-0)</em> and <em>Matrix(v.1.4-0)</em></p>
 <p><strong>loaded via a namespace (and not attached):</strong>
-<em>nlme(v.3.1-152)</em>, <em>fs(v.1.5.2)</em>, <em>lubridate(v.1.8.0)</em>, <em>httr(v.1.4.3)</em>, <em>tools(v.4.0.3)</em>, <em>backports(v.1.4.1)</em>, <em>bslib(v.0.3.1)</em>, <em>utf8(v.1.2.2)</em>, <em>R6(v.2.5.1)</em>, <em>DBI(v.1.1.3)</em>, <em>colorspace(v.2.0-3)</em>, <em>withr(v.2.5.0)</em>, <em>tidyselect(v.1.1.2)</em>, <em>curl(v.4.3.2)</em>, <em>compiler(v.4.0.3)</em>, <em>cli(v.3.3.0)</em>, <em>rvest(v.1.0.2)</em>, <em>pacman(v.0.5.1)</em>, <em>xml2(v.1.3.3)</em>, <em>officer(v.0.3.18)</em>, <em>bookdown(v.0.22)</em>, <em>sass(v.0.4.1)</em>, <em>scales(v.1.2.0)</em>, <em>rappdirs(v.0.3.3)</em>, <em>systemfonts(v.1.0.2)</em>, <em>digest(v.0.6.29)</em>, <em>rmarkdown(v.2.14)</em>, <em>base64enc(v.0.1-3)</em>, <em>pkgconfig(v.2.0.3)</em>, <em>htmltools(v.0.5.2)</em>, <em>dbplyr(v.2.2.1)</em>, <em>fastmap(v.1.1.0)</em>, <em>rlang(v.1.0.3)</em>, <em>readxl(v.1.4.0)</em>, <em>rstudioapi(v.0.13)</em>, <em>jquerylib(v.0.1.4)</em>, <em>generics(v.0.1.2)</em>, <em>jsonlite(v.1.8.0)</em>, <em>zip(v.2.2.0)</em>, <em>magrittr(v.2.0.3)</em>, <em>Rcpp(v.1.0.8.3)</em>, <em>munsell(v.0.5.0)</em>, <em>fansi(v.1.0.3)</em>, <em>gdtools(v.0.2.3)</em>, <em>lifecycle(v.1.0.1)</em>, <em>stringi(v.1.7.6)</em>, <em>yaml(v.2.3.5)</em>, <em>grid(v.4.0.3)</em>, <em>crayon(v.1.5.1)</em>, <em>lattice(v.0.20-44)</em>, <em>haven(v.2.5.0)</em>, <em>hms(v.1.1.1)</em>, <em>knitr(v.1.39)</em>, <em>klippy(v.0.0.0.9500)</em>, <em>pillar(v.1.7.0)</em>, <em>uuid(v.1.1-0)</em>, <em>reprex(v.2.0.1)</em>, <em>xslt(v.1.4.3)</em>, <em>glue(v.1.6.2)</em>, <em>evaluate(v.0.15)</em>, <em>data.table(v.1.14.2)</em>, <em>remotes(v.2.4.2)</em>, <em>modelr(v.0.1.8)</em>, <em>vctrs(v.0.4.1)</em>, <em>tzdb(v.0.3.0)</em>, <em>cellranger(v.1.1.0)</em>, <em>gtable(v.0.3.0)</em>, <em>assertthat(v.0.2.1)</em>, <em>locatexec(v.0.1.1)</em>, <em>xfun(v.0.31)</em>, <em>broom(v.1.0.0)</em> and <em>ellipsis(v.0.3.2)</em></p>
+<em>httr(v.1.4.3)</em>, <em>sass(v.0.4.1)</em>, <em>jsonlite(v.1.8.0)</em>, <em>modelr(v.0.1.8)</em>, <em>bslib(v.0.3.1)</em>, <em>assertthat(v.0.2.1)</em>, <em>cellranger(v.1.1.0)</em>, <em>yaml(v.2.3.5)</em>, <em>remotes(v.2.4.2)</em>, <em>gdtools(v.0.2.3)</em>, <em>locatexec(v.0.1.1)</em>, <em>pillar(v.1.7.0)</em>, <em>backports(v.1.4.1)</em>, <em>lattice(v.0.20-45)</em>, <em>glue(v.1.6.2)</em>, <em>uuid(v.1.1-0)</em>, <em>digest(v.0.6.29)</em>, <em>rvest(v.1.0.2)</em>, <em>colorspace(v.2.0-3)</em>, <em>htmltools(v.0.5.2)</em>, <em>pkgconfig(v.2.0.3)</em>, <em>broom(v.0.8.0)</em>, <em>haven(v.2.5.0)</em>, <em>bookdown(v.0.24)</em>, <em>scales(v.1.2.0)</em>, <em>xslt(v.1.4.3)</em>, <em>officer(v.0.4.1)</em>, <em>tzdb(v.0.3.0)</em>, <em>generics(v.0.1.2)</em>, <em>ellipsis(v.0.3.2)</em>, <em>pacman(v.0.5.1)</em>, <em>withr(v.2.5.0)</em>, <em>klippy(v.0.0.0.9500)</em>, <em>cli(v.3.3.0)</em>, <em>magrittr(v.2.0.3)</em>, <em>crayon(v.1.5.1)</em>, <em>readxl(v.1.4.0)</em>, <em>evaluate(v.0.15)</em>, <em>fs(v.1.5.2)</em>, <em>fansi(v.1.0.3)</em>, <em>nlme(v.3.1-152)</em>, <em>xml2(v.1.3.3)</em>, <em>tools(v.4.0.5)</em>, <em>data.table(v.1.14.2)</em>, <em>hms(v.1.1.1)</em>, <em>lifecycle(v.1.0.1)</em>, <em>munsell(v.0.5.0)</em>, <em>reprex(v.2.0.1)</em>, <em>zip(v.2.2.0)</em>, <em>compiler(v.4.0.5)</em>, <em>jquerylib(v.0.1.4)</em>, <em>systemfonts(v.1.0.3)</em>, <em>rlang(v.1.0.2)</em>, <em>grid(v.4.0.5)</em>, <em>rstudioapi(v.0.13)</em>, <em>base64enc(v.0.1-3)</em>, <em>rmarkdown(v.2.14)</em>, <em>gtable(v.0.3.0)</em>, <em>DBI(v.1.1.3)</em>, <em>curl(v.4.3.2)</em>, <em>R6(v.2.5.1)</em>, <em>lubridate(v.1.8.0)</em>, <em>knitr(v.1.39)</em>, <em>fastmap(v.1.1.0)</em>, <em>utf8(v.1.2.2)</em>, <em>stringi(v.1.7.6)</em>, <em>Rcpp(v.1.0.8.3)</em>, <em>vctrs(v.0.4.1)</em>, <em>dbplyr(v.2.2.0)</em>, <em>tidyselect(v.1.1.2)</em> and <em>xfun(v.0.31)</em></p>
 </div>
 <div id="back-to-table-of-contents" class="section level2 hide">
 <h2><a href="https://daniel1noble.github.io/meta-workshop/">Back to Table of Contents</a></h2>
