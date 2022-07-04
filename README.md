@@ -32,20 +32,20 @@ For a comprehensive guide on meta-analysis starting from a scoping study to writ
 # **Table of Contents**
 
 * [Introduction: why do meta-analysis?](https://daniel1noble.github.io/meta-workshop/introduction-to-meta)
-* [Effect sizes: what to use, when to use them, and what they mean?]()
+* **Effect sizes: what to use, when to use them, and what they mean?**
     + [Calculating and interpreting effect sizes](https://daniel1noble.github.io/meta-workshop/effect-size)
     + [Controlling for nuisance heterogeneity](https://daniel1noble.github.io/meta-workshop/nuis-het)
     <!-- + [Effect size assumptions and checking their suitability](https://daniel1noble.github.io/meta-workshop/effect-assume)-->
-* [Meta-analytic models]()
+* **Meta-analytic models**
     + [Fixed vs random effect meta-analytic models](https://daniel1noble.github.io/meta-workshop/fixed-vs-random)
     + [Multi-level meta-analytic models](https://daniel1noble.github.io/meta-workshop/multi-level)
     + [Complex non-independence -- shared controls and robust variance estimators](https://daniel1noble.github.io/meta-workshop/complex-nonind)
     + [Phylogenetic meta-analytic models](https://daniel1noble.github.io/meta-workshop/phylo)
     + [Multi-level meta-regression models](https://daniel1noble.github.io/meta-workshop/metaregression)
-* [Interpreting and reporting meta-analytic model results]()
+* **Interpreting and reporting meta-analytic model results**
     <!--+ [Interpreting mean estimates on different scales]()-->
     + [Reporting heterogeneity -- a critical aspect of meta-analysis](https://daniel1noble.github.io/meta-workshop/het)
-* [Publication bias]()
+* **Publication bias**
     + [Visualising publicaton bias](https://daniel1noble.github.io/meta-workshop/pub-bias1)
     + [Sensitivity analysis to test and correct for publicaton bias](https://daniel1noble.github.io/meta-workshop/pub-bias2)
   
