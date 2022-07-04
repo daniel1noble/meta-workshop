@@ -15,7 +15,7 @@ output:
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, cache = FALSE, tidy = TRUE)
-options(digits=2)
+options(digits=3)
 ```
 
 ```{r klippy, echo=FALSE, include=TRUE, message=FALSE, warning=FALSE}
@@ -176,7 +176,7 @@ To compare differences in the physiological characteristics between individuals 
 
 For complete detail on the study aim and design, please see [@WuSeebacher2022](https://doi.org/10.1038/s42003-022-03055-y)
 
-Download the data. The following code illustrates how to calculate the log response ratio (yi) and sampling variance (vi) from the mean (mi), sample size (ni) and standard deviation (sdi) from the edge population (1), and core population (2) using 10 row of data from the main dataset.
+Download the data. The following code illustrates how to calculate the log response ratio (`yi`) and sampling variance (vi) from the mean (`mi`), sample size (`ni`) and standard deviation (`sdi`) from the edge population (1), and core population (2) using 10 row of data from the main dataset.
 
 ```{r lnRR, message=FALSE}
 # Download and clean data
@@ -194,6 +194,17 @@ ratio_data
 
 Now that we have calculated the log response ratio lets just make sure we understand what is being done. We'll take this subset of data and do some back calculations to make sure we understand how to inter convert. To demonstrate, we'll just convert (and back convert) the first row of data. 
 
+#### **Testing your Understanding of $lnRR$** {.tabset .tabset-fade .tabset-pills}
+
+##### Task! {.tabset .tabset-fade .tabset-pills}
+>**Using the first row of the data, calculate the log response ratio for this observation by hand. What does the direction of the effect size tell you about the mean at the marginal compared to core?**
+
+<br>
+
+##### Answer! {.tabset .tabset-fade .tabset-pills}
+
+>The effect size is positive indicating that the mean of the marginal (`mean_front`) is larger than the mean of the core poulaton (`mean_core`). We can see that by calculating the effect size in two ways, the second of which is easier to see why.
+ 
 ```{r ConvertLnRR, echo = TRUE}
 ### Let's back calculate effects to make sure we understand why they are interpreted as percentage differences
 
@@ -202,7 +213,20 @@ with(ratio_data, log(mean_front[1] / mean_core[1]))
 
 # Alternatively....
 with(ratio_data, log(mean_front[1]) - log(mean_core[1]))
+```
 
+<br>
+
+##### Task! {.tabset .tabset-fade .tabset-pills}
+>**What does the value of the effect size tell you about how much the mean differences between marginal and core populations?**
+
+<br>
+
+##### Answer! {.tabset .tabset-fade .tabset-pills}
+
+>What this tells us is that the numerator is 1.15 times the denominator, or, that the marginal (front) mean is 15% larger compared to the core mean. We can see that this is true as follows:
+
+```{r ConvertLnRR2, echo = TRUE}
 # Now lets back-transform to odds. 
 with(ratio_data, exp(log(mean_front[1]) - log(mean_core[1])))
 
@@ -212,6 +236,10 @@ with(ratio_data, exp(log(mean_front[1]) - log(mean_core[1])) * mean_core[1])
 # This value should now match the marginal mean value, which it does
 with(ratio_data, mean_front[1])
 ```
+
+>A simple way to remember how to interpret this is to think that a converted *lnRR* = 1 means the two are the same. If you are 'subtracting` the marginal population from the core population and the effect size is positive, than 1.15 indicates that the marginal population is ~15% larger, whereas if the effect size is -1.15 than it indicates that the core population is 15% larger. 
+
+<br>
 
 Hopefully this is useful to interpret the meaning of the effect size data at the level of individual observations. The same principles will apply (for the most part) when converting back to the original scale from the mean estimates from meta-analytic models. 
 
