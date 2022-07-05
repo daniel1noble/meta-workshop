@@ -31,7 +31,8 @@ For a comprehensive guide on meta-analysis starting from a scoping study to writ
 
 # **Table of Contents**
 
-* [Introduction: why do meta-analysis?](https://daniel1noble.github.io/meta-workshop/introduction-to-meta)
+* **Introduction**
+    + [Why do meta-analysis?](https://daniel1noble.github.io/meta-workshop/introduction-to-meta)
 * **Effect sizes: what to use, when to use them, and what they mean?**
     + [Calculating and interpreting effect sizes](https://daniel1noble.github.io/meta-workshop/effect-size)
     + [Controlling for nuisance heterogeneity](https://daniel1noble.github.io/meta-workshop/nuis-het)
