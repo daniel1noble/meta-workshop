@@ -4,6 +4,7 @@ This webpage hosts material for our meta-analysis workshop that was run complime
 
 ![](./pic.JPG)
 
+## About the Workshop
 The workshop was a team effort, run by [Daniel Noble](https://biology.anu.edu.au/research/research-groups/noble-group-animal-ecophysiology-and-evolutionary-ecology), [Nicholas Wu](https://wunicholas.wixsite.com/home) and [Essie Rodgers](http://www.rodgerslab.com/the-team.html) with help from [Patrice Pottier](http://uat.bees.unsw.edu.au/our-people/patrice-pottier). The material is geared towards researchers interested in conducting a meta-analysis in the field of comparative physiology. In other words, the examples have been chosen from the comparative physiology literature so that the workshop is relevant to the SEB audience. Having said that, all the principles learnt here apply to meta-analyses conducted in any research field.
 
 Meta-analysis is a huge, complex topic. We can only hope to touch the surface of how it's done in a single morning workshop. As such, we will not have time to cover a critical aspect of meta-analysis; the process of systematic searching and data curation. 
