@@ -241,7 +241,7 @@ print(MLMA)
 
 <br>
 
->The overall mean ARR across ectotherms was `r MLMA$b` and differed significantly from zero (95% CI: `r MLMA$ci.lb` to `r MLMA$ci.ub`, df = `r MLMA$ddf`, t = `r MLMA$b / MLMA$se`, p < 0.001). However, there was significant residual heterogeneity (*Q* = `r MLMA$QE`, df = `r dim(MLMA$data)[1]-1`, p < 0.001) with estimates expected to range from `r predict(MLMA)[[5]]` to `r predict(MLMA)[[6]]` (95% Prediction Interval).
+>The overall mean ARR across ectotherms was `r MLMA$b` and differed significantly from zero (95% CI: `r MLMA$ci.lb` to `r MLMA$ci.ub`, df = `r MLMA$ddf`, t = `r MLMA$b / MLMA$se`, p < 0.001). However, there was significant residual heterogeneity (*Q* = `r MLMA$QE`, df = `r dim(MLMA$data)[1]-1`, p < 0.001) with estimates expected to range from `r predict(MLMA)[[5]]` to `r predict(MLMA)[[6]]` (95% Prediction Interval) ($I_{total}^2$ = `r orchaRd::i2_ml(MLMA, data = asr_dat)[1]`).
 
 <br>
 
