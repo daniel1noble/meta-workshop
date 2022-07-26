@@ -80,17 +80,22 @@ $$
 
 >The short story is that we are making the assumption that each random effect added to a given effect size is drawn from an independent and identical distribution. To see why this is the case think about what happens when we multiply $\sigma_{i}^2$ by this matrix. Along the diagonal, we get the exact same variance estimate for every single effect size (or for effect sizes that share a cluster). This tells us that they are sampled from a distribution that has the same mean (0) and variance ($\sigma_{i}^2$) (i.e., are sampled from the same distribution). 
 
+<br>
+
 >If, however, we multiply the off-diagonals by the variance we get zero. The fact that these off-diagonals are 0 tells us straight away that all the random effects being sampled are independent from one another as otherwise the off-diagonals would be non-zero (i.e., would have a co-variance) (and the correlation matrix would have a correlation above 0). This seems sensible. All effect size estimates from the same study will have the same 'effect' added to the estimate. This indicates that these effects should be more similar to each other by virtue of them being from the same study (Fig. \@ref(fig:fig1)b from @Noble2017). This does, in some sense, deal with non-independence, but not completely!
 
 <br>
+
+
+## **Complex Forms of Non-Independence**
+
+Our assumption about effects from the same study being independent would likely be wrong if, for example, we have effect sizes that are measured on different traits of the same animals that vary in their relationship with each other (i.e., some traits are more strongly correlated than others). Alternatively, if our effect size statistics were collected at different times or spatial locations that vary in the extent to which they are correlated with each other. In fact, species themselves vary to different degrees based on how long ago they shared a common ancestor. This is why we include evolutionary relationships among species in our meta-analytic models! (we'll discuss this in the [phylogeny tutorial](https://daniel1noble.github.io/meta-workshop/phylo) [@HadfieldNaka2010; @Chamberlain2012; @NakagawaSantos2012] (Fig. \@ref(fig:fig1)a from @Noble2017). In these cases, we need to properly model the correlation among effect size values induced by these processes.
 
 
 ```{r, fig1, fig.align='center', fig.width= 15, fig.height=15, fig.cap= "Different forms of non-independence described by Noble et al. 2017. A) Effect size estimates could be correlated as a result of shared evolutionary history; B) could be correlated because they come from the same study with the same types of methodology applied. Effect sizes could also be corrrelated because the effects themselves are correlated to differing degrees because of spatial or temporal correlations (E, F), their samling errors are correlated (D) or a combination of both (C)", echo = FALSE}
 img1 <- magick::image_read("./figs/nonIn.png")
 img1
 ```
-
-Our assumption would likely be wrong if, for example, we have effect sizes that are measured on different traits of the same animals that vary in their relationship with each other (i.e., some traits are more strongly correlated than others). Alternatively, if our effect size statistics were collected at different times or spatial locations that vary in the extent to which they are correlated with each other. In fact, species themselves vary to different degrees based on how long ago they shared a common ancestor. This is why we include evolutionary relationships among species in our meta-analytic models! (we'll discuss this in the [phylogeny tutorial](https://daniel1noble.github.io/meta-workshop/phylo) [@HadfieldNaka2010; @Chamberlain2012; @NakagawaSantos2012] (Fig. \@ref(fig:fig1)a from @Noble2017). In these cases, we need to properly model the correlation among effect size values induced by these processes.
 
 But, wait, there's more. In fact, things can get very complicated, as outlined by @Noble2017! (See Fig. \@ref(fig:fig1)). If we have used the same data to calculate multiple effect size values then we are also inducing a correlation among their sampling errors [@GleserOlkin2009; @Noble2017; @Lajeunesse2011; @Hedges2019]. That could be a serious problem because the inverse sampling errors are what we are using as [weights in our analysis](https://daniel1noble.github.io/meta-workshop/introduction-to-meta). If there are correlations among sampling errors then we need to account for this in our sampling variance matrix. We can do this but also modifying out sampling error matrix
 
