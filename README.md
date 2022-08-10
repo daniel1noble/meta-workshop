@@ -56,9 +56,9 @@ For a comprehensive guide on meta-analysis starting from a scoping study to writ
 ## **Sponsers**
 We thank the Society for Experimental Biology and the Company of Biologist for sponsoring the workshop and allowing the recording to be freely available for the public.
 
-<p align="center">
-<img src = "./SEB_logo.png" alt = "SEB logo" height = "80"/>
-<img src = "./CoB_logo.png" alt = "CoB logo" height = "80"/>
-</p>
+
+[<img src = "./SEB_logo.png" alt = "SEB logo" height = "80"/>](https://www.sebiology.org/)
+[<img src = "./CoB_logo.png" alt = "CoB logo" height = "80"/>](https://www.biologists.com/)
+
 
 
