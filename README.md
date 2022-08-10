@@ -53,3 +53,10 @@ For a comprehensive guide on meta-analysis starting from a scoping study to writ
     + [Visualising publicaton bias](https://daniel1noble.github.io/meta-workshop/pub-bias1)
     + [Sensitivity analysis to test and correct for publicaton bias](https://daniel1noble.github.io/meta-workshop/pub-bias2)
   
+## **Sponsers**
+We thank the Society for Experimental Biology and the Company of Biologist for sponsoring the workshop and allowing the recording to be freely available for the public.
+
+![](./SEB_logo.SVG) 
+![](./CoB_logo.SVG)
+
+
