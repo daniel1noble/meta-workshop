@@ -4,6 +4,9 @@ This webpage hosts material for our meta-analysis workshop that was run complime
 
 ![](./pic.JPG)
 
+
+You can watch the full workshop recording on [YouTube](https://youtu.be/Tmy2Z7B6uqc).
+
 ## About the Workshop
 The material covered here is geared towards researchers interested in conducting a meta-analysis in the field of comparative physiology. In other words, the examples have been chosen from the comparative physiology literature so that the workshop is relevant to the SEB audience. Having said that, all the principles learnt here apply to meta-analyses conducted in any research field.
 
@@ -52,15 +55,7 @@ For a comprehensive guide on meta-analysis starting from a scoping study to writ
 * **Publication bias**
     + [Visualising publicaton bias](https://daniel1noble.github.io/meta-workshop/pub-bias1)
     + [Sensitivity analysis to test and correct for publicaton bias](https://daniel1noble.github.io/meta-workshop/pub-bias2)
-  
-# Watch the workshop!
 
-```{r, echo=FALSE}
-# Load packages
-pacman::p_load(vembedr)
-
-embed_url("https://youtu.be/Tmy2Z7B6uqc") %>% use_align("center")
-```
 
 ## **Sponsors**
 We thank the Society for Experimental Biology and the Company of Biologist for sponsoring the workshop and allowing the recording to be freely available for the public.
