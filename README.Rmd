@@ -53,3 +53,11 @@ For a comprehensive guide on meta-analysis starting from a scoping study to writ
     + [Visualising publicaton bias](https://daniel1noble.github.io/meta-workshop/pub-bias1)
     + [Sensitivity analysis to test and correct for publicaton bias](https://daniel1noble.github.io/meta-workshop/pub-bias2)
   
+# Watch the workshop!
+
+```{r, echo=FALSE}
+# Load packages
+pacman::p_load(vembedr)
+
+embed_url("https://youtu.be/Tmy2Z7B6uqc") %>% use_align("center")
+```
