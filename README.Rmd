@@ -61,3 +61,12 @@ pacman::p_load(vembedr)
 
 embed_url("https://youtu.be/Tmy2Z7B6uqc") %>% use_align("center")
 ```
+
+## **Sponsors**
+We thank the Society for Experimental Biology and the Company of Biologist for sponsoring the workshop and allowing the recording to be freely available for the public.
+
+
+[<img src = "./SEB_logo.png" alt = "SEB logo" height = "80"/>](https://www.sebiology.org/)
+[<img src = "./CoB_logo.png" alt = "CoB logo" height = "80"/>](https://www.biologists.com/)
+
+
